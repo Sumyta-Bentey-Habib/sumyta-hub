@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sumyta Bentey Habib | Web Developer Portfolio
 
-## Getting Started
+A high-performance, brutalist-inspired single-page portfolio built with Next.js 15 and GSAP. Designed to showcase avant-garde digital engineering and premium interactive experiences.
 
-First, run the development server:
+![Banner](https://lh3.googleusercontent.com/aida-public/AB6AXuBOpnc0tRezqAG7S_6rx8UQF7GjaYvKEQWe5ATFcw5N66s1FM3pv64FJ1aO2GdgFis4TrBY3Jn-vi5xHytu-TysKrDojZtaJW1vn1_5NzECpK_8O5TBBc9V2Ygk0WY_ZeenGwElAldsdUDkzhd6_QbiWFsu7dp_GbU1RMfjOHC_-ujnoUWnXa0HRdI5ZSJmbQY_5wgrafiLp67RDXPxdu4WJhqrELRtOJZRT84of0kxfYcZdp6bHaKv2XJMluDeuV_v8T34gfPqS2c)
+
+## 🚀 Key Features
+
+- **Premium GSAP Animations**: Custom-built motion sequences including hero auras, smooth content reveals, and mouse-reactive parallax.
+- **Custom Mouse Experience**: Enhanced interactivity with a GSAP-powered trailing cursor and dynamic state changes.
+- **Digital Preloader**: A surgical "0-100" loading screen using clip-path reveal animations for an elite entry experience.
+- **Brutalist Design System**: High-contrast, minimalist UI built on the Material 3 color palette and Tailwind CSS v4.
+- **Project Archive**: showcasing full-stack expertise with featured group cases (Quadra) and personal benchmarks (Studify, GoAthlete).
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Motion**: [GSAP](https://greensock.com/gsap/) (GreenSock Animation Platform)
+- **Icons**: [Material Symbols](https://fonts.google.com/icons)
+- **Deployment**: [Vercel](https://vercel.com/)
+
+## 📦 Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/Sumyta-Bentey-Habib/sumyta-hub.git
+
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗 Build & Deploy
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Production Build
+npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Deploy to Vercel
+npx vercel --prod
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Made with ❤️ by [Sumyta Bentey Habib](https://github.com/Sumyta-Bentey-Habib)
