@@ -32,9 +32,12 @@ const Navbar = () => {
           Contact
         </a>
       </div>
-      <button className="px-6 py-2 bg-primary-dim text-on-primary-fixed font-headline font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-400">
+      <a 
+        href="mailto:sumytabenteyhabib@gmail.com"
+        className="px-6 py-2 bg-primary-dim text-on-primary-fixed font-headline font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-400 no-underline"
+      >
         Connect
-      </button>
+      </a>
     </nav>
   );
 };

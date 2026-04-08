@@ -18,7 +18,7 @@ const Skills = () => {
       <div className="flex flex-col gap-24">
         {/* Marquee */}
         <div className="flex overflow-hidden select-none gap-12 group cursor-pointer hover:bg-white/5 transition-colors duration-700 py-12">
-          <div className="flex flex-nowrap shrink-0 items-center gap-12 text-8xl md:text-[14rem] font-headline font-black uppercase text-bleed text-outline/10 group-hover:text-primary transition-colors duration-500 animate-marquee">
+          <div className="flex flex-nowrap shrink-0 items-center gap-12 text-6xl sm:text-7xl md:text-9xl lg:text-[14rem] font-headline font-black uppercase text-bleed text-white/5 group-hover:text-primary transition-colors duration-500 animate-marquee [text-shadow:_0_0_1px_rgba(255,255,255,0.3)]">
             <span>MERN STACK</span>
             <span>NEXT.JS</span>
             <span>FIREBASE</span>
@@ -27,7 +27,7 @@ const Skills = () => {
             <span>DAISYUI</span>
             <span>VITE</span>
           </div>
-          <div className="flex flex-nowrap shrink-0 items-center gap-12 text-8xl md:text-[14rem] font-headline font-black uppercase text-bleed text-outline/10 group-hover:text-primary transition-colors duration-500 animate-marquee">
+          <div className="flex flex-nowrap shrink-0 items-center gap-12 text-6xl sm:text-7xl md:text-9xl lg:text-[14rem] font-headline font-black uppercase text-bleed text-white/5 group-hover:text-primary transition-colors duration-500 animate-marquee [text-shadow:_0_0_1px_rgba(255,255,255,0.3)]">
             <span>MERN STACK</span>
             <span>NEXT.JS</span>
             <span>FIREBASE</span>

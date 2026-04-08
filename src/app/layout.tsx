@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import CustomCursor from "@/components/CustomCursor";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -30,8 +32,10 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         />
       </head>
-      <body className={`${spaceGrotesk.variable} ${inter.variable} font-body bg-black text-white antialiased`}>
-        {children}
+      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased selection:bg-primary selection:text-on-primary-fixed bg-surface-container-lowest text-secondary`}>
+        <CustomCursor />
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   );

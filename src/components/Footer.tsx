@@ -29,9 +29,6 @@ const Footer = () => {
             >
               GitHub
             </a>
-            <a className="text-secondary hover:line-through hover:text-primary transition-all duration-400" href="#">
-              Layers
-            </a>
             <a
               className="text-secondary hover:line-through hover:text-primary transition-all duration-400"
               href="mailto:sumytabenteyhabib@gmail.com"

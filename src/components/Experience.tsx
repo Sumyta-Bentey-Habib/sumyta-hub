@@ -6,7 +6,7 @@ const Experience = () => {
       title: 'Junior Developer',
       company: 'XIIA',
       period: 'March 2026 — PRESENT',
-      desc: 'Leading the development of internal SaaS tooling using Next.js 15 and Server Components. Orchestrating complex state management and optimizing client-side performance benchmarks by 40%.',
+      desc: 'Leading full-stack development cycles from conceptualization to deployment. Specialized in building intuitive learning management systems and event platforms with a focus on seamless user experience and robust backend architecture.',
       active: true,
     },
     {
