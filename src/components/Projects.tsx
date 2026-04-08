@@ -51,7 +51,7 @@ const Projects = () => {
               <img
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
                 alt="luxury coffee branding and e-commerce interface"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_kwXDfSc15iqfMZMP808pX3AEifnKHxQO5SVK7oZbzJq2ogLPOnDfwjpJdgvq2p5kDiD9Uv0nbcBiC2_7jNE65BwxJhVDvyXqmNwKhBgrl_gVWJqjjNtKKvudNRapo5B2St_Sb4mt4Hwsge4Ol_kNNDYYTjsCoppYlIiN3IGP4_c5zcjgmNBx6Qs4D1Kic2dDWrFr7XrcBn22tMXySEdhLY9uJN1HkYsNDXZSzyrAfwXHB8h0XydAx9EDS9Wk-76B4povsJo0UQg"
+                src="/images/espresso.png"
               />
               <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4">
                 <a
@@ -70,7 +70,7 @@ const Projects = () => {
                 </a>
               </div>
             </div>
-            <h4 className="text-4xl font-headline font-black uppercase mb-4 text-white">Espresso</h4>
+            <h4 className="text-4xl font-headline font-black uppercase mb-4 text-white">Espresso-Emporium</h4>
             <p className="text-secondary/60 uppercase tracking-widest text-sm mb-6 font-headline">
               React • Firebase • Tailwind CSS • Socket.io
             </p>
@@ -85,7 +85,7 @@ const Projects = () => {
               <img
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
                 alt="modern education platform interface"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6q5XBpTAbv_8ZU8HKN_Fb7RqFgHBv3AjLzFKjOmWrl5DoLeBAjbyelUd_KTNumbJiwVOy_IMgNbMQjKqZ8dculb04vRxf6nxQe5KTbU83_j6znzhyyuEKJUZqOkkyElCnVnGztlZrkyixfKKaD1wKqEEngqmbb5e0cA4WwYG5_KpMsNC5cj3EV7XIQHNUXv-5uvSyw9MeUCQ90IwSY8R633m3hkBcaX1Al1ErLXMQ0zpXEW4osSrpcHX8RFMOS7q7Om2ERVMBTKE"
+                src="/images/studify.png"
               />
               <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4">
                 <a
@@ -109,7 +109,7 @@ const Projects = () => {
               React • Firebase • JWT • Tailwind • DaisyUI
             </p>
             <p className="text-secondary max-w-md font-body">
-              A modern, role-based educational platform for seamless learning management.
+              A robust MERN-stack educational platform with role-based access control and a comprehensive admin suite for user oversight and role management.
             </p>
           </div>
 

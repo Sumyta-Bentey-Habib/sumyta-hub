@@ -38,7 +38,7 @@
   --color-outline: #757575;
   --color-outline-variant: #484848;
 
-  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee: marquee 25s linear infinite;
 
   @keyframes marquee {
     from { transform: translateX(0); }

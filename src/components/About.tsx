@@ -8,9 +8,14 @@ const About = () => {
           <h2 className="text-sm font-headline font-bold text-primary tracking-[0.4em] uppercase mb-8">
             01. Perspective
           </h2>
-          <div className="aspect-[3/4] bg-surface-container flex items-center justify-center p-8 border border-white/5 group relative overflow-hidden">
-            <span className="text-8xl lg:text-[10rem] font-headline font-black text-outline/10 select-none group-hover:text-primary transition-colors duration-700">SBH</span>
-            <div className="absolute inset-0 border-2 border-primary/20 scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-700"></div>
+          <div className="aspect-[3/4] bg-surface-container relative overflow-hidden border border-white/10 group">
+            <img 
+              src="/images/user_portrait.png" 
+              alt="Sumyta Bentey Habib" 
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
+            />
+            <div className="absolute inset-0 bg-primary/10 mix-blend-overlay group-hover:bg-transparent transition-colors duration-700"></div>
+            <div className="absolute inset-0 border-2 border-primary/20 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-700 pointer-events-none"></div>
           </div>
         </div>
         <div className="md:col-span-8 md:col-start-5 lg:col-span-7 lg:col-start-6">

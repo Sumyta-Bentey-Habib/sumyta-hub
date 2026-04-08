@@ -20,12 +20,16 @@ const Footer = () => {
             <a
               className="text-secondary hover:line-through hover:text-primary transition-all duration-400"
               href="https://www.linkedin.com/in/sumytabenteyhabib/"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               LinkedIn
             </a>
             <a
               className="text-secondary hover:line-through hover:text-primary transition-all duration-400"
               href="https://github.com/Sumyta-Bentey-Habib"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               GitHub
             </a>
