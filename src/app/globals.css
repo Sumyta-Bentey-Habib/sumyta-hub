@@ -1,26 +1,78 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-headline: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-label: var(--font-space-grotesk);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Material 3 Palette */
+  --color-primary: #ff8d90;
+  --color-primary-dim: #e31c40;
+  --color-primary-container: #ff757b;
+  --color-on-primary: #640014;
+  --color-on-primary-container: #4e000e;
+  --color-on-primary-fixed: #000000;
+  
+  --color-secondary: #e5e2e1;
+  --color-secondary-dim: #d7d4d3;
+  --color-secondary-container: #474646;
+  --color-on-secondary: #525151;
+  
+  --color-tertiary: #f9f9f9;
+  --color-tertiary-container: #ebebeb;
+  
+  --color-background: #0e0e0e;
+  --color-on-background: #ffffff;
+  
+  --color-surface: #0e0e0e;
+  --color-on-surface: #ffffff;
+  --color-surface-variant: #262626;
+  --color-on-surface-variant: #ababab;
+  
+  --color-surface-container-lowest: #000000;
+  --color-surface-container-low: #131313;
+  --color-surface-container: #191919;
+  --color-surface-container-high: #1f1f1f;
+  --color-surface-container-highest: #262626;
+  
+  --color-outline: #757575;
+  --color-outline-variant: #484848;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-marquee: marquee 60s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 }
 
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+}
+
+.text-bleed {
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.tonal-shift-on-scroll {
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
