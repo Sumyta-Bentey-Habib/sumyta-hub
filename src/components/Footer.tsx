@@ -1,8 +1,59 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useRef } from 'react';
 
 const Footer = () => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [hasDragged, setHasDragged] = useState(false);
+  const startPos = useRef({ x: 0, y: 0 });
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    setIsDragging(true);
+    setHasDragged(false);
+    startPos.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    };
+    if (buttonRef.current) {
+      buttonRef.current.setPointerCapture(e.pointerId);
+    }
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!isDragging) return;
+    
+    // Calculate the distance moved to determine if it's a drag or a click
+    const moveX = Math.abs(e.clientX - startPos.current.x - position.x);
+    const moveY = Math.abs(e.clientY - startPos.current.y - position.y);
+    if (moveX > 5 || moveY > 5) {
+      setHasDragged(true);
+    }
+
+    setPosition({
+      x: e.clientX - startPos.current.x,
+      y: e.clientY - startPos.current.y
+    });
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    setIsDragging(false);
+    if (buttonRef.current) {
+      buttonRef.current.releasePointerCapture(e.pointerId);
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (hasDragged) {
+      e.preventDefault();
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="w-full min-h-[614px] flex flex-col justify-end p-6 md:p-12 bg-surface-dim" id="contact">
+    <footer className="relative w-full min-h-[614px] flex flex-col justify-end p-6 md:p-12 bg-surface-dim overflow-hidden" id="contact">
       <div className="w-full flex flex-col items-start">
         <div className="mb-24 w-full flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
           <div>
@@ -50,6 +101,25 @@ const Footer = () => {
           </p>
         </div>
       </div>
+
+      {/* Go to Top Button */}
+      <button 
+        ref={buttonRef}
+        onClick={handleClick}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        className={`absolute bottom-6 right-6 md:bottom-12 md:right-12 px-6 h-12 bg-primary text-on-primary-fixed rounded-full flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-300 z-10 font-headline font-bold uppercase tracking-widest text-xs md:text-sm ${isDragging ? 'cursor-grabbing scale-105' : 'cursor-grab'}`}
+        aria-label="Go to top"
+        style={{
+          transform: `translate(${position.x}px, ${position.y}px)`,
+          touchAction: 'none'
+        }}
+      >
+        <span>Click me to go top</span>
+        <span className="material-symbols-outlined text-[1.2rem]">arrow_upward</span>
+      </button>
     </footer>
   );
 };

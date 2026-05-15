@@ -19,18 +19,13 @@ const About = () => {
           </div>
         </div>
         <div className="md:col-span-8 md:col-start-5 lg:col-span-7 lg:col-start-6">
-          <h3 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight mb-12">
-            I build digital monoliths that command attention through{' '}
-            <span className="text-primary italic">raw performance</span> and avant-garde aesthetics.
+          <h3 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold leading-tight mb-12">
+            I engineer digital experiences combining{' '}
+            <span className="text-primary italic">raw performance</span> with clean aesthetics.
           </h3>
           <div className="space-y-8 text-secondary/80 text-lg md:text-xl leading-relaxed max-w-2xl font-body">
             <p>
-              Architecture matters. Whether it's the sleek efficiency of a React component or the robust infrastructure
-              of a Node backend, I approach every line of code as a piece of digital engineering.
-            </p>
-            <p>
-              My philosophy is rooted in minimalism: removing the noise until only the impact remains. No borders, no
-              clutter—just pure experience.
+              From efficient React components to robust Node backends, I build with a minimalist approach—removing the noise to focus purely on impact and user experience.
             </p>
           </div>
         </div>
