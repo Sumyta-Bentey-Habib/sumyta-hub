@@ -15,8 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "S.B.H. | Sumyta Bentey Habib - Web Developer",
-  description: "Junior Web Developer pushing the boundaries of the MERN ecosystem with surgical precision.",
+  title: "Sumyta Bentey Habib | Full-Stack Developer",
+  description:
+    "Sumyta Bentey Habib is a Full-Stack Developer specializing in React, Next.js, Node.js, MongoDB, and modern web applications.",
 };
 
 export default function RootLayout({
@@ -31,8 +32,36 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Sumyta Bentey Habib",
+              url: "https://sumytadev.vercel.app/",
+              jobTitle: "Full-Stack Developer",
+              sameAs: [
+                "https://www.linkedin.com/in/sumytabenteyhabib/",
+                "https://github.com/Sumyta-Bentey-Habib",
+              ],
+              knowsAbout: [
+                "React",
+                "Next.js",
+                "Node.js",
+                "MongoDB",
+                "JavaScript",
+                "TypeScript",
+              ],
+            }),
+          }}
+        />
       </head>
-      <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased selection:bg-primary selection:text-on-primary-fixed bg-surface-container-lowest text-secondary`}>
+
+      <body
+        className={`${spaceGrotesk.variable} ${inter.variable} antialiased selection:bg-primary selection:text-on-primary-fixed bg-surface-container-lowest text-secondary`}
+      >
         <CustomCursor />
         <Navbar />
         <main>{children}</main>
