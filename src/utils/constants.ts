@@ -122,7 +122,7 @@ export const SKILLS_DATA = {
       groups: [
         { label: 'Version Control', items: ['Git', 'GitHub'] },
         { label: 'Architecture', items: ['Turborepo', 'pnpm', 'Docker'] },
-        { label: 'Cloud & Deploy', items: ['Vercel', 'Firebase'] },
+        { label: 'Cloud & Deploy', items: ['Vercel', 'Firebase','Netlify','Render'] },
       ],
     },
   ],
@@ -130,51 +130,85 @@ export const SKILLS_DATA = {
 
 export const EXPERIENCE_DATA = {
   sectionTag: '02. Trajectory',
+  title: 'EXPERIENCE',
+  subtitle: 'Production Frontend Engineering & Independent Full-Stack Development',
+  archivePeriod: '2023 — 2026',
+  archiveLabel: 'ARCHIVE',
+  labels: {
+    deliverablesSuffix: 'CORE DELIVERABLES',
+    techSpecificationsSuffix: 'TECH SPECIFICATIONS',
+    recordPrefix: 'REC_',
+    indexPrefix: 'INDEX // ',
+  },
   experiences: [
     {
-      title: 'Junior Software Developer',
+      id: '01',
+      number: '01',
+      period: '2026 — PRESENT',
+      role: 'Junior Software Developer',
       company: 'XIIA',
-      period: 'March 2026 — Present',
       active: true,
-      responsibilities: [
-        {
-          label: 'Production Development',
-          desc: 'Build and maintain scalable, production-ready web applications using Next.js, React, and Node.js, ensuring high performance and clean architecture.',
-        },
-        {
-          label: 'Feature Implementation',
-          desc: 'Translate complex UI/UX designs into responsive, interactive frontend features for core products, including the Soundmade platform.',
-        },
-        {
-          label: 'API & State Management',
-          desc: 'Develop and debug RESTful API integrations, managing seamless data flow and complex application state across the stack.',
-        },
-        {
-          label: 'Agile Collaboration',
-          desc: 'Actively participate in daily standups and bi-weekly design delivery meetings, ensuring tight alignment between engineering and product requirements.',
-        },
-        {
-          label: 'Engineering Workflow',
-          desc: 'Collaborate via Git-based workflows, managing pull requests, issue tracking, and cross-platform debugging to support continuous deployment.',
-        },
+      statusLabel: 'Currently Active',
+      statusSublabel: 'Active Engagement',
+      description:
+        'Contributing to production web and mobile applications, primarily focused on frontend implementation, feature development, refactoring, debugging, and UI improvements.',
+      focusCategory: 'Professional Focus',
+      focusItems: [
+        'Implementing UI from product designs and requirements',
+        'Developing frontend features',
+        'Refactoring existing UI components and code',
+        'Debugging frontend issues across screens and user flows',
+        'Working on responsive interfaces',
+        'Working across web and mobile interfaces',
+        'Collaborating with other developers and designers',
+        'Using Git-based development workflows',
+      ],
+      techCategory: 'Professional Technologies',
+      technologies: [
+        'React',
+        'React Native',
+        'Next.js',
+        'JavaScript',
+        'TypeScript',
+        'Git',
       ],
     },
     {
-      title: 'Web Developer Intern',
-      company: 'XIIA',
-      period: 'November 2025 — March 2026',
+      id: '02',
+      number: '02',
+      period: '2024 — PRESENT',
+      role: 'Independent Development',
+      company: null,
       active: false,
-      responsibilities: [
-        {
-          label: 'UI Library Migration',
-          desc: 'Contributed to the core UI library migration with a focus on pixel-perfect responsiveness and cross-browser performance testing.',
-        },
-        {
-          label: 'Performance Testing',
-          desc: 'Optimized high-traffic entry points for cross-browser compatibility and performance benchmarks.',
-        },
+      statusLabel: 'Self-Directed Track',
+      statusSublabel: 'Continuous Exploration',
+      description:
+        'Building full-stack applications independently to strengthen practical software development skills and explore different technologies.',
+      focusCategory: 'Experience Includes',
+      focusItems: [
+        'Building responsive React applications',
+        'Building full-stack applications with Next.js',
+        'Developing Node.js and Express backends',
+        'Working with MongoDB',
+        'Implementing authentication',
+        'Working with Firebase',
+        'Implementing real-time functionality with Socket.io',
+        'Building dashboards and CRUD workflows',
+        'Deploying applications using modern hosting platforms',
+      ],
+      techCategory: 'Technologies',
+      technologies: [
+        'React',
+        'Next.js',
+        'Node.js',
+        'Express',
+        'MongoDB',
+        'Firebase',
+        'Socket.io',
+        'Tailwind CSS',
+        'Vite',
+        'REST APIs',
       ],
     },
   ],
 } as const;
-
