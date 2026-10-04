@@ -336,3 +336,52 @@ export const PROJECTS_DATA = {
   ] as readonly ProjectItem[],
 } as const;
 
+export const CONTACT_DATA = {
+  sectionId: 'contact',
+  kicker: 'READY TO EVOLVE?',
+  signal: {
+    tag: 'SIGNAL // TERMINAL DIRECTORY',
+    status: 'TRANSMISSION ACTIVE',
+  },
+  statement: {
+    line1: "LET'S",
+    line2: 'BUILD',
+    line3: 'SOMETHING.',
+  },
+  action: {
+    label: 'CONNECT',
+    href: 'mailto:sumytabenteyhabib@gmail.com',
+    ariaLabel: 'Initiate contact via email',
+  },
+  channels: {
+    email: {
+      label: 'EMAIL',
+      address: 'sumytabenteyhabib@gmail.com',
+      href: 'mailto:sumytabenteyhabib@gmail.com',
+      ariaLabel: 'Send email to sumytabenteyhabib@gmail.com',
+    },
+    socialsLabel: 'DIRECTORY',
+    socials: [
+      {
+        id: 'linkedin',
+        label: 'LINKEDIN',
+        href: 'https://www.linkedin.com/in/sumytabenteyhabib/',
+        isExternal: true,
+        ariaLabel: 'Visit Sumyta Bentey Habib on LinkedIn',
+      },
+      {
+        id: 'github',
+        label: 'GITHUB',
+        href: 'https://github.com/Sumyta-Bentey-Habib',
+        isExternal: true,
+        ariaLabel: 'Visit Sumyta Bentey Habib on GitHub',
+      },
+    ],
+  },
+  footer: {
+    monogram: 'S.B.H.',
+    copyright: '© 2026 SUMYTA BENTEY HABIB.',
+    tagline: 'ENGINEERED FOR IMPACT.',
+  },
+} as const;
+
