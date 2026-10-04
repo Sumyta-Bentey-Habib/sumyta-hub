@@ -212,3 +212,127 @@ export const EXPERIENCE_DATA = {
     },
   ],
 } as const;
+
+export interface ProjectItem {
+  readonly id: string;
+  readonly number: string;
+  readonly title: string;
+  readonly subtitle: string;
+  readonly category: string;
+  readonly isGroupProject: boolean;
+  readonly groupBadge?: string;
+  readonly role: string;
+  readonly description: string;
+  readonly technologies: readonly string[];
+  readonly image: string;
+  readonly imageAlt: string;
+  readonly links: {
+    readonly demo?: string;
+    readonly github?: string;
+  };
+  readonly layoutVariant?: 'default' | 'offset-top' | 'offset-bottom' | 'split-reverse';
+}
+
+export const PROJECTS_DATA = {
+  sectionTag: '03. Casework',
+  title: 'SELECTED CASEWORK',
+  subtitle: 'PRODUCTION APPLICATIONS & TECHNICAL BENCHMARKS',
+  period: '2024 — 2026',
+  indexPrefix: 'CASE // ',
+  scrollHint: 'SCROLL TO NAVIGATE',
+  roleLabel: 'ROLE / FOCUS',
+  techLabel: 'SPECIFICATIONS',
+  demoButtonText: 'LIVE DEMO',
+  githubButtonText: 'SOURCE',
+  groupProjectBadge: 'GROUP PROJECT',
+  archiveTermination: '// ARCHIVE TERMINATION',
+  repositoryArchive: '// REPOSITORY ARCHIVE',
+  viewProjectLabel: 'EXPLORE INTERFACE',
+  leftWorldTag: 'DEVELOPER SPECIFICATION',
+  rightWorldTag: 'RUNTIME INTERFACE',
+  scrollProgressLabel: 'CASE PROGRESSION',
+  assemblySequenceLabel: 'CONSTRUCTION SEQUENCE',
+  statusAssembled: 'COMPOSITION COMPLETE',
+  statusAssembling: 'ASSEMBLING STRUCTURE',
+  projects: [
+    {
+      id: '01',
+      number: '01',
+      title: 'Quadra',
+      subtitle: 'Real-Time Social Media Platform',
+      category: 'Full-Stack Web Application',
+      isGroupProject: true,
+      groupBadge: 'GROUP PROJECT',
+      role: 'Frontend Architecture, Real-Time Sync & Responsive UI',
+      description:
+        'A modern, full-stack social media application providing a comprehensive social networking experience with real-time messaging, post interactions, and instant notifications.',
+      technologies: ['React', 'Next.js', 'Node.js', 'Express', 'Socket.io', 'Tailwind CSS'],
+      image:
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuBgfgH26KGWetiguqmMF27CcsqRSNoFn0nkZ8UZWsOL6tBs37L7F-0vfUPdAKb3ZXbeFHM49orQDRpIO_UzGb1lCUzgK8EudKjCrh9vCp6FwsSoSSu46JfKhU7eZwusOkOniIObJadhl5MDHgCTU39YpI724wg3NAJmV3LFTX0x8bZhoIrZldEnBwe1LPYDc9LXANJUVJSZQPh_jhCIuVlhY2Bi1KfxqCi1OGWPQ6TjHXvx3JN-wuz1KCSEoBgAqEyVH_gBCXhTH10',
+      imageAlt: 'Quadra Social Media Platform interface',
+      links: {
+        demo: 'https://quadra-blush.vercel.app/',
+        github: 'https://github.com/Sumyta-Bentey-Habib/Quadra',
+      },
+      layoutVariant: 'default',
+    },
+    {
+      id: '02',
+      number: '02',
+      title: 'Espresso Emporium',
+      subtitle: 'Curated Coffee Marketplace & Discovery',
+      category: 'E-Commerce Platform',
+      isGroupProject: false,
+      role: 'Full-Stack Development, Firebase Integration & Catalog Flow',
+      description:
+        'A premium coffee platform where enthusiasts browse and review specialty roasts, while verified sellers showcase curated offerings with real-time catalog updates.',
+      technologies: ['React', 'Firebase', 'Tailwind CSS', 'Socket.io'],
+      image: '/images/espresso.png',
+      imageAlt: 'Luxury coffee branding and e-commerce interface',
+      links: {
+        demo: 'https://espresso-emporium-8d4f7.web.app/',
+        github: 'https://github.com/Sumyta-Bentey-Habib/Espresso-Emporium',
+      },
+      layoutVariant: 'offset-top',
+    },
+    {
+      id: '03',
+      number: '03',
+      title: 'Studify',
+      subtitle: 'MERN Learning Management & Admin Platform',
+      category: 'Educational Platform',
+      isGroupProject: false,
+      role: 'Full-Stack Architecture, JWT Authentication & Role-Based Access Control',
+      description:
+        'A robust MERN-stack educational platform with role-based access control and a comprehensive admin suite for user oversight, course lifecycle, and role management.',
+      technologies: ['React', 'Firebase', 'JWT', 'Tailwind CSS', 'DaisyUI'],
+      image: '/images/studify.png',
+      imageAlt: 'Modern education platform interface with admin suite',
+      links: {
+        demo: 'https://studify-749d1.web.app/',
+        github: 'https://github.com/Sumyta-Bentey-Habib/Studify',
+      },
+      layoutVariant: 'offset-bottom',
+    },
+    {
+      id: '04',
+      number: '04',
+      title: 'GoAthlete',
+      subtitle: 'Sports Event Discovery & Participation Hub',
+      category: 'Event Platform',
+      isGroupProject: false,
+      role: 'Frontend Engineering, Client-Side Routing & Event Workflows',
+      description:
+        'A dedicated sports event platform empowering athletes to explore, create, and manage athletic competitions and events with seamless client-side interactions.',
+      technologies: ['React', 'Firebase', 'React Router', 'DaisyUI'],
+      image: '/images/goathlete.png',
+      imageAlt: 'GoAthlete sports event platform interface',
+      links: {
+        demo: 'https://goathlete.web.app/',
+        github: 'https://github.com/Sumyta-Bentey-Habib/GoAthlete-',
+      },
+      layoutVariant: 'split-reverse',
+    },
+  ] as readonly ProjectItem[],
+} as const;
+
