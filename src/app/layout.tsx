@@ -18,6 +18,17 @@ export const metadata: Metadata = {
   title: "Sumyta Bentey Habib | Full-Stack Developer",
   description:
     "Sumyta Bentey Habib is a Full-Stack Developer specializing in React, Next.js, Node.js, MongoDB, and modern web applications.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+  },
+  openGraph: {
+    images: [{ url: "/icon-512.png" }],
+  },
 };
 
 export default function RootLayout({
