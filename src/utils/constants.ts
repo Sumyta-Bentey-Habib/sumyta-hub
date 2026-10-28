@@ -748,20 +748,23 @@ export const PROJECTS_DATA = {
 
 export const CONTACT_DATA = {
   sectionId: 'contact',
-  kicker: 'READY TO EVOLVE?',
+  kicker: '05 // END OF JOURNEY',
   signal: {
-    tag: 'SIGNAL // TERMINAL DIRECTORY',
-    status: 'TRANSMISSION ACTIVE',
+    tag: 'FINAL SCENE // NIGHTFALL',
+    status: 'CITY AT REST',
   },
-  statement: {
-    line1: "LET'S",
-    line2: 'BUILD',
-    line3: 'SOMETHING.',
+  branding: {
+    name: 'SUMYTA BENTEY HABIB',
+    role: 'Full-Stack Developer',
+    closingLine:
+      'Full-Stack Developer focused on building reactive frontend interfaces, reliable APIs, and maintainable web applications.',
+    invitation:
+      'Available for full-time engineering roles, remote software teams, and collaborative product engineering.',
   },
   action: {
-    label: 'CONNECT',
+    label: 'START A CONVERSATION',
     href: 'mailto:sumytabenteyhabib@gmail.com',
-    ariaLabel: 'Initiate contact via email',
+    ariaLabel: 'Send email to Sumyta Bentey Habib',
   },
   channels: {
     email: {
@@ -770,28 +773,31 @@ export const CONTACT_DATA = {
       href: 'mailto:sumytabenteyhabib@gmail.com',
       ariaLabel: 'Send email to sumytabenteyhabib@gmail.com',
     },
-    socialsLabel: 'DIRECTORY',
+    socialsLabel: 'DIRECT CHANNELS',
     socials: [
-      {
-        id: 'linkedin',
-        label: 'LINKEDIN',
-        href: 'https://www.linkedin.com/in/sumytabenteyhabib/',
-        isExternal: true,
-        ariaLabel: 'Visit Sumyta Bentey Habib on LinkedIn',
-      },
       {
         id: 'github',
         label: 'GITHUB',
+        handle: 'Sumyta-Bentey-Habib',
         href: 'https://github.com/Sumyta-Bentey-Habib',
         isExternal: true,
         ariaLabel: 'Visit Sumyta Bentey Habib on GitHub',
+      },
+      {
+        id: 'linkedin',
+        label: 'LINKEDIN',
+        handle: 'sumytabenteyhabib',
+        href: 'https://www.linkedin.com/in/sumytabenteyhabib/',
+        isExternal: true,
+        ariaLabel: 'Visit Sumyta Bentey Habib on LinkedIn',
       },
     ],
   },
   footer: {
     monogram: 'S.B.H.',
-    copyright: '© 2026 SUMYTA BENTEY HABIB.',
-    tagline: 'ENGINEERED FOR IMPACT.',
+    backToTopLabel: 'BACK TO TOP',
+    backToTopAria: 'Scroll back to the top of the portfolio',
+    tagline: 'NEON CITY EXPLORER // JOURNEY COMPLETE',
   },
 } as const;
 

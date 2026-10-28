@@ -1,349 +1,300 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CONTACT_DATA } from '@/utils/constants';
+import React from 'react';
+import { CONTACT_DATA, COLOR_TOKENS } from '@/utils/constants';
 
-gsap.registerPlugin(ScrollTrigger);
+const Footer: React.FC = () => {
+  const currentYear = new Date().getFullYear();
 
-const Footer = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const kickerRef = useRef<HTMLDivElement>(null);
-  const signalLineRef = useRef<HTMLDivElement>(null);
-  const statementLine1Ref = useRef<HTMLSpanElement>(null);
-  const statementLine2Ref = useRef<HTMLSpanElement>(null);
-  const statementLine3Ref = useRef<HTMLSpanElement>(null);
-  const actionRef = useRef<HTMLDivElement>(null);
-  const channelsRef = useRef<HTMLDivElement>(null);
-  const footerBaseRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const mm = gsap.matchMedia();
-
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      if (!sectionRef.current) return;
-
-      const statementLines = [
-        statementLine1Ref.current,
-        statementLine2Ref.current,
-        statementLine3Ref.current,
-      ].filter(Boolean);
-
-      // Set initial states for scroll entrance
-      if (kickerRef.current) {
-        gsap.set(kickerRef.current, { opacity: 0, y: 18 });
-      }
-      if (signalLineRef.current) {
-        gsap.set(signalLineRef.current, { scaleX: 0, transformOrigin: 'left center' });
-      }
-      if (statementLines.length > 0) {
-        gsap.set(statementLines, { yPercent: 110, opacity: 0 });
-      }
-      if (actionRef.current) {
-        gsap.set(actionRef.current, { opacity: 0, y: 24 });
-      }
-      if (channelsRef.current) {
-        gsap.set(channelsRef.current, { opacity: 0, y: 20 });
-      }
-      if (footerBaseRef.current) {
-        gsap.set(footerBaseRef.current, { opacity: 0 });
-      }
-
-      // Editorial scroll-driven sequence
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          once: true,
-        },
-      });
-
-      // 1. Kicker & signal metadata enter
-      if (kickerRef.current) {
-        tl.to(kickerRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'power3.out',
-        });
-      }
-
-      // 2. Signal line travels across
-      if (signalLineRef.current) {
-        tl.to(
-          signalLineRef.current,
-          {
-            scaleX: 1,
-            duration: 0.9,
-            ease: 'power2.inOut',
-          },
-          '-=0.3'
-        );
-      }
-
-      // 3. Main statement emerges from masked boundary
-      if (statementLines.length > 0) {
-        tl.to(
-          statementLines,
-          {
-            yPercent: 0,
-            opacity: 1,
-            duration: 0.85,
-            stagger: 0.12,
-            ease: 'power4.out',
-          },
-          '-=0.45'
-        );
-      }
-
-      // 4. Primary CONNECT action control reveals
-      if (actionRef.current) {
-        tl.to(
-          actionRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-          },
-          '-=0.3'
-        );
-      }
-
-      // 5. Contact channels & directory reveal
-      if (channelsRef.current) {
-        tl.to(
-          channelsRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-          },
-          '-=0.35'
-        );
-      }
-
-      // 6. Minimal footer settles
-      if (footerBaseRef.current) {
-        tl.to(
-          footerBaseRef.current,
-          {
-            opacity: 1,
-            duration: 0.8,
-            ease: 'power2.out',
-          },
-          '-=0.3'
-        );
-      }
+  const handleBackToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
     });
-
-    mm.add('(prefers-reduced-motion: reduce)', () => {
-      if (kickerRef.current) gsap.set(kickerRef.current, { opacity: 1, y: 0 });
-      if (signalLineRef.current) gsap.set(signalLineRef.current, { scaleX: 1 });
-      const statementLines = [
-        statementLine1Ref.current,
-        statementLine2Ref.current,
-        statementLine3Ref.current,
-      ].filter(Boolean);
-      if (statementLines.length > 0) {
-        gsap.set(statementLines, { yPercent: 0, opacity: 1 });
-      }
-      if (actionRef.current) gsap.set(actionRef.current, { opacity: 1, y: 0 });
-      if (channelsRef.current) gsap.set(channelsRef.current, { opacity: 1, y: 0 });
-      if (footerBaseRef.current) gsap.set(footerBaseRef.current, { opacity: 1 });
-    });
-
-    return () => mm.revert();
-  }, []);
+  };
 
   return (
     <footer
-      ref={sectionRef}
       id={CONTACT_DATA.sectionId}
       role="contentinfo"
-      aria-labelledby="contact-kicker-heading"
-      className="w-full min-h-screen flex flex-col justify-between pt-24 sm:pt-32 md:pt-40 pb-12 px-6 sm:px-10 md:px-16 lg:px-24 bg-surface-container-lowest text-secondary relative overflow-hidden border-t border-outline/10"
+      aria-labelledby="footer-heading"
+      className="relative w-full bg-black text-white overflow-hidden border-t border-white/10 selection:bg-primary selection:text-black"
     >
-      {/* ── TOP ZONE: SIGNAL KICKER & METADATA ── */}
-      <div className="w-full">
-        <div
-          ref={kickerRef}
-          className="flex flex-wrap items-center justify-between gap-4 mb-6 sm:mb-8"
-        >
-          <h2
-            id="contact-kicker-heading"
-            className="text-xs sm:text-sm font-headline font-bold text-primary tracking-[0.35em] uppercase"
-          >
-            {CONTACT_DATA.kicker}
-          </h2>
+      {/* ── SCOPED ENVIRONMENTAL CSS KEYFRAMES ── */}
+      <style>{`
+        @keyframes footerNeonFlicker {
+          0%, 100% { opacity: 1; filter: drop-shadow(0 0 4px ${COLOR_TOKENS.primaryNeon}); }
+          42% { opacity: 1; filter: drop-shadow(0 0 4px ${COLOR_TOKENS.primaryNeon}); }
+          43% { opacity: 0.45; filter: none; }
+          44% { opacity: 0.95; filter: drop-shadow(0 0 3px ${COLOR_TOKENS.primaryNeon}); }
+          79% { opacity: 1; filter: drop-shadow(0 0 4px ${COLOR_TOKENS.primaryNeon}); }
+          80% { opacity: 0.6; filter: none; }
+          81% { opacity: 1; filter: drop-shadow(0 0 4px ${COLOR_TOKENS.primaryNeon}); }
+        }
+        @keyframes footerWindowBreathe {
+          0%, 100% { opacity: 0.9; }
+          50% { opacity: 0.35; }
+        }
+        @keyframes footerBeaconPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.25; }
+        }
+        .footer-neon-sign {
+          animation: footerNeonFlicker 6.5s infinite ease-in-out;
+        }
+        .footer-window-amber {
+          animation: footerWindowBreathe 4.2s infinite ease-in-out;
+        }
+        .footer-window-cyan {
+          animation: footerWindowBreathe 5.5s infinite ease-in-out 1.2s;
+        }
+        .footer-beacon-dot {
+          animation: footerBeaconPulse 2.6s infinite ease-in-out;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .footer-neon-sign,
+          .footer-window-amber,
+          .footer-window-cyan,
+          .footer-beacon-dot {
+            animation: none !important;
+            opacity: 0.85 !important;
+          }
+        }
+      `}</style>
 
-          <div className="flex items-center gap-2.5 font-mono text-[0.65rem] sm:text-xs text-outline tracking-widest uppercase">
-            <span className="relative flex h-2 w-2 shrink-0">
+      {/* ── AMBIENT CYBERPUNK NIGHTTIME LIGHTING ── */}
+      <div
+        className="absolute top-0 left-1/3 w-[500px] h-[350px] bg-gradient-to-b from-primary/5 via-transparent to-transparent blur-[140px] pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-0 right-1/4 w-[450px] h-[300px] bg-gradient-to-t from-accent-cyan/5 via-transparent to-transparent blur-[130px] pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* ── 1. SUBTLE ENVIRONMENTAL PIXEL SKYLINE HORIZON (CITY AT REST) ── */}
+      <div
+        className="relative w-full h-16 sm:h-20 bg-gradient-to-b from-black via-surface-lowest to-surface-night overflow-hidden border-b border-white/10"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1200 80"
+          preserveAspectRatio="none"
+          className="w-full h-full [image-rendering:pixelated]"
+          shapeRendering="crispEdges"
+        >
+          {/* Distant Layer Silhouettes */}
+          <rect x="0" y="42" width="120" height="38" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="110" y="30" width="85" height="50" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="185" y="48" width="95" height="32" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="270" y="24" width="130" height="56" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="390" y="40" width="110" height="40" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="490" y="18" width="140" height="62" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="620" y="36" width="90" height="44" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="700" y="28" width="120" height="52" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="810" y="44" width="130" height="36" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="930" y="22" width="115" height="58" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="1035" y="38" width="85" height="42" fill={COLOR_TOKENS.skylineFar} />
+          <rect x="1110" y="32" width="90" height="48" fill={COLOR_TOKENS.skylineFar} />
+
+          {/* Near Layer Stepped Buildings */}
+          <rect x="40" y="52" width="90" height="28" fill={COLOR_TOKENS.skylineMid} />
+          <rect x="145" y="42" width="110" height="38" fill={COLOR_TOKENS.skylineNear} />
+          <rect x="240" y="56" width="80" height="24" fill={COLOR_TOKENS.skylineMid} />
+          <rect x="330" y="36" width="105" height="44" fill={COLOR_TOKENS.skylineNear} />
+          <rect x="450" y="50" width="85" height="30" fill={COLOR_TOKENS.skylineMid} />
+          <rect x="550" y="32" width="120" height="48" fill={COLOR_TOKENS.skylineNear} />
+          <rect x="685" y="46" width="95" height="34" fill={COLOR_TOKENS.skylineMid} />
+          <rect x="790" y="38" width="110" height="42" fill={COLOR_TOKENS.skylineNear} />
+          <rect x="915" y="48" width="95" height="32" fill={COLOR_TOKENS.skylineMid} />
+          <rect x="1020" y="40" width="100" height="40" fill={COLOR_TOKENS.skylineNear} />
+
+          {/* Antennas & Communication Masts */}
+          <line x1="382" y1="20" x2="382" y2="36" stroke={COLOR_TOKENS.catwalkRail} strokeWidth="1" />
+          <line x1="610" y1="12" x2="610" y2="32" stroke={COLOR_TOKENS.catwalkRail} strokeWidth="1" />
+          <line x1="845" y1="18" x2="845" y2="38" stroke={COLOR_TOKENS.catwalkRail} strokeWidth="1" />
+
+          {/* Glowing Beacon on Central Mast */}
+          <circle
+            cx="610"
+            cy="11"
+            r="1.5"
+            fill={COLOR_TOKENS.primaryNeon}
+            className="footer-beacon-dot"
+          />
+
+          {/* Subtle Amber Window Lights (Breathing Night Atmosphere) */}
+          <rect x="160" y="48" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+          <rect x="172" y="48" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+          <rect x="350" y="44" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+          <rect x="362" y="54" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+          <rect x="575" y="42" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+          <rect x="588" y="42" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+          <rect x="815" y="46" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+          <rect x="1045" y="48" width="3" height="3" fill={COLOR_TOKENS.windowAmber} className="footer-window-amber" />
+
+          {/* Subtle Cyan Window Lights */}
+          <rect x="160" y="58" width="3" height="3" fill={COLOR_TOKENS.accentCyan} className="footer-window-cyan" />
+          <rect x="575" y="52" width="3" height="3" fill={COLOR_TOKENS.accentCyan} className="footer-window-cyan" />
+          <rect x="830" y="54" width="3" height="3" fill={COLOR_TOKENS.accentCyan} className="footer-window-cyan" />
+          <rect x="1060" y="58" width="3" height="3" fill={COLOR_TOKENS.accentCyan} className="footer-window-cyan" />
+
+          {/* Rooftop Pixel Neon Sign: [ TERMINUS ] with Gentle Flicker */}
+          <g className="footer-neon-sign">
+            <rect x="348" y="28" width="56" height="7" fill={COLOR_TOKENS.surfaceContainer} stroke={COLOR_TOKENS.primaryNeon} strokeWidth="0.75" />
+            <text
+              x="376"
+              y="33.5"
+              fill={COLOR_TOKENS.primaryNeon}
+              fontSize="4.5"
+              fontFamily="monospace"
+              fontWeight="bold"
+              textAnchor="middle"
+              letterSpacing="1"
+            >
+              TERMINUS
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      {/* ── 2. FOOTER CONTENT CONTAINER ── */}
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-12 md:pt-16 pb-12 relative z-10 space-y-12">
+        {/* Telemetry Status Line */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10 font-mono text-xs">
+          <div className="flex items-center gap-3 text-primary">
+            <span className="w-2 h-2 bg-primary rotate-45 inline-block shrink-0" aria-hidden="true" />
+            <span className="font-bold tracking-[0.25em] uppercase">{CONTACT_DATA.kicker}</span>
+            <span className="text-white/20 select-none">/</span>
+            <span className="text-secondary/60 uppercase">{CONTACT_DATA.signal.tag}</span>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1 border border-primary/30 bg-primary/5 text-primary text-[10px] tracking-wider uppercase font-semibold">
+            <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
             </span>
-            <span>{CONTACT_DATA.signal.tag}</span>
-            <span className="hidden sm:inline text-outline/40">/</span>
-            <span className="hidden sm:inline text-primary/80">{CONTACT_DATA.signal.status}</span>
+            <span>{CONTACT_DATA.signal.status}</span>
           </div>
         </div>
 
-        {/* ── VISUAL DETAIL: SIGNAL LINE ── */}
-        <div className="relative w-full h-[1px] bg-white/10 mb-16 sm:mb-20 md:mb-24 overflow-hidden">
-          <div
-            ref={signalLineRef}
-            className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary via-primary/80 to-primary/20 will-change-transform"
-          />
-        </div>
-
-        {/* ── STATEMENT & PRIMARY ACTION ── */}
-        <div className="w-full flex flex-col lg:flex-row lg:items-end justify-between gap-12 lg:gap-16 mb-24 sm:mb-32">
-          {/* Masked Editorial Closing Statement */}
-          <div className="flex-1">
-            <h3
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[9rem] font-headline font-black tracking-tighter uppercase leading-[0.84] text-white"
-              aria-label={`${CONTACT_DATA.statement.line1} ${CONTACT_DATA.statement.line2} ${CONTACT_DATA.statement.line3}`}
-            >
-              <span className="block overflow-hidden py-1">
-                <span ref={statementLine1Ref} className="block will-change-transform">
-                  {CONTACT_DATA.statement.line1}
-                </span>
-              </span>
-              <span className="block overflow-hidden py-1">
-                <span ref={statementLine2Ref} className="block will-change-transform">
-                  {CONTACT_DATA.statement.line2}
-                </span>
-              </span>
-              <span className="block overflow-hidden py-1">
-                <span
-                  ref={statementLine3Ref}
-                  className="block text-primary will-change-transform"
-                >
-                  {CONTACT_DATA.statement.line3}
-                </span>
-              </span>
-            </h3>
-          </div>
-
-          {/* CONNECT Action Control */}
-          <div ref={actionRef} className="lg:mb-4 shrink-0">
-            <a
-              href={CONTACT_DATA.action.href}
-              aria-label={CONTACT_DATA.action.ariaLabel}
-              className="group relative inline-flex flex-col items-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-black"
-            >
-              <div className="inline-flex items-center gap-3 sm:gap-4 text-3xl sm:text-4xl md:text-5xl font-headline font-black tracking-tight text-white group-hover:text-primary transition-colors duration-400">
-                <span className="tracking-wider uppercase transform group-hover:translate-x-1 transition-transform duration-400">
-                  {CONTACT_DATA.action.label}
-                </span>
-                <svg
-                  className="w-8 h-8 sm:w-10 sm:h-10 text-primary transition-transform duration-400 ease-out transform group-hover:translate-x-2 group-hover:-translate-y-2"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <line x1="7" y1="17" x2="17" y2="7" />
-                  <polyline points="7 7 17 7 17 17" />
-                </svg>
+        {/* Main Grid: Identity & Statement (Left) vs. Direct Transmission & Channels (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* Identity & Closing Statement */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="space-y-2">
+              <div className="font-mono text-xs tracking-widest text-primary uppercase font-bold flex items-center gap-2">
+                <span>{CONTACT_DATA.branding.role}</span>
+                <span className="text-white/20 select-none">{'//'}</span>
+                <span className="text-secondary/60">SECTOR 05</span>
               </div>
-              <div className="w-full h-[2px] bg-primary/30 mt-3 relative overflow-hidden">
-                <div className="absolute inset-0 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-400 ease-out origin-left" />
-              </div>
-            </a>
-          </div>
-        </div>
 
-        {/* ── CONTACT CHANNELS & SOCIAL DIRECTORY ── */}
-        <div
-          ref={channelsRef}
-          className="w-full border-t border-outline/10 pt-12 sm:pt-16 pb-16 sm:pb-24 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8"
-        >
-          {/* Email Channel */}
-          <div className="md:col-span-7 flex flex-col items-start">
-            <span className="font-headline font-bold text-xs uppercase tracking-[0.3em] text-outline mb-3">
-              {CONTACT_DATA.channels.email.label}
-            </span>
-            <a
-              href={CONTACT_DATA.channels.email.href}
-              aria-label={CONTACT_DATA.channels.email.ariaLabel}
-              className="group inline-flex items-center gap-3 text-xl sm:text-2xl md:text-3xl font-headline font-semibold text-white/90 hover:text-primary transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-black break-all"
-            >
-              <span className="relative transform group-hover:translate-x-1.5 transition-transform duration-300">
-                {CONTACT_DATA.channels.email.address}
-                <span className="absolute left-0 -bottom-1 w-full h-[1px] bg-outline/40 group-hover:bg-primary transition-colors duration-300" />
-              </span>
-              <svg
-                className="w-4 h-4 sm:w-5 sm:h-5 text-primary opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
+              <h2
+                id="footer-heading"
+                className="text-3xl sm:text-4xl md:text-5xl font-headline font-black uppercase text-white tracking-tight leading-none"
               >
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
+                {CONTACT_DATA.branding.name}
+              </h2>
+            </div>
+
+            {/* Short, Natural Closing Line Reflecting Full-Stack Developer Identity */}
+            <p className="font-sans text-sm sm:text-base text-secondary/90 leading-relaxed max-w-xl">
+              {CONTACT_DATA.branding.closingLine}
+            </p>
+
+            <p className="font-sans text-xs sm:text-sm text-secondary/60 leading-relaxed max-w-xl">
+              {CONTACT_DATA.branding.invitation}
+            </p>
+
+            {/* Primary Action Button */}
+            <div className="pt-2">
+              <a
+                href={CONTACT_DATA.action.href}
+                aria-label={CONTACT_DATA.action.ariaLabel}
+                className="group inline-flex items-center gap-3 px-6 py-3 border border-primary bg-primary/10 hover:bg-primary text-white hover:text-black font-mono text-xs uppercase font-bold tracking-wider transition-all duration-300 shadow-[0_0_20px_rgba(255,45,117,0.2)] hover:shadow-[0_0_30px_rgba(255,45,117,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              >
+                <span className="w-1.5 h-1.5 bg-primary group-hover:bg-black rotate-45 transition-colors" aria-hidden="true" />
+                <span>{CONTACT_DATA.action.label}</span>
+                <span className="transform group-hover:translate-x-1 transition-transform" aria-hidden="true">
+                  ➔
+                </span>
+              </a>
+            </div>
           </div>
 
-          {/* Social Directory */}
-          <div className="md:col-span-5 flex flex-col items-start md:items-end">
-            <span className="font-headline font-bold text-xs uppercase tracking-[0.3em] text-outline mb-4">
-              {CONTACT_DATA.channels.socialsLabel}
-            </span>
-            <div className="flex flex-wrap md:flex-col items-start md:items-end gap-5 md:gap-4 font-headline text-sm sm:text-base md:text-lg font-bold uppercase tracking-widest">
-              {CONTACT_DATA.channels.socials.map((social) => (
-                <a
-                  key={social.id}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.ariaLabel}
-                  className="group inline-flex items-center gap-2.5 text-secondary hover:text-primary transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-black"
-                >
-                  <span className="transform group-hover:translate-x-1 transition-transform duration-300">
-                    {social.label}
-                  </span>
-                  <svg
-                    className="w-4 h-4 text-outline/60 group-hover:text-primary transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
+          {/* Direct Communication Channels */}
+          <div className="lg:col-span-5 space-y-6 lg:pl-6 lg:border-l lg:border-white/10">
+            {/* Email Channel */}
+            <div className="space-y-2">
+              <div className="font-mono text-[10px] tracking-widest text-secondary/50 uppercase">
+                {`${CONTACT_DATA.channels.email.label} //`}
+              </div>
+              <a
+                href={CONTACT_DATA.channels.email.href}
+                aria-label={CONTACT_DATA.channels.email.ariaLabel}
+                className="group block font-mono text-base sm:text-lg text-white hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary break-all"
+              >
+                <span className="border-b border-white/20 group-hover:border-primary transition-colors pb-0.5">
+                  {CONTACT_DATA.channels.email.address}
+                </span>
+              </a>
+            </div>
+
+            {/* Social Channels Strip */}
+            <div className="space-y-2.5 pt-2">
+              <div className="font-mono text-[10px] tracking-widest text-secondary/50 uppercase">
+                {`${CONTACT_DATA.channels.socialsLabel} //`}
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {CONTACT_DATA.channels.socials.map((social) => (
+                  <a
+                    key={social.id}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${social.ariaLabel} (opens in new tab)`}
+                    className="inline-flex items-center gap-2 px-3.5 py-1.5 border border-white/10 bg-white/[0.02] hover:border-primary hover:text-white text-secondary/80 font-mono text-xs uppercase tracking-wider transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
                   >
-                    <line x1="7" y1="17" x2="17" y2="7" />
-                    <polyline points="7 7 17 7 17 17" />
-                  </svg>
-                </a>
-              ))}
+                    <span>{social.label}</span>
+                    <span className="text-primary text-[10px] select-none" aria-hidden="true">
+                      ↗
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Availability Badge */}
+            <div className="p-3 border border-white/10 bg-surface-lowest/70 font-mono text-xs text-secondary/70 flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-accent-cyan shrink-0 animate-pulse" aria-hidden="true" />
+              <span>Available for remote engineering & global roles</span>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* ── BASE FOOTER: MONOGRAM & TAGLINE ── */}
-      <div
-        ref={footerBaseRef}
-        className="w-full border-t border-outline/10 pt-8 sm:pt-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
-      >
-        <div className="text-3xl sm:text-4xl font-black text-primary font-headline tracking-tighter uppercase leading-none">
-          {CONTACT_DATA.footer.monogram}
+        {/* ── 3. BASELINE: COPYRIGHT & BACK-TO-TOP ACTION ── */}
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 font-mono text-xs">
+          <div className="flex flex-wrap items-center gap-3 text-secondary/60">
+            <span className="font-bold text-white tracking-widest">{CONTACT_DATA.footer.monogram}</span>
+            <span className="text-white/20 select-none">/</span>
+            <span>{`© ${currentYear} SUMYTA BENTEY HABIB. ALL RIGHTS RESERVED.`}</span>
+          </div>
+
+          {/* Simple Back-to-Top Button */}
+          <button
+            type="button"
+            onClick={handleBackToTop}
+            aria-label={CONTACT_DATA.footer.backToTopAria}
+            className="group inline-flex items-center gap-2 px-3 py-1.5 border border-white/15 bg-white/[0.02] hover:border-primary hover:bg-primary/10 text-white font-mono text-xs uppercase tracking-wider transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            <span className="text-primary transform group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">
+              ▲
+            </span>
+            <span className="font-bold group-hover:text-primary transition-colors">
+              {CONTACT_DATA.footer.backToTopLabel}
+            </span>
+          </button>
         </div>
-        <p className="text-secondary/70 font-headline text-xs sm:text-sm uppercase tracking-widest text-left sm:text-right">
-          <span>{CONTACT_DATA.footer.copyright}</span>{' '}
-          <span className="text-white/90 font-medium">{CONTACT_DATA.footer.tagline}</span>
-        </p>
       </div>
     </footer>
   );
