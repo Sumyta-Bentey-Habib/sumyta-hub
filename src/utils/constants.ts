@@ -43,7 +43,7 @@ export const HERO_DATA = {
   leftButtonLabel: '◀',
   rightButtonLabel: '▶',
   interactButtonLabel: 'ENGAGE',
-  statusOnline: 'SYS // ONLINE',
+  statusOnline: 'Sumyta // ONLINE',
   closeModalLabel: 'CLOSE [ESC]',
   heroNavAria: 'Hero navigation',
   bottomNavAria: 'Quick social and document navigation',
@@ -222,7 +222,7 @@ export const ABOUT_DATA = {
   titleAccent: '.',
   subtitle: 'FULL-STACK DEVELOPER // FRONTEND EXPERIENCES & BACKEND SYSTEMS',
   statusTag: 'SEC // DEV-PROFILE',
-  statusOnline: 'SYS // ONLINE',
+  statusOnline: 'Sumyta // ONLINE',
   portraitCaption: {
     name: 'SUMYTA BENTEY HABIB',
     role: 'FULL-STACK DEVELOPER',
