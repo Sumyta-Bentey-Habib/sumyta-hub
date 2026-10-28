@@ -1,664 +1,474 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import gsap from 'gsap';
+import React, { useEffect, useRef, useState, useCallback, useSyncExternalStore } from 'react';
 import { HERO_DATA, COLOR_TOKENS } from '@/utils/constants';
+import {
+  subscribeReducedMotion,
+  getReducedMotionSnapshot,
+  getReducedMotionServerSnapshot,
+} from '@/utils/heroMotion';
+import { PlayerState, HeroKeys, RainParticle, WindowLight } from '@/utils/heroTypes';
+import {
+  createRainParticles,
+  createWindowLights,
+  updatePlayerPhysics,
+  updateRainParticles,
+  detectNearbyLocation,
+  detectLocationAtCoord,
+} from '@/utils/heroPhysics';
+import {
+  drawSkyline,
+  drawMidground,
+  drawRooftopsAndCatwalks,
+  drawLocationHubs,
+  drawCharacterSprite,
+  drawRainStreaks,
+} from '@/utils/heroRenderer';
+import WorkstationModal from './WorkstationModal';
+import MobileControls from './MobileControls';
 
-interface GameNode {
-  readonly id: string;
-  readonly label: string;
-  readonly tech: string;
-  readonly xPercent: number;
-  readonly yPercent: number;
-}
-
-const Hero = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
-  const nameRef = useRef<HTMLHeadingElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const [acquiredNodeIds, setAcquiredNodeIds] = useState<string[]>([]);
-  const [isSimActive, setIsSimActive] = useState<boolean>(true);
-  const [announcement, setAnnouncement] = useState<string>('');
-  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animFrameRef = useRef<number | null>(null);
 
-  // Position and trajectory state for reticle (in relative percentages 0..100)
-  const reticlePos = useRef<{ x: number; y: number; targetX: number; targetY: number }>({
-    x: 50,
-    y: 50,
-    targetX: 50,
-    targetY: 50,
+  // Gameplay simulation state
+  const playerRef = useRef<PlayerState>({
+    x: 120,
+    y: 326,
+    vx: 0,
+    vy: 0,
+    isGrounded: true,
+    facing: 'right',
+    animFrame: 0,
+    isMoving: false,
   });
 
-  const radarAngle = useRef<number>(0);
-  const pulseRings = useRef<Array<{ x: number; y: number; r: number; alpha: number; color: string }>>([]);
-  const animFrameId = useRef<number | null>(null);
+  const keysRef = useRef<HeroKeys>({
+    left: false,
+    right: false,
+    jump: false,
+  });
 
-  // Toggle or acquire a node
-  const acquireNode = useCallback((node: GameNode) => {
-    setAcquiredNodeIds((prev) => {
-      if (prev.includes(node.id)) return prev;
-      const next = [...prev, node.id];
-      setAnnouncement(`Target synchronized: ${node.label} (${node.tech})`);
-      return next;
-    });
+  const cameraXRef = useRef<number>(0);
+  const particlesRef = useRef<RainParticle[]>([]);
+  const windowsRef = useRef<WindowLight[]>([]);
 
-    // Add visual shockwave pulse ring
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const px = (node.xPercent / 100) * canvas.width;
-      const py = (node.yPercent / 100) * canvas.height;
-      pulseRings.current.push({
-        x: px,
-        y: py,
-        r: 6,
-        alpha: 1,
-        color: COLOR_TOKENS.primary,
-      });
+  // UI & Interaction State
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [nearbyLocationId, setNearbyLocationId] = useState<string | null>(null);
+  const [hoveredLocationId, setHoveredLocationId] = useState<string | null>(null);
+  const [isWarping, setIsWarping] = useState<boolean>(false);
+  const [announcement, setAnnouncement] = useState<string>(HERO_DATA.announcementInitial);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
+
+  // Initialize atmospheric particles and skyline windows
+  useEffect(() => {
+    particlesRef.current = createRainParticles(70, HERO_DATA.worldWidth, HERO_DATA.worldHeight);
+    windowsRef.current = createWindowLights(HERO_DATA.worldWidth, HERO_DATA.worldHeight, [
+      COLOR_TOKENS.windowAmber,
+      COLOR_TOKENS.primaryNeon,
+      COLOR_TOKENS.accentCyan,
+      COLOR_TOKENS.shadowDark,
+    ]);
+  }, []);
+
+  // Location Interaction Handler
+  const handleLocationTrigger = useCallback((locId: string) => {
+    const loc = HERO_DATA.locations.find((l) => l.id === locId);
+    if (!loc) return;
+
+    if (loc.actionType === 'reveal') {
+      setActiveModal(loc.id);
+      setAnnouncement(HERO_DATA.announcementWorkstation);
+    } else if (loc.actionType === 'link' && 'href' in loc && loc.href) {
+      window.open(loc.href, '_blank', 'noopener,noreferrer');
+      setAnnouncement(HERO_DATA.announcementNavigated);
+    } else if (loc.actionType === 'portal') {
+      setIsWarping(true);
+      setAnnouncement(HERO_DATA.announcementWarp);
+      setTimeout(() => {
+        const target = document.getElementById('work');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+        setIsWarping(false);
+      }, 350);
     }
   }, []);
 
-  const resetRadar = useCallback(() => {
-    setAcquiredNodeIds([]);
-    setAnnouncement(HERO_DATA.gameHud.resetAction);
-  }, []);
+  // Keyboard Event Listeners
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (activeModal && e.key === 'Escape') {
+        setActiveModal(null);
+        return;
+      }
 
-  // Keyboard navigation for 2D Game Reticle
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLElement>) => {
-      const step = 4;
-      let handled = false;
-      const current = reticlePos.current;
-
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
-        current.targetY = Math.max(5, current.targetY - step);
-        handled = true;
-      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
-        current.targetY = Math.min(95, current.targetY + step);
-        handled = true;
-      } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
-        current.targetX = Math.max(5, current.targetX - step);
-        handled = true;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        keysRef.current.left = true;
       } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-        current.targetX = Math.min(95, current.targetX + step);
-        handled = true;
-      } else if (e.key === ' ' || e.key === 'Enter') {
-        // Engage nearest node to reticle
-        const nodes = HERO_DATA.gameHud.nodes;
-        let nearest: GameNode | null = null;
-        let minDist = Infinity;
-        nodes.forEach((n) => {
-          const dx = n.xPercent - current.x;
-          const dy = n.yPercent - current.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < minDist) {
-            minDist = dist;
-            nearest = n;
-          }
-        });
-        if (nearest && minDist < 20) {
-          acquireNode(nearest);
+        keysRef.current.right = true;
+      } else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
+        if (isFocused || document.activeElement === containerRef.current) {
+          e.preventDefault();
         }
-        handled = true;
+        keysRef.current.jump = true;
+      } else if (e.key === 'e' || e.key === 'E' || (e.key === 'Enter' && isFocused)) {
+        if (nearbyLocationId) {
+          handleLocationTrigger(nearbyLocationId);
+        }
       }
+    };
 
-      if (handled) {
-        e.preventDefault();
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        keysRef.current.left = false;
+      } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        keysRef.current.right = false;
+      } else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
+        keysRef.current.jump = false;
       }
-    },
-    [acquireNode]
-  );
+    };
 
-  // Mouse / Pointer handler
-  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const xPct = ((e.clientX - rect.left) / rect.width) * 100;
-    const yPct = ((e.clientY - rect.top) / rect.height) * 100;
-    reticlePos.current.targetX = Math.max(2, Math.min(98, xPct));
-    reticlePos.current.targetY = Math.max(2, Math.min(98, yPct));
-  }, []);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [activeModal, isFocused, nearbyLocationId, handleLocationTrigger]);
 
-  const handlePointerDown = useCallback(() => {
-    // Check if clicked near any node
-    const current = reticlePos.current;
-    const nodes = HERO_DATA.gameHud.nodes;
-    nodes.forEach((node) => {
-      const dx = node.xPercent - current.targetX;
-      const dy = node.yPercent - current.targetY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 12) {
-        acquireNode(node);
-      }
-    });
-  }, [acquireNode]);
-
-  // Main 2D Canvas Game Loop
+  // Main Canvas Render Loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let tick = 0;
+    const platforms = [...HERO_DATA.rooftops, ...HERO_DATA.catwalks];
 
+    const render = () => {
+      tick += 1;
+
+      const width = canvas.width;
+      const height = canvas.height;
+      const scale = height / HERO_DATA.worldHeight;
+      const visibleWorldWidth = width / scale;
+
+      const p = playerRef.current;
+      const keys = keysRef.current;
+
+      // Physics update when motion is enabled
+      if (!prefersReducedMotion) {
+        updatePlayerPhysics(
+          p,
+          keys,
+          platforms,
+          HERO_DATA.worldWidth,
+          HERO_DATA.worldHeight,
+          tick,
+          () => setAnnouncement(HERO_DATA.announcementJump)
+        );
+        updateRainParticles(particlesRef.current, HERO_DATA.worldWidth, HERO_DATA.worldHeight);
+      }
+
+      // Proximity detection
+      const detectedLocation = detectNearbyLocation(p.x, p.y, HERO_DATA.locations, 65);
+      setNearbyLocationId((prev) => {
+        if (prev !== detectedLocation) {
+          if (detectedLocation) {
+            const loc = HERO_DATA.locations.find((l) => l.id === detectedLocation);
+            if (loc) {
+              setAnnouncement(`${HERO_DATA.announcementLocationNearbyPrefix}${loc.title}. ${HERO_DATA.interactKeyHint}`);
+            }
+          }
+          return detectedLocation;
+        }
+        return prev;
+      });
+
+      // Camera horizontal lerp
+      const targetCamX = p.x - visibleWorldWidth / 2;
+      const maxCamX = Math.max(0, HERO_DATA.worldWidth - visibleWorldWidth);
+      const clampedTarget = Math.max(0, Math.min(maxCamX, targetCamX));
+      cameraXRef.current += (clampedTarget - cameraXRef.current) * 0.08;
+      const cameraX = cameraXRef.current;
+
+      // ----------------------------------------------------
+      // DRAW CANVAS LAYERS
+      // ----------------------------------------------------
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      ctx.clearRect(0, 0, width, height);
+
+      // Background Sky
+      ctx.fillStyle = COLOR_TOKENS.surfaceLowest;
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.scale(scale, scale);
+
+      // Layer 1: Distant Skyline
+      drawSkyline(ctx, tick, cameraX, HERO_DATA.worldWidth, HERO_DATA.worldHeight, windowsRef.current);
+
+      // Layer 2: Midground Silhouettes
+      drawMidground(ctx, cameraX, HERO_DATA.worldWidth, HERO_DATA.worldHeight);
+
+      // Layer 3: Foreground Rooftops & Catwalks
+      ctx.save();
+      ctx.translate(-cameraX, 0);
+      drawRooftopsAndCatwalks(ctx, HERO_DATA.rooftops, HERO_DATA.catwalks);
+
+      // Layer 4: Interactive City Locations
+      drawLocationHubs(
+        ctx,
+        tick,
+        HERO_DATA.locations,
+        hoveredLocationId,
+        nearbyLocationId,
+        HERO_DATA.interactSymbol
+      );
+
+      // Layer 5: Character with Pointer
+      drawCharacterSprite(ctx, p, tick, HERO_DATA.playerPointerLabel);
+
+      // Layer 6: Cyber Rain
+      if (!prefersReducedMotion) {
+        drawRainStreaks(ctx, particlesRef.current);
+      }
+
+      ctx.restore(); // Restore world translation
+
+      // Warp Flash
+      if (isWarping) {
+        ctx.fillStyle = COLOR_TOKENS.primaryNeon;
+        ctx.globalAlpha = 0.4;
+        ctx.fillRect(0, 0, width, height);
+        ctx.globalAlpha = 1.0;
+      }
+
+      ctx.restore(); // Restore root canvas scale
+
+      animFrameRef.current = requestAnimationFrame(render);
+    };
+
+    animFrameRef.current = requestAnimationFrame(render);
+
+    return () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+      }
+    };
+  }, [prefersReducedMotion, isWarping, hoveredLocationId, nearbyLocationId]);
+
+  // Handle Resize of Canvas
+  useEffect(() => {
     const handleResize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
+      const canvas = canvasRef.current;
+      const container = containerRef.current;
+      if (!canvas || !container) return;
+
+      const rect = container.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const width = parent.clientWidth;
-      const height = parent.clientHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
-
-    const render = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      const width = parent.clientWidth;
-      const height = parent.clientHeight;
-
-      ctx.clearRect(0, 0, width, height);
-
-      // Smooth interpolation for reticle position
-      const rp = reticlePos.current;
-      rp.x += (rp.targetX - rp.x) * 0.12;
-      rp.y += (rp.targetY - rp.y) * 0.12;
-
-      const reticlePx = (rp.x / 100) * width;
-      const reticlePy = (rp.y / 100) * height;
-
-      // ── 1. DRAW SUBTLE 2D BACKGROUND TACTICAL GRID ──
-      ctx.save();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
-      ctx.lineWidth = 1;
-
-      const gridSize = 64;
-      for (let x = 0; x < width; x += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < height; y += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
-        ctx.stroke();
-      }
-
-      // Small crosshairs at grid intersections
-      ctx.strokeStyle = 'rgba(255, 141, 144, 0.15)';
-      const crossSize = 3;
-      for (let x = gridSize; x < width; x += gridSize * 2) {
-        for (let y = gridSize; y < height; y += gridSize * 2) {
-          ctx.beginPath();
-          ctx.moveTo(x - crossSize, y);
-          ctx.lineTo(x + crossSize, y);
-          ctx.moveTo(x, y - crossSize);
-          ctx.lineTo(x, y + crossSize);
-          ctx.stroke();
-        }
-      }
-      ctx.restore();
-
-      // ── 2. DRAW 2D RADAR SWEEP (Center of canvas) ──
-      if (isSimActive && !prefersReducedMotion) {
-        radarAngle.current = (radarAngle.current + 0.015) % (Math.PI * 2);
-      }
-
-      const centerX = width * 0.5;
-      const centerY = height * 0.48;
-      const radarRadius = Math.min(width, height) * 0.45;
-
-      ctx.save();
-      // Radar outer concentric vector rings
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radarRadius * 0.4, 0, Math.PI * 2);
-      ctx.arc(centerX, centerY, radarRadius * 0.7, 0, Math.PI * 2);
-      ctx.arc(centerX, centerY, radarRadius, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // Radar rotating beam sweep
-      if (isSimActive && !prefersReducedMotion) {
-        ctx.save();
-        ctx.translate(centerX, centerY);
-        ctx.rotate(radarAngle.current);
-        const sweepGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, radarRadius);
-        sweepGrad.addColorStop(0, 'rgba(255, 141, 144, 0.25)');
-        sweepGrad.addColorStop(1, 'rgba(255, 141, 144, 0)');
-        ctx.fillStyle = sweepGrad;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.arc(0, 0, radarRadius, -0.25, 0);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.strokeStyle = COLOR_TOKENS.primary;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(radarRadius, 0);
-        ctx.stroke();
-        ctx.restore();
-      }
-      ctx.restore();
-
-      // ── 3. DRAW TACTICAL NODES & CONNECTORS ──
-      const nodes = HERO_DATA.gameHud.nodes;
-      nodes.forEach((node) => {
-        const nx = (node.xPercent / 100) * width;
-        const ny = (node.yPercent / 100) * height;
-        const isAcquired = acquiredNodeIds.includes(node.id);
-
-        // Distance to reticle
-        const dx = reticlePx - nx;
-        const dy = reticlePy - ny;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const isProximity = dist < 70;
-
-        // Auto-lock when reticle moves right onto the node
-        if (dist < 18 && !isAcquired) {
-          acquireNode(node);
-        }
-
-        // Draw dotted vector line from node to reticle if close
-        if (isProximity) {
-          ctx.save();
-          ctx.setLineDash([3, 4]);
-          ctx.strokeStyle = isAcquired ? COLOR_TOKENS.primary : 'rgba(255, 141, 144, 0.4)';
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(nx, ny);
-          ctx.lineTo(reticlePx, reticlePy);
-          ctx.stroke();
-          ctx.restore();
-        }
-
-        // Node Diamond & Bracket
-        ctx.save();
-        const markerSize = isAcquired ? 8 : 6;
-        ctx.strokeStyle = isAcquired ? COLOR_TOKENS.primary : COLOR_TOKENS.outline;
-        ctx.fillStyle = isAcquired ? COLOR_TOKENS.primary : 'rgba(25, 25, 25, 0.9)';
-        ctx.lineWidth = 1.5;
-
-        // Diamond icon
-        ctx.beginPath();
-        ctx.moveTo(nx, ny - markerSize);
-        ctx.lineTo(nx + markerSize, ny);
-        ctx.lineTo(nx, ny + markerSize);
-        ctx.lineTo(nx - markerSize, ny);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-
-        // Pulsing halo if acquired
-        if (isAcquired && !prefersReducedMotion) {
-          ctx.strokeStyle = 'rgba(255, 141, 144, 0.4)';
-          ctx.beginPath();
-          ctx.arc(nx, ny, markerSize * 2, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-
-        // Tactical Label Text
-        ctx.font = '10px monospace';
-        ctx.fillStyle = isAcquired ? COLOR_TOKENS.white : COLOR_TOKENS.secondaryDim;
-        ctx.fillText(`[${node.label}]`, nx + 12, ny - 4);
-
-        ctx.font = '9px monospace';
-        ctx.fillStyle = isAcquired ? COLOR_TOKENS.primary : COLOR_TOKENS.outline;
-        ctx.fillText(node.tech, nx + 12, ny + 8);
-        ctx.restore();
-      });
-
-      // ── 4. DRAW SHOCKWAVE PULSE RINGS ──
-      for (let i = pulseRings.current.length - 1; i >= 0; i--) {
-        const ring = pulseRings.current[i];
-        ring.r += 2.2;
-        ring.alpha -= 0.025;
-
-        if (ring.alpha <= 0) {
-          pulseRings.current.splice(i, 1);
-        } else {
-          ctx.save();
-          ctx.strokeStyle = `rgba(255, 141, 144, ${ring.alpha})`;
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.arc(ring.x, ring.y, ring.r, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.restore();
-        }
-      }
-
-      // ── 5. DRAW PLAYER-CONTROLLED 2D RETICLE ──
-      ctx.save();
-      const reticleColor = COLOR_TOKENS.primary;
-      ctx.strokeStyle = reticleColor;
-      ctx.lineWidth = 1.5;
-
-      // Outer targeting brackets
-      const rSize = 14;
-      const corner = 4;
-      // Top-Left
-      ctx.beginPath();
-      ctx.moveTo(reticlePx - rSize, reticlePy - rSize + corner);
-      ctx.lineTo(reticlePx - rSize, reticlePy - rSize);
-      ctx.lineTo(reticlePx - rSize + corner, reticlePy - rSize);
-      // Top-Right
-      ctx.moveTo(reticlePx + rSize - corner, reticlePy - rSize);
-      ctx.lineTo(reticlePx + rSize, reticlePy - rSize);
-      ctx.lineTo(reticlePx + rSize, reticlePy - rSize + corner);
-      // Bottom-Left
-      ctx.moveTo(reticlePx - rSize, reticlePy + rSize - corner);
-      ctx.lineTo(reticlePx - rSize, reticlePy + rSize);
-      ctx.lineTo(reticlePx - rSize + corner, reticlePy + rSize);
-      // Bottom-Right
-      ctx.moveTo(reticlePx + rSize - corner, reticlePy + rSize);
-      ctx.lineTo(reticlePx + rSize, reticlePy + rSize);
-      ctx.lineTo(reticlePx + rSize, reticlePy + rSize - corner);
-      ctx.stroke();
-
-      // Center crosshair
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(255, 141, 144, 0.7)';
-      ctx.beginPath();
-      ctx.moveTo(reticlePx - 6, reticlePy);
-      ctx.lineTo(reticlePx + 6, reticlePy);
-      ctx.moveTo(reticlePx, reticlePy - 6);
-      ctx.lineTo(reticlePx, reticlePy + 6);
-      ctx.stroke();
-
-      // Coordinate readout next to reticle
-      ctx.font = '9px monospace';
-      ctx.fillStyle = COLOR_TOKENS.primary;
-      const coordStr = `X:${Math.round(rp.x)} Y:${Math.round(rp.y)}`;
-      ctx.fillText(coordStr, reticlePx + rSize + 4, reticlePy + 3);
-      ctx.restore();
-
-      if (!prefersReducedMotion) {
-        animFrameId.current = requestAnimationFrame(render);
-      }
-    };
-
-    if (prefersReducedMotion) {
-      render();
-    } else {
-      animFrameId.current = requestAnimationFrame(render);
-    }
-
-    return () => {
-      if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [acquiredNodeIds, isSimActive, acquireNode]);
-
-  // Entrance animations for typography
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (nameRef.current) {
-        gsap.fromTo(
-          nameRef.current,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
-        );
-      }
-      if (headlineRef.current) {
-        gsap.fromTo(
-          headlineRef.current,
-          { y: 25, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1, delay: 0.15, ease: 'power3.out' }
-        );
-      }
-    }, containerRef);
-
-    return () => ctx.revert();
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const totalNodes = HERO_DATA.gameHud.nodes.length;
-  const isAllAcquired = acquiredNodeIds.length === totalNodes;
+  // Direct Click/Tap on Canvas for Interactive Hubs
+  const handleCanvasPointer = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const scale = canvas.height / (HERO_DATA.worldHeight * (window.devicePixelRatio || 1));
+      const cameraX = cameraXRef.current;
+
+      const worldClickX = (e.clientX - rect.left) / scale + cameraX;
+      const worldClickY = (e.clientY - rect.top) / scale;
+
+      const hitId = detectLocationAtCoord(worldClickX, worldClickY, HERO_DATA.locations);
+      if (hitId) {
+        handleLocationTrigger(hitId);
+      }
+    },
+    [handleLocationTrigger]
+  );
+
+  // Canvas Hover Detection
+  const handleCanvasMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const scale = canvas.height / (HERO_DATA.worldHeight * (window.devicePixelRatio || 1));
+    const cameraX = cameraXRef.current;
+
+    const worldX = (e.clientX - rect.left) / scale + cameraX;
+    const worldY = (e.clientY - rect.top) / scale;
+
+    const hoverId = detectLocationAtCoord(worldX, worldY, HERO_DATA.locations);
+    setHoveredLocationId(hoverId);
+  }, []);
 
   return (
     <section
       ref={containerRef}
       id="hero"
-      aria-label="Hero Introduction and Interactive 2D Operator Grid"
       tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onPointerMove={handlePointerMove}
-      onPointerDown={handlePointerDown}
+      aria-label={HERO_DATA.canvasAriaLabel}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
-      className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-surface-container-lowest pt-28 pb-12 md:pt-32 md:pb-16 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/40 select-none"
+      className="relative w-full h-[100svh] min-h-[600px] max-h-[1080px] bg-black text-white overflow-hidden select-none outline-none focus-visible:ring-1 focus-visible:ring-primary"
     >
-      {/* ── INTERACTIVE 2D VECTOR RADAR CANVAS (GAME LAYER) ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <canvas
-          ref={canvasRef}
-          aria-hidden="true"
-          className="w-full h-full block"
-        />
+      {/* Screen Reader Live Telemetry */}
+      <div aria-live="polite" role="status" className="sr-only">
+        {announcement}
       </div>
 
-      {/* ── TACTICAL HUD TOP TELEMETRY STRIP ── */}
-      <div className="relative z-10 w-full px-6 md:px-12 max-w-7xl mx-auto mb-8">
-        <div className="border border-white/10 bg-black/60 backdrop-blur-md p-3 md:p-4 flex flex-wrap items-center justify-between gap-4">
-          {/* System Mode & Operator */}
-          <div className="flex items-center gap-3">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
-            </span>
-            <span className="font-mono text-xs uppercase tracking-widest text-primary font-bold">
-              {HERO_DATA.gameHud.systemTag}
-            </span>
-            <span className="hidden sm:inline-block font-mono text-[0.65rem] tracking-wider text-outline">
-              {'//'} {HERO_DATA.role} @ {HERO_DATA.company}
-            </span>
-          </div>
+      {/* 2D Cyberpunk Pixel Art Canvas */}
+      <canvas
+        ref={canvasRef}
+        onClick={handleCanvasPointer}
+        onMouseMove={handleCanvasMouseMove}
+        onMouseLeave={() => setHoveredLocationId(null)}
+        className="absolute inset-0 w-full h-full cursor-pointer z-0 touch-none"
+      />
 
-          {/* Target Sync Counter & Controls */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="text-secondary/70 tracking-wider">
-                {HERO_DATA.gameHud.scoreLabel}:
-              </span>
-              <span className="text-white font-bold px-2 py-0.5 border border-primary/30 bg-primary/10">
-                {acquiredNodeIds.length} / {totalNodes}
-              </span>
-            </div>
+      {/* COMPOSITION: UPPER-LEFT BRAND IDENTITY (Positioned cleanly below Navbar) */}
+      <div className="absolute top-24 md:top-28 left-6 md:left-12 z-20 pointer-events-auto">
+        <div className="flex items-center gap-3 mb-1">
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <span className="text-[10px] font-mono tracking-widest text-outline uppercase">
+            {HERO_DATA.statusOnline}
+          </span>
+        </div>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase font-mono leading-none text-white">
+          {HERO_DATA.name}
+        </h1>
+        <p className="text-xs md:text-sm font-mono tracking-widest text-primary font-semibold mt-1 uppercase">
+          {HERO_DATA.role}
+        </p>
+      </div>
 
-            {/* Radar Simulation Toggle */}
-            <button
-              type="button"
-              onClick={() => setIsSimActive((prev) => !prev)}
-              aria-label={isSimActive ? HERO_DATA.gameHud.simulationPaused : HERO_DATA.gameHud.simulationActive}
-              className="text-[0.65rem] font-mono tracking-wider px-2.5 py-1 border border-outline/30 hover:border-primary text-secondary hover:text-white transition-colors"
-            >
-              {isSimActive ? HERO_DATA.gameHud.simulationActive : HERO_DATA.gameHud.simulationPaused}
-            </button>
-
-            {/* Reset Radar */}
-            {acquiredNodeIds.length > 0 && (
+      {/* PROXIMITY HUD CARD (When character is standing near an interactive hub) */}
+      {nearbyLocationId && (
+        <div className="absolute top-44 md:top-48 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
+          {(() => {
+            const loc = HERO_DATA.locations.find((l) => l.id === nearbyLocationId);
+            if (!loc) return null;
+            return (
               <button
                 type="button"
-                onClick={resetRadar}
-                aria-label={HERO_DATA.gameHud.resetAction}
-                className="text-[0.65rem] font-mono tracking-wider px-2.5 py-1 border border-primary/40 bg-primary/10 text-primary hover:bg-primary hover:text-black transition-all"
+                onClick={() => handleLocationTrigger(loc.id)}
+                className="group flex items-center gap-3 px-4 py-2 border border-primary bg-black/90 backdrop-blur-md text-white font-mono shadow-[0_0_20px_rgba(255,45,117,0.3)] hover:bg-primary/20 transition-all cursor-pointer"
               >
-                {HERO_DATA.gameHud.resetAction}
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Synchronization Completion Banner */}
-        {isAllAcquired && (
-          <div className="mt-2 p-2.5 border border-primary bg-primary/10 text-primary font-mono text-xs uppercase tracking-widest text-center animate-pulse">
-            ★ {HERO_DATA.gameHud.allTargetsAcquired} ★
-          </div>
-        )}
-      </div>
-
-      {/* ── MAIN EDITORIAL / BRUTALIST CONTENT LAYER ── */}
-      <div className="relative z-10 w-full px-6 md:px-12 max-w-7xl mx-auto flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
-          {/* Left Column: Monolithic Editorial Name */}
-          <div className="lg:col-span-6 xl:col-span-7">
-            <div className="flex items-center gap-2 font-mono text-[0.65rem] sm:text-xs text-primary tracking-[0.3em] uppercase mb-4">
-              <span className="w-2 h-2 bg-primary inline-block" aria-hidden="true" />
-              <span>{HERO_DATA.role}</span>
-              <span className="text-outline">/</span>
-              <span className="text-white font-bold">{HERO_DATA.company}</span>
-            </div>
-
-            <h1
-              ref={nameRef}
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[8.75rem] font-headline font-black tracking-tighter leading-[0.82] text-white select-none break-words"
-            >
-              {HERO_DATA.name.first}
-              <br />
-              {HERO_DATA.name.middle}
-              <br />
-              <span className="text-primary">{HERO_DATA.name.last}</span>
-            </h1>
-
-            {/* Micro Metadata Badges */}
-            <div className="mt-8 flex flex-wrap gap-2 font-mono text-[0.65rem] tracking-wider uppercase">
-              {HERO_DATA.metaBadges.map((badge, idx) => (
-                <span
-                  key={idx}
-                  className="px-2.5 py-1 border border-white/10 bg-black/40 text-secondary/80 backdrop-blur-sm"
-                >
-                  <span className="text-outline/60 mr-1.5">{badge.label}:</span>
-                  <span className="text-white font-bold">{badge.value}</span>
+                <span className="w-2 h-2 bg-primary animate-ping" />
+                <span className="text-xs tracking-wider font-bold text-white group-hover:text-primary">
+                  {loc.title}
                 </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column: Statement, Production Engagement & CTAs */}
-          <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between pt-2">
-            <div>
-              {/* Main Headline Statement */}
-              <h2
-                ref={headlineRef}
-                className="text-3xl sm:text-4xl md:text-5xl font-headline font-black tracking-tight uppercase leading-[0.92] text-white"
-              >
-                {HERO_DATA.headline.line1}
-                <br />
-                {HERO_DATA.headline.line2}
-                <br />
-                <span className="text-primary">{HERO_DATA.headline.line3}</span>
-              </h2>
-
-              {/* Verified Professional Role & Capabilities */}
-              <div className="mt-6 space-y-3">
-                <p className="font-body text-secondary/90 text-sm md:text-base leading-relaxed">
-                  {HERO_DATA.currentStatus.statement}{' '}
-                  <span className="text-white font-bold tracking-wide">
-                    {HERO_DATA.currentStatus.company}
-                  </span>
-                  . Focused on UI implementation, feature development, component refactoring, debugging, and responsive web & mobile interfaces.
-                </p>
-                <p className="text-primary font-mono text-xs md:text-sm font-semibold tracking-wide">
-                  {HERO_DATA.techStackFormatted}
-                </p>
-              </div>
-
-              {/* Interactive Telemetry Node Directory (Accessible Click Targets) */}
-              <div className="mt-6 border-t border-white/10 pt-4">
-                <p className="font-mono text-[0.65rem] uppercase tracking-widest text-outline mb-2">
-                  {HERO_DATA.gameHud.telemetryPrefix}ACTIVE RADAR NODES
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {HERO_DATA.gameHud.nodes.map((node) => {
-                    const isAcquired = acquiredNodeIds.includes(node.id);
-                    return (
-                      <button
-                        key={node.id}
-                        type="button"
-                        onClick={() => acquireNode(node)}
-                        className={`px-2.5 py-1 text-[0.65rem] font-mono tracking-wider border transition-all text-left ${
-                          isAcquired
-                            ? 'border-primary bg-primary/20 text-white font-bold'
-                            : 'border-white/10 bg-black/40 text-secondary/70 hover:border-primary/60 hover:text-white'
-                        }`}
-                        aria-label={`Target node: ${node.label}, status: ${isAcquired ? 'synchronized' : 'unlocked'}`}
-                      >
-                        {isAcquired ? '✓ ' : '+ '}
-                        {node.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="mt-8 flex flex-wrap items-center gap-3 md:gap-4">
-              {HERO_DATA.actions.map((action, index) => (
-                <a
-                  key={index}
-                  href={action.href}
-                  target={action.isExternal ? '_blank' : undefined}
-                  rel={action.isExternal ? 'noopener noreferrer' : undefined}
-                  aria-label={action.ariaLabel}
-                  className={`px-5 py-3 md:px-6 md:py-3.5 font-headline font-bold text-xs uppercase tracking-widest transition-all duration-300 flex items-center gap-2 group ${
-                    action.primary
-                      ? 'bg-primary text-black border border-primary hover:bg-white hover:border-white hover:text-black hover:scale-105 active:scale-95 shadow-lg shadow-primary/10'
-                      : 'bg-surface-container/60 border border-outline/30 text-white hover:border-primary hover:text-primary hover:scale-105 active:scale-95 backdrop-blur-sm'
-                  }`}
-                >
-                  <span>{action.label}</span>
-                  <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-0.5">
-                    {action.icon}
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div>
-
+                <span className="text-[10px] tracking-widest text-primary font-semibold">
+                  {HERO_DATA.interactKeyHint}
+                </span>
+              </button>
+            );
+          })()}
         </div>
-      </div>
+      )}
 
-      {/* ── BOTTOM TACTICAL BAR: CONTROLS & SCROLL TELEMETRY ── */}
-      <div className="relative z-10 w-full px-6 md:px-12 max-w-7xl mx-auto pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
-        {/* Game Pilot Controls Hint */}
-        <div className="flex items-center gap-2 text-outline text-[0.7rem] uppercase tracking-wider">
-          <span className="inline-block w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-          <span className="hidden md:inline">{HERO_DATA.gameHud.controlsHintDesktop}</span>
-          <span className="md:hidden">{HERO_DATA.gameHud.controlsHintMobile}</span>
-        </div>
-
-        {/* Scroll Action Hint */}
-        <a
-          href="#work"
-          className="flex items-center gap-3 text-primary hover:text-white transition-colors duration-300 font-headline font-bold text-xs tracking-widest uppercase group"
-          aria-label="Scroll down to casework section"
-        >
-          <span>{HERO_DATA.scrollText}</span>
-          <span className="material-symbols-outlined text-sm group-hover:translate-y-1 transition-transform">
-            arrow_downward
+      {/* COMPOSITION: BOTTOM STATUS, NAME, GITHUB, LINKEDIN, RESUME & PERSISTENT LINK */}
+      <div className="absolute bottom-6 left-4 right-4 sm:left-6 sm:right-6 md:bottom-8 md:left-12 md:right-12 z-20 flex flex-col lg:flex-row items-center justify-between gap-3 pointer-events-none">
+        {/* Bottom-Left: Name, Role & Explore Prompt */}
+        <div className="flex items-center gap-3 pointer-events-auto">
+          <span className="font-mono font-black text-xs md:text-sm tracking-tight text-white uppercase">
+            {HERO_DATA.name}
           </span>
-        </a>
+          <span className="text-[10px] md:text-xs font-mono tracking-widest text-primary font-semibold uppercase">
+            {'//'} {HERO_DATA.role}
+          </span>
+          <span className="hidden sm:inline-block w-1.5 h-3 bg-primary animate-pulse ml-1" />
+          <span className="hidden sm:inline text-xs font-mono font-bold tracking-widest text-secondary uppercase">
+            {HERO_DATA.explorePrompt}
+          </span>
+        </div>
+
+        {/* Bottom-Center: GitHub, LinkedIn, Resume & Control Hint */}
+        <div className="flex flex-wrap items-center justify-center gap-2 pointer-events-auto">
+          <nav aria-label={HERO_DATA.bottomNavAria} className="flex items-center gap-2">
+            {HERO_DATA.bottomLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target={item.isExternal ? '_blank' : undefined}
+                rel={item.isExternal ? 'noopener noreferrer' : undefined}
+                aria-label={item.ariaLabel}
+                className="px-2.5 py-1.5 md:px-3 md:py-1.5 text-[11px] md:text-xs font-mono font-bold tracking-wider uppercase border border-outlineVariant/50 bg-black/70 backdrop-blur-sm text-secondary hover:text-white hover:border-primary hover:bg-primary/10 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary shadow-sm"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="hidden xl:flex items-center px-3 py-1.5 border border-outlineVariant/40 bg-black/50 backdrop-blur-sm text-[10px] font-mono tracking-widest text-outline uppercase">
+            <span>{HERO_DATA.controlsHintDesktop}</span>
+          </div>
+        </div>
+
+        {/* Bottom-Right: Persistent VIEW WORK Link */}
+        <div className="pointer-events-auto">
+          <a
+            href={HERO_DATA.viewWorkAction.href}
+            aria-label={HERO_DATA.viewWorkAction.ariaLabel}
+            className="group flex items-center gap-2 px-4 py-2 bg-primary text-black font-mono font-black text-xs md:text-sm tracking-wider uppercase hover:bg-white hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-[0_0_15px_rgba(255,45,117,0.4)]"
+          >
+            <span>{HERO_DATA.viewWorkAction.label}</span>
+          </a>
+        </div>
       </div>
 
-      {/* Screen Reader Live Region for Game Updates */}
-      <div className="sr-only" aria-live="polite">
-        {announcement}
-        {isFocused && ' Interactive 2D tactical radar active. Use W, A, S, D or arrow keys to steer reticle. Press Space to engage nodes.'}
-      </div>
+      {/* Mobile Compact Touch Controls */}
+      <MobileControls
+        onLeftStart={() => {
+          keysRef.current.left = true;
+        }}
+        onLeftEnd={() => {
+          keysRef.current.left = false;
+        }}
+        onRightStart={() => {
+          keysRef.current.right = true;
+        }}
+        onRightEnd={() => {
+          keysRef.current.right = false;
+        }}
+        onJump={() => {
+          keysRef.current.jump = true;
+          setTimeout(() => {
+            keysRef.current.jump = false;
+          }, 150);
+        }}
+        onInteract={() => {
+          if (nearbyLocationId) {
+            handleLocationTrigger(nearbyLocationId);
+          }
+        }}
+        nearbyLocationId={nearbyLocationId}
+      />
+
+      {/* XIIA Workstation Modal Dialog */}
+      <WorkstationModal isOpen={activeModal === 'xiia'} onClose={() => setActiveModal(null)} />
     </section>
   );
-};
-
-export default Hero;
+}
