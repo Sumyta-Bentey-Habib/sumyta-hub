@@ -1,42 +1,35 @@
 import React from 'react';
+import { NAVBAR_DATA, SOCIAL_LINKS } from '@/utils/constants';
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-xl flex justify-between items-center px-6 md:px-12 py-8">
-      <div className="text-2xl font-black tracking-tighter text-primary font-headline uppercase leading-none">
-        S.B.H.
-      </div>
-      <div className="hidden md:flex gap-10 font-headline font-bold uppercase tracking-tighter">
-        <a
-          className="text-primary border-b-2 border-primary pb-1 hover:text-primary transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] scale-105 active:scale-95"
-          href="#work"
-        >
-          Work
-        </a>
-        <a
-          className="text-secondary hover:text-primary transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:scale-110 active:scale-95"
-          href="#skills"
-        >
-          Skills
-        </a>
-        <a
-          className="text-secondary hover:text-primary transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:scale-110 active:scale-95"
-          href="#about"
-        >
-          About
-        </a>
-        <a
-          className="text-secondary hover:text-primary transition-all duration-400 ease-[cubic-bezier(0.23,1,0.32,1)] hover:scale-110 active:scale-95"
-          href="#contact"
-        >
-          Contact
-        </a>
+    <nav 
+      aria-label="Main Navigation"
+      className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/5 flex justify-between items-center px-6 md:px-12 py-5"
+    >
+      <a 
+        href="#" 
+        aria-label="Sumyta Bentey Habib Home"
+        className="text-2xl font-black tracking-tighter text-primary font-headline uppercase leading-none hover:text-white transition-colors duration-300"
+      >
+        {NAVBAR_DATA.monogram}
+      </a>
+      <div className="hidden md:flex items-center gap-8 font-headline font-bold uppercase text-xs tracking-widest">
+        {NAVBAR_DATA.navLinks.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            className="text-secondary/80 hover:text-primary transition-all duration-300 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary px-1 py-1"
+          >
+            {link.label}
+          </a>
+        ))}
       </div>
       <a 
-        href="mailto:sumytabenteyhabib@gmail.com"
-        className="px-6 py-2 bg-primary-dim text-on-primary-fixed font-headline font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-400 no-underline"
+        href={SOCIAL_LINKS.email}
+        className="px-5 py-2.5 bg-primary-dim text-white font-headline font-bold text-xs uppercase tracking-widest border border-primary/30 hover:bg-white hover:text-black hover:border-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
-        Connect
+        {NAVBAR_DATA.connectLabel}
       </a>
     </nav>
   );

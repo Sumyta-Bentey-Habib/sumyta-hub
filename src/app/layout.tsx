@@ -15,9 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sumyta Bentey Habib | Full-Stack Developer",
+  title: "Sumyta Bentey Habib | Junior Software Developer",
   description:
-    "Sumyta Bentey Habib is a Full-Stack Developer specializing in React, Next.js, Node.js, MongoDB, and modern web applications.",
+    "Junior Software Developer at XIIA specializing in UI implementation, responsive web and mobile interfaces, frontend feature development, and modern web applications.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "32x32" },
@@ -52,18 +52,25 @@ export default function RootLayout({
               "@type": "Person",
               name: "Sumyta Bentey Habib",
               url: "https://sumytadev.vercel.app/",
-              jobTitle: "Full-Stack Developer",
+              jobTitle: "Junior Software Developer",
+              worksFor: {
+                "@type": "Organization",
+                name: "XIIA",
+              },
               sameAs: [
                 "https://www.linkedin.com/in/sumytabenteyhabib/",
                 "https://github.com/Sumyta-Bentey-Habib",
               ],
               knowsAbout: [
+                "Frontend Engineering",
+                "UI Implementation",
                 "React",
                 "Next.js",
+                "TypeScript",
+                "JavaScript",
+                "Tailwind CSS",
                 "Node.js",
                 "MongoDB",
-                "JavaScript",
-                "TypeScript",
               ],
             }),
           }}
@@ -73,9 +80,17 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} antialiased selection:bg-primary selection:text-on-primary-fixed bg-surface-container-lowest text-secondary`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:px-4 focus:py-2 focus:bg-primary focus:text-black focus:font-mono focus:font-bold focus:outline-none"
+        >
+          Skip to content
+        </a>
         <CustomCursor />
         <Navbar />
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
       </body>
     </html>
   );

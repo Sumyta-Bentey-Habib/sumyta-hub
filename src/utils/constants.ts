@@ -6,24 +6,40 @@ export const HERO_DATA = {
   },
   headline: {
     line1: 'I BUILD',
-    line2: 'WEB',
-    line3: 'APPLICATIONS.',
+    line2: 'WEB & MOBILE',
+    line3: 'INTERFACES.',
   },
-  role: 'Junior Full-Stack Developer',
-  techStack: ['React', 'Next.js', 'Node.js', 'MongoDB'] as const,
-  techStackFormatted: 'React · Next.js · Node.js · MongoDB',
+  role: 'Junior Software Developer',
+  company: 'XIIA',
+  techStack: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'] as const,
+  techStackFormatted: 'React · Next.js · TypeScript · Tailwind CSS',
   currentStatus: {
-    statement: 'Currently building production applications at',
+    statement: 'Building production web & mobile interfaces at',
     company: 'XIIA',
-    fullText: 'Currently building production applications at XIIA.',
+    fullText: 'Building production web & mobile interfaces at XIIA.',
   },
+  metaBadges: [
+    { label: 'OPERATOR', value: 'XIIA_DEV' },
+    { label: 'ROLE', value: 'JR SOFTWARE DEV' },
+    { label: 'FOCUS', value: 'FRONTEND UI' },
+    { label: 'RADAR', value: '2D VECTOR HUD' },
+  ] as const,
   actions: [
     {
-      label: 'VIEW WORK',
+      label: 'VIEW CASEWORK',
       href: '#work',
       isExternal: false,
       icon: 'arrow_downward',
       primary: true,
+      ariaLabel: 'Scroll down to selected casework and projects',
+    },
+    {
+      label: 'EXPERIENCE',
+      href: '#experience',
+      isExternal: false,
+      icon: 'history',
+      primary: false,
+      ariaLabel: 'Jump to professional experience timeline at XIIA',
     },
     {
       label: 'GITHUB',
@@ -31,6 +47,7 @@ export const HERO_DATA = {
       isExternal: true,
       icon: 'arrow_outward',
       primary: false,
+      ariaLabel: 'View GitHub profile in a new tab',
     },
     {
       label: 'RESUME',
@@ -38,13 +55,64 @@ export const HERO_DATA = {
       isExternal: true,
       icon: 'description',
       primary: false,
+      ariaLabel: 'Open resume PDF in a new tab',
     },
-  ],
+  ] as const,
   scrollText: 'SCROLL FOR IMPACT',
   locationStatus: 'Based in Bangladesh · Available for opportunities',
-  bgImage:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBOpnc0tRezqAG7S_6rx8UQF7GjaYvKEQWe5ATFcw5N66s1FM3pv64FJ1aO2GdgFis4TrBY3Jn-vi5xHytu-TysKrDojZtaJW1vn1_5NzECpK_8O5TBBc9V2Ygk0WY_ZeenGwElAldsdUDkzhd6_QbiWFsu7dp_GbU1RMfjOHC_-ujnoUWnXa0HRdI5ZSJmbQY_5wgrafiLp67RDXPxdu4WJhqrELRtOJZRT84of0kxfYcZdp6bHaKv2XJMluDeuV_v8T34gfPqS2c',
-  bgImageAlt: 'abstract dark 3d geometric shapes with vibrant red glowing accents',
+  gameHud: {
+    systemTag: 'OPERATOR HUD // 2D TACTICAL GRID',
+    statusTag: 'STATUS: ACTIVE',
+    scoreLabel: 'TARGETS ACQUIRED',
+    maxTargets: 5,
+    radarMode: '2D VECTOR RADAR',
+    controlsHintDesktop: 'PILOT: [W][A][S][D] / MOUSE · ENGAGE: [SPACE] / CLICK',
+    controlsHintMobile: 'PILOT: DRAG RETICLE · ENGAGE: TAP NODE',
+    resetAction: 'RESET RADAR',
+    simulationActive: 'RADAR ACTIVE',
+    simulationPaused: 'RADAR PAUSED',
+    telemetryPrefix: 'TELEMETRY // ',
+    allTargetsAcquired: 'ALL NODES SYNCHRONIZED — SYSTEM OPTIMAL',
+    nodes: [
+      { id: 'n1', label: 'UI_ARCHITECTURE', tech: 'REACT 19 / NEXT.JS', xPercent: 22, yPercent: 28 },
+      { id: 'n2', label: 'PRODUCTION_DEV', tech: 'XIIA FRONTEND', xPercent: 76, yPercent: 24 },
+      { id: 'n3', label: 'COMPONENT_SYS', tech: 'REFACTORED & DRY', xPercent: 82, yPercent: 74 },
+      { id: 'n4', label: 'RESPONSIVE_EXP', tech: 'WEB & MOBILE UI', xPercent: 24, yPercent: 78 },
+      { id: 'n5', label: 'FULLSTACK_CORE', tech: 'MERN + REALTIME', xPercent: 50, yPercent: 52 },
+    ] as const,
+  },
+} as const;
+
+export const COLOR_TOKENS = {
+  primary: '#ff8d90',
+  primaryDim: '#e31c40',
+  primaryContainer: '#ff757b',
+  onPrimary: '#640014',
+  secondary: '#e5e2e1',
+  secondaryDim: '#d7d4d3',
+  surfaceLowest: '#000000',
+  surfaceContainer: '#191919',
+  surfaceHigh: '#1f1f1f',
+  outline: '#757575',
+  outlineVariant: '#484848',
+  white: '#ffffff',
+} as const;
+
+export const PRELOADER_DATA = {
+  initializingTag: 'INITIALIZING SYSTEM',
+  completeTag: 'SYSTEM READY',
+} as const;
+
+export const NAVBAR_DATA = {
+  monogram: 'S.B.H.',
+  navLinks: [
+    { label: 'Work', href: '#work' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'About', href: '#about' },
+    { label: 'Contact', href: '#contact' },
+  ] as const,
+  connectLabel: 'Connect',
 } as const;
 
 export const SOCIAL_LINKS = {

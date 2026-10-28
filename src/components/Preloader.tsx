@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
+import { PRELOADER_DATA } from '@/utils/constants';
 
 const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [count, setCount] = useState(0);
@@ -10,6 +11,12 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // If user prefers reduced motion, complete immediately without blocking
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onComplete();
+      return;
+    }
+
     // Prevent scrolling while loading
     document.body.style.overflow = 'hidden';
 
@@ -18,7 +25,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       const counterTarget = { value: 0 };
       gsap.to(counterTarget, {
         value: 100,
-        duration: 2.5,
+        duration: 2.2,
         ease: 'power3.inOut',
         onUpdate: () => {
           setCount(Math.floor(counterTarget.value));
@@ -28,13 +35,13 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       // Progress bar animation
       gsap.to(progressRef.current, {
         scaleX: 1,
-        duration: 2.5,
+        duration: 2.2,
         ease: 'power3.inOut',
       });
 
       // Final disappearance animation
       const tl = gsap.timeline({
-        delay: 2.7,
+        delay: 2.3,
         onComplete: () => {
           document.body.style.overflow = 'auto';
           onComplete();
@@ -44,12 +51,12 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       tl.to(counterRef.current, {
         y: -100,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.6,
         ease: 'power4.in',
       })
       .to(containerRef.current, {
         clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
-        duration: 1.2,
+        duration: 0.9,
         ease: 'expo.inOut',
       });
     });
@@ -63,8 +70,10 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[99999] bg-black flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden"
+      className="fixed inset-0 z-[99999] bg-black flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden pointer-events-auto"
       style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' }}
+      aria-live="polite"
+      aria-label={PRELOADER_DATA.initializingTag}
     >
       <div 
         ref={counterRef}
@@ -75,7 +84,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         </span>
         <div className="flex justify-between items-center mt-4">
           <span className="text-primary font-headline font-bold uppercase tracking-[0.4em] text-sm">
-            Initializing System
+            {count >= 100 ? PRELOADER_DATA.completeTag : PRELOADER_DATA.initializingTag}
           </span>
           <span className="text-secondary font-mono text-sm">
             {count}%
