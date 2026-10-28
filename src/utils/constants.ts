@@ -16,7 +16,7 @@ export const HERO_DATA = {
   worldHeight: 520,
   modalRoleHeading: 'VERIFIED ROLE // PRODUCTION',
   modalDossierTag: 'SEC // XIIA-PROD-01',
-  modalVerifiedBadge: 'VERIFIED ON-SITE ROLE',
+  modalVerifiedBadge: 'VERIFIED REMOTE ROLE',
   modalDismissAction: 'DISMISS [ESC]',
   modalCompanyLabel: 'ORGANIZATION',
   modalRoleLabel: 'TITLE',
@@ -158,6 +158,7 @@ export const COLOR_TOKENS = {
   outline: '#757575',
   outlineVariant: '#484848',
   white: '#ffffff',
+  black: '#000000',
   accentCyan: '#00f2fe',
   accentYellow: '#ffd200',
   windowAmber: '#ffb86c',
@@ -241,19 +242,19 @@ export const ABOUT_DATA = {
       index: '02',
       label: 'FRONTEND CRAFT',
       value: 'Responsive web apps, interactive UI & reusable component systems',
-      accentColor: 'border-l-accentCyan',
+      accentColor: 'border-l-accent-cyan',
     },
     {
       index: '03',
       label: 'BACKEND & DATA',
       value: 'RESTful APIs, authentication, MongoDB, Firebase & Socket.io',
-      accentColor: 'border-l-primaryNeon',
+      accentColor: 'border-l-primary-neon',
     },
     {
       index: '04',
       label: 'ENGINEERING VALUES',
       value: 'Maintainable code, practical functionality & continuous learning',
-      accentColor: 'border-l-windowAmber',
+      accentColor: 'border-l-window-amber',
     },
   ],
   specs: [
@@ -329,75 +330,105 @@ export const SKILLS_DATA = {
   ],
 } as const;
 
+export interface ExperienceSector {
+  readonly id: string;
+  readonly number: string;
+  readonly sectorCode: string;
+  readonly districtTitle: string;
+  readonly districtSub: string;
+  readonly beaconColor: 'primary' | 'accentCyan';
+  readonly period: string;
+  readonly role: string;
+  readonly company: string;
+  readonly location: string;
+  readonly active: boolean;
+  readonly statusLabel: string;
+  readonly statusSublabel: string;
+  readonly description: string;
+  readonly focusCategory: string;
+  readonly focusItems: readonly string[];
+  readonly techCategory: string;
+  readonly technologies: readonly string[];
+}
+
 export const EXPERIENCE_DATA = {
-  sectionTag: '02. Trajectory',
-  title: 'EXPERIENCE',
-  subtitle: 'Production Frontend Engineering & Independent Full-Stack Development',
-  archivePeriod: '2023 — 2026',
+  sectionId: 'experience',
+  sectionTag: '02 // NEON SECTORS',
+  title: 'CAREER DISTRICTS',
+  titleAccent: '.',
+  subtitle: 'A CYBERPUNK CHRONOLOGY OF PRODUCTION ENGINEERING & INDEPENDENT ARCHITECTURE',
+  cityRegion: 'NEON METROPOLIS // SECTOR 02',
+  signalOnline: 'SYS // BROADCAST ACTIVE',
+  archivePeriod: '2024 — PRESENT',
   archiveLabel: 'ARCHIVE',
   labels: {
     deliverablesSuffix: 'CORE DELIVERABLES',
     techSpecificationsSuffix: 'TECH SPECIFICATIONS',
-    recordPrefix: 'REC_',
-    indexPrefix: 'INDEX // ',
+    recordPrefix: 'SEC_',
+    indexPrefix: 'DISTRICT // ',
+    liveNode: 'ONLINE PRODUCTION NODE',
+    researchNode: 'FULL-STACK LAB FACILITY',
+    caseworkPrompt: 'TRAVEL TO CASEWORK ARCHIVE ↗',
+    caseworkHref: '#work',
+    verificationNote:
+      'Verified production engineering at XIIA distinguished from self-directed casework.',
   },
   experiences: [
     {
       id: '01',
       number: '01',
+      sectorCode: 'SEC: 02 // XIIA_TOWER',
+      districtTitle: 'XIIA CORPORATE COMPLEX',
+      districtSub: 'PRODUCTION ENGINEERING DISTRICT',
+      beaconColor: 'primary',
       period: '2026 — PRESENT',
       role: 'Junior Software Developer',
       company: 'XIIA',
+      location: 'Copenhagen, Denmark',
       active: true,
       statusLabel: 'Currently Active',
-      statusSublabel: 'Active Engagement',
+      statusSublabel: 'Production Deployment',
       description:
-        'Contributing to production web and mobile applications, primarily focused on frontend implementation, feature development, refactoring, debugging, and UI improvements.',
-      focusCategory: 'Professional Focus',
+        'Contributing to production web and mobile applications, primarily focused on frontend implementation, feature development, component refactoring, debugging, and UI polish across platforms.',
+      focusCategory: 'Production Responsibilities',
       focusItems: [
-        'Implementing UI from product designs and requirements',
-        'Developing frontend features',
-        'Refactoring existing UI components and code',
+        'Implementing UI from product designs and Figma requirements',
+        'Developing modular frontend features across web and mobile interfaces',
+        'Refactoring existing UI components for clarity and maintainability',
         'Debugging frontend issues across screens and user flows',
-        'Working on responsive interfaces',
-        'Working across web and mobile interfaces',
-        'Collaborating with other developers and designers',
-        'Using Git-based development workflows',
+        'Engineering responsive interfaces across diverse viewports',
+        'Collaborating with developers and designers using Git-based workflows',
       ],
-      techCategory: 'Professional Technologies',
-      technologies: [
-        'React',
-        'React Native',
-        'Next.js',
-        'JavaScript',
-        'TypeScript',
-        'Git',
-      ],
+      techCategory: 'Production Technologies',
+      technologies: ['React', 'React Native', 'Next.js', 'JavaScript', 'TypeScript', 'Git'],
     },
     {
       id: '02',
       number: '02',
+      sectorCode: 'SEC: 03 // LAB_INDEPENDENT',
+      districtTitle: 'INDEPENDENT RESEARCH LABS',
+      districtSub: 'FULL-STACK ARCHITECTURE DISTRICT',
+      beaconColor: 'accentCyan',
       period: '2024 — PRESENT',
-      role: 'Independent Development',
-      company: null,
+      role: 'Full-Stack Developer',
+      company: 'Independent Projects',
+      location: 'Self-Directed / Remote Lab',
       active: false,
       statusLabel: 'Self-Directed Track',
       statusSublabel: 'Continuous Exploration',
       description:
-        'Building full-stack applications independently to strengthen practical software development skills and explore different technologies.',
-      focusCategory: 'Experience Includes',
+        'Architecting full-stack applications independently to explore distributed system patterns, API design, database schemas, authentication, and real-time synchronization.',
+      focusCategory: 'Architectural Scope',
       focusItems: [
-        'Building responsive React applications',
-        'Building full-stack applications with Next.js',
-        'Developing Node.js and Express backends',
-        'Working with MongoDB',
-        'Implementing authentication',
-        'Working with Firebase',
-        'Implementing real-time functionality with Socket.io',
-        'Building dashboards and CRUD workflows',
-        'Deploying applications using modern hosting platforms',
+        'Building responsive React and Next.js client applications',
+        'Designing RESTful backend APIs and middleware with Node.js and Express',
+        'Document modeling, indexing, and persistence with MongoDB',
+        'Implementing secure authentication and Firebase integration',
+        'Bi-directional real-time messaging and events using Socket.io',
+        'Building comprehensive administrative suites and CRUD workflows',
+        'Deploying and maintaining production applications on cloud hosting',
       ],
-      techCategory: 'Technologies',
+      techCategory: 'Full-Stack Stack',
       technologies: [
         'React',
         'Next.js',

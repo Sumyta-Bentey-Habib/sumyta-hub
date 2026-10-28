@@ -86,7 +86,11 @@ export default function WorkstationModal({ isOpen, onClose }: WorkstationModalPr
             <a
               href={HERO_DATA.modalActionHref}
               onClick={onClose}
-              className="w-full sm:w-auto text-center px-5 py-2.5 bg-primary text-black font-black uppercase text-xs hover:bg-white transition-all shadow-[0_0_20px_rgba(255,45,117,0.35)]"
+              style={{
+                backgroundColor: COLOR_TOKENS.primary,
+                color: COLOR_TOKENS.black,
+              }}
+              className="w-full sm:w-auto text-center px-5 py-2.5 bg-primary text-black font-black uppercase text-xs hover:bg-white hover:text-black transition-all shadow-[0_0_20px_rgba(255,45,117,0.35)]"
             >
               {HERO_DATA.modalActionLabel}
             </a>
