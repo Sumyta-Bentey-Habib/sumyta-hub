@@ -275,6 +275,44 @@ export function drawLocationHubs(
       ctx.fillStyle = COLOR_TOKENS.portalVortexInner;
       ctx.fillRect(-6, -6, 12, 12);
       ctx.restore();
+    } else if (loc.id === 'endpoint') {
+      // --- ENDING POINT / EXTRACTION PAD SILHOUETTE ---
+      // 1. Vertical Ascension Laser / Light Column pointing up into the night sky
+      ctx.fillStyle = COLOR_TOKENS.finishGlow;
+      ctx.fillRect(loc.x + 8, loc.y - 140, loc.w - 16, 140);
+
+      // 2. Base Landing Deck Platform
+      ctx.fillStyle = COLOR_TOKENS.surfaceContainer;
+      ctx.fillRect(loc.x, loc.y + 4, loc.w, loc.h - 4);
+      ctx.strokeStyle = COLOR_TOKENS.finishGold;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(loc.x, loc.y + 4, loc.w, loc.h - 4);
+
+      // 3. Diagonal Hazard Stripes across the deck
+      ctx.fillStyle = COLOR_TOKENS.finishGold;
+      for (let sx = loc.x + 6; sx < loc.x + loc.w - 8; sx += 12) {
+        ctx.fillRect(sx, loc.y + 8, 4, loc.h - 12);
+      }
+
+      // 4. Centered Glowing Star Crest
+      const starBob = Math.sin(tick * 0.1) * 2;
+      ctx.fillStyle = COLOR_TOKENS.finishGold;
+      ctx.font = 'bold 12px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('★', loc.x + loc.w / 2, loc.y - 4 + starBob);
+
+      // 5. Perimeter Sequential Beacon Lights
+      const beaconPhase = Math.floor(tick / 8) % 4;
+      const cornerPositions = [
+        { x: loc.x + 2, y: loc.y + 6 },
+        { x: loc.x + loc.w - 6, y: loc.y + 6 },
+        { x: loc.x + loc.w - 6, y: loc.y + loc.h - 6 },
+        { x: loc.x + 2, y: loc.y + loc.h - 6 },
+      ];
+      cornerPositions.forEach((pos, idx) => {
+        ctx.fillStyle = idx === beaconPhase ? COLOR_TOKENS.accentCyan : COLOR_TOKENS.finishGold;
+        ctx.fillRect(pos.x, pos.y, 4, 4);
+      });
     }
 
     // --- Holographic Location Label / Indicator ---
@@ -287,13 +325,13 @@ export function drawLocationHubs(
 
     if (isHighlighted) {
       // Pulsing marker tag
-      ctx.fillStyle = COLOR_TOKENS.primaryNeon;
+      ctx.fillStyle = loc.id === 'endpoint' ? COLOR_TOKENS.finishGold : COLOR_TOKENS.primaryNeon;
       ctx.font = 'bold 9px monospace';
       ctx.textAlign = 'center';
       ctx.fillText(`${interactSymbol} ${loc.title}`, labelX, labelY + bob);
     } else {
       // Compact discreet location tag
-      ctx.fillStyle = COLOR_TOKENS.outline;
+      ctx.fillStyle = loc.id === 'endpoint' ? COLOR_TOKENS.finishGold : COLOR_TOKENS.outline;
       ctx.font = '8px monospace';
       ctx.textAlign = 'center';
       ctx.fillText(loc.sublabel, labelX, labelY + bob);

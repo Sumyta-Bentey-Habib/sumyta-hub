@@ -26,6 +26,7 @@ import {
 } from '@/utils/heroRenderer';
 import WorkstationModal from './WorkstationModal';
 import MobileControls from './MobileControls';
+import EndingModal from './EndingModal';
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -53,6 +54,7 @@ export default function Hero() {
   const cameraXRef = useRef<number>(0);
   const particlesRef = useRef<RainParticle[]>([]);
   const windowsRef = useRef<WindowLight[]>([]);
+  const hasTriggeredEndingRef = useRef<boolean>(false);
 
   // UI & Interaction State
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -87,6 +89,9 @@ export default function Hero() {
     if (loc.actionType === 'reveal') {
       setActiveModal(loc.id);
       setAnnouncement(HERO_DATA.announcementWorkstation);
+    } else if (loc.actionType === 'ending') {
+      setActiveModal('ending');
+      setAnnouncement(HERO_DATA.announcementEnding);
     } else if (loc.actionType === 'link' && 'href' in loc && loc.href) {
       window.open(loc.href, '_blank', 'noopener,noreferrer');
       setAnnouncement(HERO_DATA.announcementNavigated);
@@ -101,6 +106,20 @@ export default function Hero() {
         setIsWarping(false);
       }, 350);
     }
+  }, []);
+
+  // Warp to casework from ending sequence
+  const handleNavigateWork = useCallback(() => {
+    setActiveModal(null);
+    setIsWarping(true);
+    setAnnouncement(HERO_DATA.announcementWarp);
+    setTimeout(() => {
+      const target = document.getElementById('work');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+      setIsWarping(false);
+    }, 350);
   }, []);
 
   // Keyboard Event Listeners
@@ -182,6 +201,12 @@ export default function Hero() {
 
       // Proximity detection
       const detectedLocation = detectNearbyLocation(p.x, p.y, HERO_DATA.locations, 65);
+
+      // Auto-trigger ending sequence when stepping directly on the extraction pad
+      if (p.x >= 1365 && p.x <= 1445 && p.isGrounded && !hasTriggeredEndingRef.current) {
+        hasTriggeredEndingRef.current = true;
+        handleLocationTrigger('endpoint');
+      }
       setNearbyLocationId((prev) => {
         if (prev !== detectedLocation) {
           if (detectedLocation) {
@@ -266,7 +291,7 @@ export default function Hero() {
         cancelAnimationFrame(animFrameRef.current);
       }
     };
-  }, [prefersReducedMotion, isWarping, hoveredLocationId, nearbyLocationId]);
+  }, [prefersReducedMotion, isWarping, hoveredLocationId, nearbyLocationId, handleLocationTrigger]);
 
   // Handle Resize of Canvas
   useEffect(() => {
@@ -469,6 +494,13 @@ export default function Hero() {
 
       {/* XIIA Workstation Modal Dialog */}
       <WorkstationModal isOpen={activeModal === 'xiia'} onClose={() => setActiveModal(null)} />
+
+      {/* Ending Point Modal Dialog */}
+      <EndingModal
+        isOpen={activeModal === 'ending'}
+        onClose={() => setActiveModal(null)}
+        onNavigateWork={handleNavigateWork}
+      />
     </section>
   );
 }
