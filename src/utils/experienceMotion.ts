@@ -10,10 +10,7 @@ export interface ExperienceMotionElements {
   readonly footer: HTMLDivElement | null;
 }
 
-/**
- * Initializes restrained GSAP ScrollTrigger reveals for the Experience section.
- * Automatically respects prefers-reduced-motion media query.
- */
+
 export function initExperienceScrollAnimations(elements: ExperienceMotionElements): () => void {
   const mm = gsap.matchMedia();
 
@@ -24,12 +21,12 @@ export function initExperienceScrollAnimations(elements: ExperienceMotionElement
     if (elements.header) {
       gsap.fromTo(
         elements.header,
-        { opacity: 0, y: 32 },
+        { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
+          duration: 0.6,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: elements.header,
             start: 'top 85%',
@@ -38,36 +35,36 @@ export function initExperienceScrollAnimations(elements: ExperienceMotionElement
       );
     }
 
-    // District cards reveal
+    // Experience milestones reveal
     if (elements.container) {
-      const cards = elements.container.querySelectorAll('.district-card');
-      cards.forEach((card) => {
+      const items = elements.container.querySelectorAll('.experience-milestone');
+      items.forEach((item) => {
         gsap.fromTo(
-          card,
-          { opacity: 0, y: 40 },
+          item,
+          { opacity: 0, y: 24 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
-            ease: 'power3.out',
+            duration: 0.65,
+            ease: 'power2.out',
             scrollTrigger: {
-              trigger: card,
-              start: 'top 82%',
+              trigger: item,
+              start: 'top 85%',
             },
           }
         );
       });
     }
 
-    // Footer note reveal
+    // Footer note reveal (if separate)
     if (elements.footer) {
       gsap.fromTo(
         elements.footer,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 16 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.5,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: elements.footer,
