@@ -179,6 +179,16 @@ export const COLOR_TOKENS = {
   characterBoots: '#ff8d90',
   portalVortexOuter: '#ff2d75',
   portalVortexInner: '#00f2fe',
+  asphaltDark: '#0b0914',
+  asphaltLight: '#141024',
+  laneMarking: 'rgba(255, 255, 255, 0.45)',
+  headlightBeam: 'rgba(0, 242, 254, 0.18)',
+  taillightBeam: 'rgba(255, 45, 117, 0.28)',
+  amberGlow: 'rgba(255, 184, 108, 0.25)',
+  trafficCarWhite: '#e5e2e1',
+  trafficCarCyan: '#00f2fe',
+  trafficCarPink: '#ff2d75',
+  guardrailBeam: '#261b42',
 } as const;
 
 export const PRELOADER_DATA = {
@@ -602,29 +612,38 @@ export interface ProjectItem {
     readonly github?: string;
   };
   readonly layoutVariant?: 'default' | 'offset-top' | 'offset-bottom' | 'split-reverse';
+  readonly exitCode: string;
+  readonly waypointLabel: string;
+  readonly landmarkTitle: string;
+  readonly districtType: string;
+  readonly themeAccent: 'primary' | 'windowAmber' | 'accentCyan' | 'finishGold';
 }
 
 export const PROJECTS_DATA = {
-  sectionTag: '03. Casework',
+  sectionTag: '04 // NEON HIGHWAY JOURNEY',
   title: 'SELECTED CASEWORK',
-  subtitle: 'PRODUCTION APPLICATIONS & TECHNICAL BENCHMARKS',
+  titleAccent: '.',
+  subtitle: 'A LIVING CYBERPUNK HIGHWAY THROUGH VERIFIED PRODUCTION APPLICATIONS & BENCHMARKS',
+  kicker: 'ROUTE 101 // NEON EXPRESSWAY',
+  highwayStatus: 'HIGHWAY ACTIVE // 4 DESTINATIONS ONLINE',
+  cruisingSpeed: 'CRUISING SPEED: 120 KM/H',
+  interactionHint: 'CLICK ANY HIGHWAY EXIT OR DESTINATION TO CRUISE',
   period: '2024 — 2026',
-  indexPrefix: 'CASE // ',
-  scrollHint: 'SCROLL TO NAVIGATE',
-  roleLabel: 'ROLE / FOCUS',
-  techLabel: 'SPECIFICATIONS',
-  demoButtonText: 'LIVE DEMO',
-  githubButtonText: 'SOURCE',
+  indexPrefix: 'EXIT // ',
+  roleLabel: 'ROLE / ARCHITECTURE',
+  techLabel: 'TECH STACK SPECIFICATIONS',
+  demoButtonText: 'LIVE DEMO ↗',
+  githubButtonText: 'SOURCE CODE ↗',
   groupProjectBadge: 'GROUP PROJECT',
   archiveTermination: '// ARCHIVE TERMINATION',
   repositoryArchive: '// REPOSITORY ARCHIVE',
   viewProjectLabel: 'EXPLORE INTERFACE',
   leftWorldTag: 'DEVELOPER SPECIFICATION',
   rightWorldTag: 'RUNTIME INTERFACE',
-  scrollProgressLabel: 'CASE PROGRESSION',
-  assemblySequenceLabel: 'CONSTRUCTION SEQUENCE',
-  statusAssembled: 'COMPOSITION COMPLETE',
-  statusAssembling: 'ASSEMBLING STRUCTURE',
+  scrollProgressLabel: 'HIGHWAY PROGRESSION',
+  assemblySequenceLabel: 'DESTINATION DOCKED',
+  statusAssembled: 'DOCKING COMPLETE',
+  statusAssembling: 'CRUISING HIGHWAY...',
   projects: [
     {
       id: '01',
@@ -646,6 +665,11 @@ export const PROJECTS_DATA = {
         github: 'https://github.com/Sumyta-Bentey-Habib/Quadra',
       },
       layoutVariant: 'default',
+      exitCode: 'EXIT 01',
+      waypointLabel: 'KM 1.4 // SOCIAL BROADCAST SECTOR',
+      landmarkTitle: 'QUADRA COMMUNICATIONS NEXUS',
+      districtType: 'Communications & Real-Time Sync District',
+      themeAccent: 'primary',
     },
     {
       id: '02',
@@ -665,6 +689,11 @@ export const PROJECTS_DATA = {
         github: 'https://github.com/Sumyta-Bentey-Habib/Espresso-Emporium',
       },
       layoutVariant: 'offset-top',
+      exitCode: 'EXIT 02',
+      waypointLabel: 'KM 3.8 // COMMERCE DISTRICT',
+      landmarkTitle: 'ESPRESSO ROASTERY & MARKET',
+      districtType: 'Curated E-Commerce & Specialty Roastery',
+      themeAccent: 'windowAmber',
     },
     {
       id: '03',
@@ -684,6 +713,11 @@ export const PROJECTS_DATA = {
         github: 'https://github.com/Sumyta-Bentey-Habib/Studify',
       },
       layoutVariant: 'offset-bottom',
+      exitCode: 'EXIT 03',
+      waypointLabel: 'KM 6.2 // ACADEMIC CITADEL',
+      landmarkTitle: 'STUDIFY LEARNING CITADEL',
+      districtType: 'Academic Tech & Role-Based Governance District',
+      themeAccent: 'accentCyan',
     },
     {
       id: '04',
@@ -703,6 +737,11 @@ export const PROJECTS_DATA = {
         github: 'https://github.com/Sumyta-Bentey-Habib/GoAthlete-',
       },
       layoutVariant: 'split-reverse',
+      exitCode: 'EXIT 04',
+      waypointLabel: 'KM 8.9 // ATHLETIC ARENA',
+      landmarkTitle: 'GOATHLETE SPORTS COMPLEX',
+      districtType: 'Athletic Competitions & Event Operations Complex',
+      themeAccent: 'finishGold',
     },
   ] as readonly ProjectItem[],
 } as const;
