@@ -205,19 +205,70 @@ export const SOCIAL_LINKS = {
 } as const;
 
 export const ABOUT_DATA = {
-  sectionTag: '01. Perspective',
+  sectionId: 'about',
+  sectionTag: '01 // PERSPECTIVE',
+  title: 'BEHIND THE INTERFACE',
+  titleAccent: '.',
+  subtitle: 'FULL-STACK DEVELOPER // FRONTEND EXPERIENCES & BACKEND SYSTEMS',
+  statusTag: 'SEC // DEV-PROFILE',
+  statusOnline: 'SYS // ONLINE',
+  portraitCaption: {
+    name: 'SUMYTA BENTEY HABIB',
+    role: 'FULL-STACK DEVELOPER',
+    organization: 'XIIA & INDEPENDENT',
+    degree: 'CSE GRADUATE',
+    location: 'BAGERHAT, BANGLADESH',
+    status: 'ACTIVE IN PRODUCTION',
+  },
   headline: {
-    prefix: 'I build modern web solutions powered by',
-    highlight: 'precision engineering',
-    suffix: 'and immersive interfaces.',
-    full: 'I build modern web solutions powered by precision engineering and immersive interfaces.',
+    prefix: 'I am a Full-Stack Developer crafting',
+    highlight: 'responsive, interactive web applications',
+    suffix: 'and resilient backend systems.',
+    full: 'I am a Full-Stack Developer crafting responsive, interactive web applications and resilient backend systems.',
   },
   paragraphs: [
-    'I specialize in the MERN stack and Next.js, transforming complex technical requirements into high-performing, hyper-responsive web applications.',
-    'From securing JWT integrations to designing brutalist UI interactions, my goal is to eliminate unnecessary complexity and craft digital spaces that just work perfectly.',
+    'I build responsive, interactive web applications with a strong focus on intuitive user experiences and practical functionality. Working across both professional codebases at XIIA and self-directed projects, I develop frontend interfaces and modular, reusable component systems that keep codebases clean, maintainable, and accessible.',
+    'On the backend, I engineer RESTful APIs, implement secure authentication flows, and handle database integration across MongoDB and Firebase, bringing real-time features to life with Socket.io. I care deeply about maintainable code and the total user experience, continually learning and expanding my engineering capabilities through production delivery and independent exploration.',
   ],
-  image: '/images/user_portrait.png',
-  imageAlt: 'Sumyta Bentey Habib',
+  metadataGrid: [
+    {
+      index: '01',
+      label: 'DEVELOPER IDENTITY',
+      value: 'Full-Stack Developer bridging user experiences & server architecture',
+      accentColor: 'border-l-primary',
+    },
+    {
+      index: '02',
+      label: 'FRONTEND CRAFT',
+      value: 'Responsive web apps, interactive UI & reusable component systems',
+      accentColor: 'border-l-accentCyan',
+    },
+    {
+      index: '03',
+      label: 'BACKEND & DATA',
+      value: 'RESTful APIs, authentication, MongoDB, Firebase & Socket.io',
+      accentColor: 'border-l-primaryNeon',
+    },
+    {
+      index: '04',
+      label: 'ENGINEERING VALUES',
+      value: 'Maintainable code, practical functionality & continuous learning',
+      accentColor: 'border-l-windowAmber',
+    },
+  ],
+  specs: [
+    { label: 'IDENTITY', value: 'FULL-STACK DEVELOPER' },
+    { label: 'ENGINEERING', value: 'FRONTEND & BACKEND' },
+    { label: 'LOCATION', value: 'BAGERHAT, BANGLADESH' },
+    { label: 'STATUS', value: 'EMPLOYED // XIIA' },
+  ],
+  trajectoryAction: {
+    label: 'EXPLORE EXPERIENCE TIMELINE ↗',
+    href: '#experience',
+    ariaLabel: 'Jump to experience timeline section',
+  },
+  image: '/images/user_portrait.jpeg',
+  imageAlt: 'Sumyta Bentey Habib — Full-Stack Developer',
 } as const;
 
 export const SKILLS_DATA = {
