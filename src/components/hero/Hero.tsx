@@ -59,7 +59,7 @@ export default function Hero() {
         onClick={handleCanvasPointer}
         onMouseMove={handleCanvasMouseMove}
         onMouseLeave={handleCanvasMouseLeave}
-        className="absolute inset-0 w-full h-full cursor-pointer z-0 touch-none"
+        className="absolute inset-0 w-full h-full cursor-pointer z-0 touch-pan-y"
       />
 
       {/* Brand Identity */}
