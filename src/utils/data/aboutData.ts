@@ -1,0 +1,66 @@
+export const ABOUT_DATA = {
+  sectionId: 'about',
+  sectionTag: '01 // PERSPECTIVE',
+  title: 'BEHIND THE INTERFACE',
+  titleAccent: '.',
+  subtitle: 'FULL-STACK DEVELOPER // FRONTEND EXPERIENCES & BACKEND SYSTEMS',
+  statusTag: 'SEC // DEV-PROFILE',
+  statusOnline: 'Sumyta // ONLINE',
+  portraitCaption: {
+    name: 'SUMYTA BENTEY HABIB',
+    role: 'FULL-STACK DEVELOPER',
+    organization: 'XIIA & INDEPENDENT',
+    degree: 'CSE GRADUATE',
+    location: 'BAGERHAT, BANGLADESH',
+    status: 'ACTIVE IN PRODUCTION',
+  },
+  headline: {
+    prefix: 'I am a Full-Stack Developer crafting',
+    highlight: 'responsive, interactive web applications',
+    suffix: 'and resilient backend systems.',
+    full: 'I am a Full-Stack Developer crafting responsive, interactive web applications and resilient backend systems.',
+  },
+  paragraphs: [
+    'I build responsive, interactive web applications with a strong focus on intuitive user experiences and practical functionality. Working across both professional codebases at XIIA and self-directed projects, I develop frontend interfaces and modular, reusable component systems that keep codebases clean, maintainable, and accessible.',
+    'On the backend, I engineer RESTful APIs, implement secure authentication flows, and handle database integration across MongoDB and Firebase, bringing real-time features to life with Socket.io. I care deeply about maintainable code and the total user experience, continually learning and expanding my engineering capabilities through production delivery and independent exploration.',
+  ],
+  metadataGrid: [
+    {
+      index: '01',
+      label: 'DEVELOPER IDENTITY',
+      value: 'Full-Stack Developer bridging user experiences & server architecture',
+      accentColor: 'border-l-primary',
+    },
+    {
+      index: '02',
+      label: 'FRONTEND CRAFT',
+      value: 'Responsive web apps, interactive UI & reusable component systems',
+      accentColor: 'border-l-accent-cyan',
+    },
+    {
+      index: '03',
+      label: 'BACKEND & DATA',
+      value: 'RESTful APIs, authentication, MongoDB, Firebase & Socket.io',
+      accentColor: 'border-l-primary-neon',
+    },
+    {
+      index: '04',
+      label: 'ENGINEERING VALUES',
+      value: 'Maintainable code, practical functionality & continuous learning',
+      accentColor: 'border-l-window-amber',
+    },
+  ],
+  specs: [
+    { label: 'IDENTITY', value: 'FULL-STACK DEVELOPER' },
+    { label: 'ENGINEERING', value: 'FRONTEND & BACKEND' },
+    { label: 'LOCATION', value: 'BAGERHAT, BANGLADESH' },
+    { label: 'STATUS', value: 'EMPLOYED // XIIA' },
+  ],
+  trajectoryAction: {
+    label: 'EXPLORE EXPERIENCE TIMELINE ↗',
+    href: '#experience',
+    ariaLabel: 'Jump to experience timeline section',
+  },
+  image: '/images/user_portrait.jpeg',
+  imageAlt: 'Sumyta Bentey Habib — Full-Stack Developer',
+} as const;

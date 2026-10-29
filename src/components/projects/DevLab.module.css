@@ -1,0 +1,103 @@
+.workstationRig {
+  position: relative;
+  width: 100%;
+  border-radius: 0.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--color-devlab-rig, #06040d);
+  padding: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 640px) {
+  .workstationRig {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .workstationRig {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .workstationRig {
+    padding: 1.75rem;
+  }
+}
+
+.chassis {
+  background-color: var(--color-devlab-chassis, #090714);
+}
+
+.monitorChassis {
+  width: 100%;
+  border-radius: 0.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: var(--color-devlab-chassis, #090714);
+  box-shadow: 0 0 40px rgba(255, 45, 117, 0.08);
+  padding: 0.5rem;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .monitorChassis {
+    padding: 0.75rem;
+  }
+}
+
+.crtScanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  opacity: 0.15;
+}
+
+.phosphorVignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  background-image: radial-gradient(ellipse at center, transparent 70%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.dockContainer {
+  width: 100%;
+  border-radius: 0.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: var(--color-devlab-chassis, #090714);
+  padding: 0.625rem;
+  font-family: var(--font-label, monospace);
+  font-size: 0.75rem;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .dockContainer {
+    padding: 0.75rem;
+  }
+}
+
+.readoutContainer {
+  width: 100%;
+  min-height: 440px;
+  border-radius: 0.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: var(--color-devlab-chassis, #090714);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 0.875rem;
+  font-family: var(--font-label, monospace);
+  font-size: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .readoutContainer {
+    min-height: 420px;
+    padding: 1.25rem;
+  }
+}

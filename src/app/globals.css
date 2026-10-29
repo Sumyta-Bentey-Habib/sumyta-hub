@@ -38,6 +38,20 @@
   --color-outline: #757575;
   --color-outline-variant: #484848;
 
+  /* Cyberpunk Tokens */
+  --color-accent-cyan: #00f2fe;
+  --color-accentCyan: #00f2fe;
+  --color-accent-yellow: #ffd200;
+  --color-accentYellow: #ffd200;
+  --color-primary-neon: #ff2d75;
+  --color-primaryNeon: #ff2d75;
+  --color-window-amber: #ffb86c;
+  --color-windowAmber: #ffb86c;
+  --color-finish-gold: #ffd200;
+  --color-finishGold: #ffd200;
+  --color-devlab-chassis: #090714;
+  --color-devlab-rig: #06040d;
+
   --animate-marquee: marquee 25s linear infinite;
 
   @keyframes marquee {

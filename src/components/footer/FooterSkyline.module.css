@@ -1,0 +1,74 @@
+@keyframes footerNeonFlicker {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px var(--color-primary-neon, #ff2d75));
+  }
+  42% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px var(--color-primary-neon, #ff2d75));
+  }
+  43% {
+    opacity: 0.45;
+    filter: none;
+  }
+  44% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 3px var(--color-primary-neon, #ff2d75));
+  }
+  79% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px var(--color-primary-neon, #ff2d75));
+  }
+  80% {
+    opacity: 0.6;
+    filter: none;
+  }
+  81% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px var(--color-primary-neon, #ff2d75));
+  }
+}
+
+@keyframes footerWindowBreathe {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes footerBeaconPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.footerNeonSign {
+  animation: footerNeonFlicker 6.5s infinite ease-in-out;
+}
+
+.footerWindowAmber {
+  animation: footerWindowBreathe 4.2s infinite ease-in-out;
+}
+
+.footerWindowCyan {
+  animation: footerWindowBreathe 5.5s infinite ease-in-out 1.2s;
+}
+
+.footerBeaconDot {
+  animation: footerBeaconPulse 2.6s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footerNeonSign,
+  .footerWindowAmber,
+  .footerWindowCyan,
+  .footerBeaconDot {
+    animation: none !important;
+    opacity: 0.85 !important;
+  }
+}

@@ -1,0 +1,38 @@
+.cursorContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .cursorContainer {
+    display: block;
+  }
+}
+
+.cursorDot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--color-primary, #ff8d90);
+  border-radius: 9999px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.cursorRing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgba(255, 141, 144, 0.4);
+  border-radius: 9999px;
+  z-index: 10;
+  pointer-events: none;
+}

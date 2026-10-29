@@ -1,0 +1,21 @@
+.ambientGlowTop {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(255, 141, 144, 0.1) 0%, rgba(75, 48, 128, 0.15) 50%, transparent 70%);
+  filter: blur(140px);
+  pointer-events: none;
+}
+
+.ambientGlowBottom {
+  position: absolute;
+  bottom: 3rem;
+  right: 3rem;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.08) 0%, rgba(22, 13, 36, 0.3) 50%, transparent 70%);
+  filter: blur(160px);
+  pointer-events: none;
+}

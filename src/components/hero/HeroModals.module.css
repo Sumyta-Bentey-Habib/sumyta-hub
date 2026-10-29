@@ -1,0 +1,63 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 32rem;
+  border-width: 2px;
+  border-style: solid;
+  padding: 1.5rem;
+  font-family: var(--font-label, monospace);
+  position: relative;
+  background-color: var(--color-surface-container, #120f1c);
+}
+
+@media (min-width: 768px) {
+  .dialog {
+    padding: 2rem;
+  }
+}
+
+.workstationDialog {
+  border-color: var(--color-primary, #ff8d90);
+  box-shadow: 0 0 50px rgba(255, 45, 117, 0.4);
+}
+
+.endingDialog {
+  border-color: var(--color-accent-yellow, #ffd200);
+  box-shadow: 0 0 60px rgba(255, 210, 0, 0.35);
+}
+
+.workstationAction {
+  background-color: var(--color-primary, #ff8d90);
+  color: #000000;
+  box-shadow: 0 0 20px rgba(255, 45, 117, 0.35);
+  transition: all 0.2s ease;
+}
+
+.workstationAction:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.endingAction {
+  background-color: var(--color-accent-yellow, #ffd200);
+  color: #000000;
+  box-shadow: 0 0 20px rgba(255, 210, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.endingAction:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
