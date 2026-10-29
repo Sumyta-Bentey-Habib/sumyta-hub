@@ -42,6 +42,8 @@ export interface LivingStreetSceneState {
   windows: WindowLight[];
   puddles: StreetPuddle[];
   symbols: FloatingCodeSymbol[];
+  markerX: number;
+  targetMarkerX: number;
 }
 
 export interface LivingCharacter {
@@ -174,7 +176,16 @@ export function initLivingStreetScene(): LivingStreetSceneState {
     { x: 1080, baseY: 275, offsetY: 25, speed: 0.5, symbol: '▲', color: COLOR_TOKENS.white, alpha: 0.7 },
   ];
 
-  return { tick: 0, cars, rain, windows, puddles, symbols };
+  return {
+    tick: 0,
+    cars,
+    rain,
+    windows,
+    puddles,
+    symbols,
+    markerX: 192,
+    targetMarkerX: 192,
+  };
 }
 
 /**
@@ -182,6 +193,14 @@ export function initLivingStreetScene(): LivingStreetSceneState {
  */
 export function updateLivingStreetScene(state: LivingStreetSceneState): void {
   state.tick += 1;
+
+  // Smoothly move the glowing marker along the boulevard
+  const markerDist = state.targetMarkerX - state.markerX;
+  if (Math.abs(markerDist) > 0.5) {
+    state.markerX += markerDist * 0.08;
+  } else {
+    state.markerX = state.targetMarkerX;
+  }
 
   // Move Hovercars
   for (const car of state.cars) {
@@ -221,24 +240,24 @@ export function updateLivingStreetScene(state: LivingStreetSceneState): void {
 }
 
 /**
- * Update character position smoothly toward targetX
+ * Update character position smoothly toward targetX with rhythmic stride
  */
-export function updateCharacterMovement(char: LivingCharacter): void {
+export function updateCharacterMovement(char: LivingCharacter, tick: number = 0): void {
   const dist = char.targetX - char.x;
-  const speed = 2.4;
+  // Subtle, smooth pixel-art walking speed
+  const speed = 1.8;
 
   if (Math.abs(dist) > 2) {
     char.isMoving = true;
     char.facing = dist > 0 ? 'right' : 'left';
     char.x += Math.sign(dist) * Math.min(speed, Math.abs(dist));
 
-    // Stride animation frame cycling every 6 ticks
-    if (Math.random() < 0.2) {
-      char.animFrame = (char.animFrame + 1) % 4;
-    }
+    // Smooth rhythmic 4-frame stride cycling every 7 ticks
+    char.animFrame = Math.floor(tick / 7) % 4;
   } else {
     char.isMoving = false;
     char.animFrame = 0;
+    char.x = char.targetX;
   }
 }
 
@@ -395,11 +414,17 @@ export function renderLivingStreet(
     ctx.fillRect(pud.x + 8 + wave, 316, pud.w - 16, 2);
   }
 
-  // ── LAYER 4: The 4 Distinct Interactive Tech Stations ──
+  // ── LAYER 4: The 4 Distinct Interactive Tech Stations & Ground Connectors ──
+  drawStationDownwardConduits(ctx, tick, activeGroupId);
+  drawBoulevardConnectingRail(ctx, tick);
+
   drawFrontendHub(ctx, tick, activeGroupId === 'frontend', activeTechName);
   drawBackendSubstation(ctx, tick, activeGroupId === 'backend', activeTechName);
   drawDatabaseSilo(ctx, tick, activeGroupId === 'database', activeTechName);
   drawToolsDock(ctx, tick, activeGroupId === 'tools', activeTechName);
+
+  // Moving Glowing Station Marker (patrols between the 4 stations)
+  drawMovingStationMarker(ctx, tick, scene.markerX, activeGroupId);
 
   // Floating Code Symbols
   for (const sym of symbols) {
@@ -426,15 +451,180 @@ export function renderLivingStreet(
     ctx.fillRect(drop.x, drop.y, 1, drop.length);
   }
 
-  // Subtle perimeter vignette / frame line
+
   ctx.strokeStyle = COLOR_TOKENS.catwalkBeam;
   ctx.lineWidth = 1;
   ctx.strokeRect(0, 0, LIVING_WORLD_WIDTH, LIVING_WORLD_HEIGHT);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TECH STATION 1: Frontend Hub (x: 192) — React Atom Hologram & Next.js Marquee
-// ─────────────────────────────────────────────────────────────────────────────
+function drawStationDownwardConduits(
+  ctx: CanvasRenderingContext2D,
+  tick: number,
+  activeGroupId: string | null
+): void {
+  const stations: Array<{ cx: number; id: string; color: string }> = [
+    { cx: 192, id: 'frontend', color: COLOR_TOKENS.primaryNeon },
+    { cx: 480, id: 'backend', color: COLOR_TOKENS.accentCyan },
+    { cx: 780, id: 'database', color: COLOR_TOKENS.windowAmber },
+    { cx: 1056, id: 'tools', color: COLOR_TOKENS.finishGold },
+  ];
+
+  for (const st of stations) {
+    const isActive = activeGroupId === st.id;
+    const baseY = 295;
+    const bottomY = LIVING_WORLD_HEIGHT; // 380
+
+    // Conduit Chase Channel in Pavement
+    ctx.fillStyle = COLOR_TOKENS.surfaceContainer;
+    ctx.fillRect(st.cx - 8, baseY, 16, bottomY - baseY);
+
+    // Channel guide rails
+    ctx.fillStyle = COLOR_TOKENS.shadowDark;
+    ctx.fillRect(st.cx - 8, baseY, 1, bottomY - baseY);
+    ctx.fillRect(st.cx + 7, baseY, 1, bottomY - baseY);
+
+    // Lateral circuit ribs
+    ctx.fillStyle = COLOR_TOKENS.catwalkBeam;
+    ctx.fillRect(st.cx - 6, 315, 12, 2);
+    ctx.fillRect(st.cx - 6, 340, 12, 2);
+    ctx.fillRect(st.cx - 6, 365, 12, 2);
+
+    if (isActive) {
+      // Radiant fiber core
+      ctx.fillStyle = st.color;
+      ctx.fillRect(st.cx - 1.5, baseY, 3, bottomY - baseY);
+
+      // Atmospheric ground reflection halo
+      ctx.fillStyle = COLOR_TOKENS.neonReflection;
+      ctx.fillRect(st.cx - 12, baseY, 24, bottomY - baseY);
+
+      // Animated high-speed data packet pulsing down the conduit
+      const pulseProgress = (tick * 2.5) % 85;
+      const pulseY = baseY + pulseProgress;
+      ctx.fillStyle = COLOR_TOKENS.white;
+      ctx.fillRect(st.cx - 2.5, pulseY, 5, 8);
+
+      // Downward pointer arrow at the bottom edge (leads eye directly into category below)
+      ctx.fillStyle = st.color;
+      ctx.beginPath();
+      ctx.moveTo(st.cx - 5, bottomY - 8);
+      ctx.lineTo(st.cx + 5, bottomY - 8);
+      ctx.lineTo(st.cx, bottomY - 1);
+      ctx.closePath();
+      ctx.fill();
+
+      // Top junction node
+      ctx.fillStyle = COLOR_TOKENS.white;
+      ctx.fillRect(st.cx - 2, baseY + 2, 4, 4);
+    } else {
+      // Inactive subtle trace
+      ctx.fillStyle = COLOR_TOKENS.catwalkRail;
+      ctx.fillRect(st.cx - 0.5, baseY, 1, bottomY - baseY);
+    }
+  }
+}
+
+
+function drawBoulevardConnectingRail(ctx: CanvasRenderingContext2D, tick: number): void {
+  const startX = 170;
+  const endX = 1078;
+  const railY = 330;
+
+  // Horizontal data conduit spanning the boulevard
+  ctx.fillStyle = COLOR_TOKENS.catwalkBeam;
+  ctx.fillRect(startX, railY, endX - startX, 2);
+  ctx.fillStyle = COLOR_TOKENS.surfaceHigh;
+  ctx.fillRect(startX, railY + 2, endX - startX, 1);
+
+  // Periodic circuit hazard ticks
+  for (let rx = startX + 10; rx <= endX - 10; rx += 28) {
+    ctx.fillStyle = COLOR_TOKENS.shadowPurple;
+    ctx.fillRect(rx, railY - 1, 3, 4);
+  }
+
+  // Traveling data packet along the rail
+  const packetX = startX + ((tick * 3) % (endX - startX));
+  ctx.fillStyle = COLOR_TOKENS.accentCyan;
+  ctx.fillRect(packetX, railY, 4, 2);
+}
+
+function drawMovingStationMarker(
+  ctx: CanvasRenderingContext2D,
+  tick: number,
+  markerX: number,
+  activeGroupId: string | null
+): void {
+  const activeColor =
+    activeGroupId === 'backend'
+      ? COLOR_TOKENS.accentCyan
+      : activeGroupId === 'database'
+      ? COLOR_TOKENS.windowAmber
+      : activeGroupId === 'tools'
+      ? COLOR_TOKENS.finishGold
+      : COLOR_TOKENS.primaryNeon;
+
+  const mx = Math.round(markerX);
+  const my = 328 + Math.sin(tick * 0.12) * 2;
+
+  // 1. Downward Scanning Cone of Light on Pavement
+  ctx.save();
+  const coneGrad = ctx.createLinearGradient(mx, my, mx, 356);
+  coneGrad.addColorStop(0, activeColor);
+  coneGrad.addColorStop(1, 'transparent');
+  ctx.fillStyle = coneGrad;
+  ctx.beginPath();
+  ctx.moveTo(mx - 2, my + 3);
+  ctx.lineTo(mx + 2, my + 3);
+  ctx.lineTo(mx + 10, 356);
+  ctx.lineTo(mx - 10, 356);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // 2. Expanding Radar Ping Ring
+  const ringRadius = 5 + (tick % 14);
+  ctx.strokeStyle = activeColor;
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.arc(mx, my, ringRadius, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // 3. Cyber Patrol Diamond Drone Body
+  ctx.save();
+  ctx.translate(mx, my);
+  ctx.rotate(Math.PI / 4);
+
+  // Base
+  ctx.fillStyle = COLOR_TOKENS.surfaceContainer;
+  ctx.fillRect(-5, -5, 10, 10);
+
+  // Glowing neon frame
+  ctx.strokeStyle = activeColor;
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(-5, -5, 10, 10);
+
+  // Core
+  ctx.fillStyle = COLOR_TOKENS.white;
+  ctx.fillRect(-2, -2, 4, 4);
+  ctx.restore();
+
+  // 4. Compact Overhead Marker Telemetry Badge
+  const badgeW = 48;
+  const badgeH = 11;
+  const badgeY = my - 16;
+  ctx.fillStyle = COLOR_TOKENS.surfaceContainer;
+  ctx.fillRect(mx - badgeW / 2, badgeY, badgeW, badgeH);
+  ctx.strokeStyle = activeColor;
+  ctx.lineWidth = 0.75;
+  ctx.strokeRect(mx - badgeW / 2, badgeY, badgeW, badgeH);
+
+  ctx.fillStyle = activeColor;
+  ctx.font = 'bold 7px monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('◆ PATROL', mx, badgeY + badgeH / 2);
+}
+
 function drawFrontendHub(
   ctx: CanvasRenderingContext2D,
   tick: number,
@@ -521,9 +711,7 @@ function drawFrontendHub(
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TECH STATION 2: Backend Substation (x: 480) — Node.js Hex & Express Signals
-// ─────────────────────────────────────────────────────────────────────────────
+
 function drawBackendSubstation(
   ctx: CanvasRenderingContext2D,
   tick: number,
@@ -609,9 +797,6 @@ function drawBackendSubstation(
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TECH STATION 3: Database Silo (x: 780) — MongoDB Liquid Document Chamber
-// ─────────────────────────────────────────────────────────────────────────────
 function drawDatabaseSilo(
   ctx: CanvasRenderingContext2D,
   tick: number,
@@ -693,9 +878,7 @@ function drawDatabaseSilo(
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TECH STATION 4: Tools & Platforms Dock (x: 1056) — Git Tree & Vercel Beacon
-// ─────────────────────────────────────────────────────────────────────────────
+
 function drawToolsDock(
   ctx: CanvasRenderingContext2D,
   tick: number,
@@ -792,9 +975,7 @@ function drawToolsDock(
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CHARACTER SPRITE: Exact Pixel-Art Protagonist (Sumyta) with Head Pointer
-// ─────────────────────────────────────────────────────────────────────────────
+
 function drawLivingCharacter(
   ctx: CanvasRenderingContext2D,
   char: LivingCharacter,
@@ -808,11 +989,32 @@ function drawLivingCharacter(
   const charCenterX = cx + 8;
   const charFeetY = cy + 24;
 
-  // Ground Neon Shadow beneath boots
-  ctx.fillStyle = COLOR_TOKENS.neonReflection;
+  const stationColor =
+    char.inspectingStation === 'backend'
+      ? COLOR_TOKENS.accentCyan
+      : char.inspectingStation === 'database'
+      ? COLOR_TOKENS.windowAmber
+      : char.inspectingStation === 'tools'
+      ? COLOR_TOKENS.finishGold
+      : COLOR_TOKENS.primaryNeon;
+
+  const isInspecting = !char.isMoving;
+
+  // Ground Neon Shadow & Arrival Glow beneath boots
+  ctx.fillStyle = isInspecting ? COLOR_TOKENS.neonReflection : COLOR_TOKENS.shadowDark;
   ctx.beginPath();
-  ctx.ellipse(charCenterX, charFeetY, 10, 3, 0, 0, Math.PI * 2);
+  ctx.ellipse(charCenterX, charFeetY, 11, 3.5, 0, 0, Math.PI * 2);
   ctx.fill();
+
+  // Subtle arrival pulse ring when inspecting at a station
+  if (isInspecting) {
+    const pulseRing = (tick % 24) / 3;
+    ctx.strokeStyle = stationColor;
+    ctx.lineWidth = 0.75;
+    ctx.beginPath();
+    ctx.ellipse(charCenterX, charFeetY, 6 + pulseRing * 1.5, 2 + pulseRing * 0.4, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  }
 
   // Character Sprite Flip & Position
   ctx.save();
@@ -831,13 +1033,18 @@ function drawLivingCharacter(
   ctx.fillRect(4, 6 + idleBob, 8, 12);
 
   // Flowing coat-tail / rim
-  ctx.fillStyle = COLOR_TOKENS.primaryNeon;
+  ctx.fillStyle = stationColor;
   ctx.fillRect(3, 16 + idleBob, 2, 4);
 
   // Head & Neon Visor
   ctx.fillStyle = COLOR_TOKENS.characterSkin;
   ctx.fillRect(5, 2 + idleBob, 6, 5);
-  ctx.fillStyle = COLOR_TOKENS.characterVisor;
+
+  // Visor glints with station accent color when arrived & inspecting
+  const visorColor = isInspecting && Math.floor(tick / 14) % 2 === 0
+    ? COLOR_TOKENS.white
+    : stationColor;
+  ctx.fillStyle = visorColor;
   ctx.fillRect(7, 3 + idleBob, 5, 2);
 
   // Legs / Boots Walking Stride
@@ -869,19 +1076,19 @@ function drawLivingCharacter(
   const pointerY = cy - 14 + pointerBob;
 
   if (activeTechName) {
-    // Holographic inspection balloon
+    // Holographic inspection balloon for specific tech
     const labelText = `${inspectingPrefix}${activeTechName.toUpperCase()}`;
     const boxW = Math.max(90, labelText.length * 6.5);
     const boxH = 14;
 
     ctx.fillStyle = COLOR_TOKENS.surfaceContainer;
     ctx.fillRect(charCenterX - boxW / 2, pointerY - boxH, boxW, boxH);
-    ctx.strokeStyle = COLOR_TOKENS.primaryNeon;
+    ctx.strokeStyle = stationColor;
     ctx.lineWidth = 1;
     ctx.strokeRect(charCenterX - boxW / 2, pointerY - boxH, boxW, boxH);
 
     // Pointer tick below box
-    ctx.fillStyle = COLOR_TOKENS.primaryNeon;
+    ctx.fillStyle = stationColor;
     ctx.beginPath();
     ctx.moveTo(charCenterX - 4, pointerY);
     ctx.lineTo(charCenterX + 4, pointerY);
@@ -895,25 +1102,35 @@ function drawLivingCharacter(
     ctx.textBaseline = 'middle';
     ctx.fillText(labelText, charCenterX, pointerY - boxH / 2);
   } else {
-    // Standard [YOU] pointer
-    ctx.fillStyle = COLOR_TOKENS.primaryNeon;
+    // Dynamic Station Patrol Tag
+    const stationLabel = char.inspectingStation
+      ? char.inspectingStation.toUpperCase()
+      : 'BOULEVARD';
+    const labelText = char.isMoving
+      ? `PATROLLING ➔`
+      : `INSPECTING // ${stationLabel}`;
+
+    const boxW = Math.max(80, labelText.length * 6.5);
+    const boxH = 13;
+
+    ctx.fillStyle = COLOR_TOKENS.surfaceContainer;
+    ctx.fillRect(charCenterX - boxW / 2, pointerY - boxH, boxW, boxH);
+    ctx.strokeStyle = stationColor;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(charCenterX - boxW / 2, pointerY - boxH, boxW, boxH);
+
+    ctx.fillStyle = stationColor;
     ctx.beginPath();
-    ctx.moveTo(charCenterX - 4, pointerY + 2);
-    ctx.lineTo(charCenterX + 4, pointerY + 2);
-    ctx.lineTo(charCenterX, pointerY + 7);
+    ctx.moveTo(charCenterX - 3, pointerY);
+    ctx.lineTo(charCenterX + 3, pointerY);
+    ctx.lineTo(charCenterX, pointerY + 3);
     ctx.closePath();
     ctx.fill();
 
-    ctx.fillStyle = COLOR_TOKENS.surfaceContainer;
-    ctx.fillRect(charCenterX - 14, pointerY - 11, 28, 12);
-    ctx.strokeStyle = COLOR_TOKENS.primaryNeon;
-    ctx.lineWidth = 1;
-    ctx.strokeRect(charCenterX - 14, pointerY - 11, 28, 12);
-
-    ctx.fillStyle = COLOR_TOKENS.white;
-    ctx.font = 'bold 8px monospace';
+    ctx.fillStyle = char.isMoving ? COLOR_TOKENS.white : stationColor;
+    ctx.font = 'bold 7.5px monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(pointerLabel, charCenterX, pointerY - 5);
+    ctx.fillText(labelText, charCenterX, pointerY - boxH / 2);
   }
 }

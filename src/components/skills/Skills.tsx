@@ -29,7 +29,7 @@ const Skills: React.FC = () => {
       className="relative py-28 md:py-36 px-6 md:px-12 lg:px-20 bg-black text-white overflow-hidden border-t border-white/10 selection:bg-primary selection:text-black"
       aria-labelledby="skills-heading"
     >
-      {/* Background Ambient Cyberpunk Lighting */}
+
       <div
         className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-[120px] pointer-events-none -z-10"
         aria-hidden="true"
@@ -39,24 +39,26 @@ const Skills: React.FC = () => {
         aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto space-y-12">
-        {/* ── 1. TELEMETRY HEADER ── */}
+      <div className="max-w-7xl mx-auto space-y-8">
+
         <LivingSkillsHeader />
 
-        {/* ── 2. LIVING PIXEL-ART SCENE CANVAS ── */}
-        <LivingSkillsCanvas
-          activeGroupId={activeGroupId}
-          activeTechName={activeTechName}
-          onSelectGroup={handleSelectGroup}
-        />
+        <div className="relative border border-white/10 bg-black/95 shadow-2xl overflow-hidden">
 
-        {/* ── 3. STRUCTURED TYPOGRAPHIC SKILLS ROSTER (NO CARDS) ── */}
-        <LivingSkillsRoster
-          activeGroupId={activeGroupId}
-          activeTechName={activeTechName}
-          onSelectGroup={handleSelectGroup}
-          onSelectTech={handleSelectTech}
-        />
+          <LivingSkillsCanvas
+            activeGroupId={activeGroupId}
+            activeTechName={activeTechName}
+            onSelectGroup={handleSelectGroup}
+          />
+
+          {/* Integrated Station Terminal Deck */}
+          <LivingSkillsRoster
+            activeGroupId={activeGroupId}
+            activeTechName={activeTechName}
+            onSelectGroup={handleSelectGroup}
+            onSelectTech={handleSelectTech}
+          />
+        </div>
       </div>
     </section>
   );

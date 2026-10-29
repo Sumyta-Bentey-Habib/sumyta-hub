@@ -27,6 +27,13 @@ const STATION_X_COORDINATES: Record<'frontend' | 'backend' | 'database' | 'tools
   tools: 1056,
 };
 
+const STATION_ORDER: Array<'frontend' | 'backend' | 'database' | 'tools'> = [
+  'frontend',
+  'backend',
+  'database',
+  'tools',
+];
+
 export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
   activeGroupId,
   activeTechName,
@@ -48,18 +55,31 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
   });
 
   const [hoveredStation, setHoveredStation] = useState<string | null>(null);
+  const lastInteractionRef = useRef<number>(0);
+  const isHoveredRef = useRef<boolean>(false);
+  const pauseTicksRef = useRef<number>(0);
 
-  // Sync character target when activeGroupId changes externally (e.g. from roster hover/click)
+  // Sync character & marker targets when activeGroupId changes externally
   useEffect(() => {
     const target = STATION_X_COORDINATES[activeGroupId];
-    if (typeof target === 'number' && characterRef.current) {
-      characterRef.current.targetX = target;
-      characterRef.current.inspectingStation = activeGroupId;
-      characterRef.current.inspectingTech = activeTechName;
+    if (typeof target === 'number') {
+      if (characterRef.current) {
+        // If character is not already at this station, walk toward it
+        if (Math.abs(characterRef.current.x - target) > 4) {
+          characterRef.current.targetX = target;
+          pauseTicksRef.current = 0;
+          lastInteractionRef.current = Date.now();
+        }
+        characterRef.current.inspectingStation = activeGroupId;
+        characterRef.current.inspectingTech = activeTechName;
+      }
+      if (sceneStateRef.current) {
+        sceneStateRef.current.targetMarkerX = target;
+      }
     }
   }, [activeGroupId, activeTechName]);
 
-  // Main 60fps animation loop
+  // Main 60fps animation loop: handles continuous boulevard walking & station inspection
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -69,6 +89,12 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
 
     if (!sceneStateRef.current) {
       sceneStateRef.current = initLivingStreetScene();
+      sceneStateRef.current.markerX = STATION_X_COORDINATES[activeGroupId] || 192;
+      sceneStateRef.current.targetMarkerX = STATION_X_COORDINATES[activeGroupId] || 192;
+    }
+
+    if (lastInteractionRef.current === 0) {
+      lastInteractionRef.current = Date.now();
     }
 
     let animationFrameId: number;
@@ -82,10 +108,51 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
       if (scene && char) {
         if (!prefersReducedMotion) {
           updateLivingStreetScene(scene);
-          updateCharacterMovement(char);
+          updateCharacterMovement(char, scene.tick);
+
+          // ── CHARACTER PATROL STATE MACHINE ──
+          if (!char.isMoving) {
+            // Find which station the character has reached
+            const reachedStation = STATION_ORDER.find(
+              (key) => Math.abs(STATION_X_COORDINATES[key] - char.x) <= 4
+            );
+
+            if (reachedStation) {
+              // 1. Immediately synchronize active category below upon arrival
+              if (reachedStation !== activeGroupId) {
+                onSelectGroup(reachedStation);
+              }
+
+              // 2. Perform station inspection pause (~160 frames = 2.6 seconds)
+              pauseTicksRef.current += 1;
+              const INSPECTION_PAUSE_DURATION = 160;
+
+              // Check if visitor is currently hovering or recently clicked
+              const isUserBusy =
+                isHoveredRef.current ||
+                (lastInteractionRef.current > 0 && Date.now() - lastInteractionRef.current < 3500);
+
+              // 3. When inspection finishes and user is not busy, advance to next station in loop
+              if (!isUserBusy && pauseTicksRef.current >= INSPECTION_PAUSE_DURATION) {
+                pauseTicksRef.current = 0;
+                const currentStationIdx = STATION_ORDER.indexOf(reachedStation);
+                const nextStationIdx = (currentStationIdx + 1) % STATION_ORDER.length;
+                const nextStation = STATION_ORDER[nextStationIdx];
+
+                char.targetX = STATION_X_COORDINATES[nextStation];
+                char.inspectingStation = nextStation;
+                scene.targetMarkerX = STATION_X_COORDINATES[nextStation];
+              }
+            }
+          } else {
+            // Reset pause timer while character is traveling between stations
+            pauseTicksRef.current = 0;
+          }
         } else {
+          // Reduced motion: snap statically to target
           char.x = char.targetX;
           char.isMoving = false;
+          scene.markerX = scene.targetMarkerX;
         }
 
         renderLivingStreet(
@@ -107,11 +174,12 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [activeGroupId, activeTechName]);
+  }, [activeGroupId, activeTechName, onSelectGroup]);
 
-  // Handle click on canvas: move character or select station
+  // Handle click on canvas: move character or dispatch to station
   const handleCanvasClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {
+      lastInteractionRef.current = Date.now();
       const canvas = canvasRef.current;
       if (!canvas) return;
 
@@ -139,6 +207,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
       } else {
         // Otherwise just walk freely to the clicked spot
         characterRef.current.targetX = Math.max(40, Math.min(LIVING_WORLD_WIDTH - 40, clickVirtualX));
+        pauseTicksRef.current = 0;
       }
     },
     [onSelectGroup]
@@ -146,6 +215,8 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
 
   // Handle pointer hover across canvas to detect stations
   const handleCanvasMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    lastInteractionRef.current = Date.now();
+    isHoveredRef.current = true;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -165,17 +236,25 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
     setHoveredStation(found);
   }, []);
 
+  const handleCanvasMouseEnter = useCallback(() => {
+    isHoveredRef.current = true;
+    lastInteractionRef.current = Date.now();
+  }, []);
+
   const handleCanvasMouseLeave = useCallback(() => {
+    isHoveredRef.current = false;
+    lastInteractionRef.current = Date.now();
     setHoveredStation(null);
   }, []);
 
-  // Quick navigation buttons to dispatch Sumyta across the 4 stations
   const categories = SKILLS_DATA.categories as readonly LivingSkillGroup[];
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full rounded-none border border-white/10 bg-black/80 overflow-hidden shadow-2xl backdrop-blur-sm"
+      onMouseEnter={handleCanvasMouseEnter}
+      onMouseLeave={handleCanvasMouseLeave}
+      className="relative w-full bg-black/90 overflow-hidden"
     >
       {/* ── TOP HUD TELEMETRY BAR ── */}
       <div className="flex items-center justify-between px-4 py-2 bg-surface-container/90 border-b border-white/10 text-xs font-mono text-secondary-dim">
@@ -206,7 +285,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
           onMouseMove={handleCanvasMouseMove}
           onMouseLeave={handleCanvasMouseLeave}
           className="w-full h-full object-cover block cursor-crosshair [image-rendering:pixelated]"
-          aria-label="Interactive Living Pixel-Art Cyberpunk Scene"
+          aria-label="Interactive Living Pixel-Art Cyberpunk Scene with auto-patrolling character"
         />
 
         {/* Ambient Corner Crosshairs (matching Hero game aesthetic) */}
@@ -217,7 +296,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
           [+ 02]
         </div>
 
-        {/* Bottom Station Quick Links Overlay for Touch / Direct Navigation */}
+        {/* Quick Station Dispatch Controls on Canvas */}
         <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between pointer-events-none">
           <div className="flex items-center gap-1.5 pointer-events-auto">
             {categories.map((cat) => {
@@ -227,10 +306,13 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
                 <button
                   key={cat.id}
                   type="button"
-                  onClick={() => onSelectGroup(cat.id)}
-                  className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider transition-all duration-150 border ${
+                  onClick={() => {
+                    lastInteractionRef.current = Date.now();
+                    onSelectGroup(cat.id);
+                  }}
+                  className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider transition-all duration-150 border cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary ${
                     isCurrent
-                      ? 'bg-primary text-black font-bold border-primary shadow-[0_0_10px_rgba(255,45,117,0.5)]'
+                      ? 'bg-primary text-black font-bold border-primary shadow-[0_0_12px_rgba(255,45,117,0.5)]'
                       : isHovered
                       ? 'bg-white/10 text-white border-white/40'
                       : 'bg-black/60 text-secondary-dim/80 border-white/10 hover:border-white/30 hover:text-white'
@@ -252,23 +334,68 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
         </div>
       </div>
 
-      {/* ── BOTTOM HUD STATUS STRIP ── */}
-      <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-surface-container/60 border-t border-white/10 text-xs font-mono">
-        <div className="flex items-center gap-2">
-          <span className="text-secondary-dim/60 font-semibold">{SKILLS_DATA.activeTargetPrefix}</span>
-          <span className="text-accent-cyan font-bold uppercase tracking-wider">
-            {activeGroupId}
-          </span>
-          {activeTechName && (
-            <>
-              <span className="text-white/30">{'//'}</span>
-              <span className="text-primary font-bold uppercase">{activeTechName}</span>
-            </>
-          )}
+      {/* ── INTEGRATED BOULEVARD CONNECTOR PORTS (BRIDGING CANVAS TO ROSTER) ── */}
+      <div className="relative w-full border-t border-white/10 bg-surface-container/80 text-xs font-mono">
+        {/* Status Telemetry Strip */}
+        <div className="flex flex-wrap items-center justify-between px-4 py-2 text-[11px] border-b border-white/5">
+          <div className="flex items-center gap-2">
+            <span className="text-secondary-dim/60 font-semibold">{SKILLS_DATA.activeTargetPrefix}</span>
+            <span className="text-accent-cyan font-bold uppercase tracking-wider">
+              {activeGroupId}
+            </span>
+            {activeTechName && (
+              <>
+                <span className="text-white/30">{'//'}</span>
+                <span className="text-primary font-bold uppercase">{activeTechName}</span>
+              </>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 text-secondary-dim/60">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
+            <span>STATION: {categories.find((c) => c.id === activeGroupId)?.stationName}</span>
+          </div>
         </div>
 
-        <div className="text-[11px] text-secondary-dim/60">
-          STATION: {categories.find((c) => c.id === activeGroupId)?.stationName}
+        {/* 4 Downward Station Conduits visually flowing to categories */}
+        <div className="hidden lg:grid grid-cols-4 w-full h-4 divide-x divide-white/10 pointer-events-none relative" aria-hidden="true">
+          {categories.map((cat) => {
+            const isCatActive = activeGroupId === cat.id;
+            const accentBg =
+              cat.id === 'frontend'
+                ? 'bg-primary'
+                : cat.id === 'backend'
+                ? 'bg-accent-cyan'
+                : cat.id === 'database'
+                ? 'bg-window-amber'
+                : 'bg-finish-gold';
+
+            const accentGlow =
+              cat.id === 'frontend'
+                ? 'shadow-[0_0_8px_rgba(255,45,117,0.8)]'
+                : cat.id === 'backend'
+                ? 'shadow-[0_0_8px_rgba(0,242,254,0.8)]'
+                : cat.id === 'database'
+                ? 'shadow-[0_0_8px_rgba(255,184,108,0.8)]'
+                : 'shadow-[0_0_8px_rgba(255,210,0,0.8)]';
+
+            return (
+              <div key={cat.id} className="relative h-full flex items-center justify-center">
+                {/* Center Connector Spine */}
+                <div
+                  className={`w-0.5 h-full transition-all duration-300 ${
+                    isCatActive ? `${accentBg} ${accentGlow}` : 'bg-white/10'
+                  }`}
+                />
+                {/* Downward Pulse Node */}
+                {isCatActive && (
+                  <span
+                    className={`absolute bottom-0 w-2 h-2 rotate-45 ${accentBg} transition-all`}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
