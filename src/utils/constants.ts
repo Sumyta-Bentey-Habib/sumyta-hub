@@ -1,6 +1,6 @@
 export const HERO_DATA = {
-  name: 'SUMYTA',
-  role: 'SOFTWARE DEVELOPER',
+  name: 'SUMYTA BENTEY HABIB',
+  role: 'Jr. SOFTWARE DEVELOPER',
   explorePrompt: 'EXPLORE CITY',
   viewWorkAction: {
     label: 'VIEW WORK ↗',
@@ -52,7 +52,7 @@ export const HERO_DATA = {
   bottomLinks: [
     { label: 'GITHUB ↗', href: 'https://github.com/Sumyta-Bentey-Habib', isExternal: true, ariaLabel: 'Open GitHub profile in a new tab' },
     { label: 'LINKEDIN ↗', href: 'https://www.linkedin.com/in/sumytabenteyhabib/', isExternal: true, ariaLabel: 'Open LinkedIn profile in a new tab' },
-    { label: 'RESUME ↗', href: '/resume.pdf', isExternal: true, ariaLabel: 'Open Resume in a new tab' },
+    { label: 'RESUME ↗', href: 'https://drive.google.com/file/d/1MB4ag-8obYWNby-78QHPxxxGPkNFzkHP/view?usp=sharing', isExternal: true, ariaLabel: 'Open Resume in a new tab' },
   ] as const,
   interactSymbol: '▲',
   modalId: 'modal-role-title',
@@ -212,7 +212,7 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/Sumyta-Bentey-Habib',
   linkedin: 'https://www.linkedin.com/in/sumytabenteyhabib/',
   email: 'mailto:sumytabenteyhabib@gmail.com',
-  resume: '/resume.pdf',
+  resume: 'https://drive.google.com/file/d/1MB4ag-8obYWNby-78QHPxxxGPkNFzkHP/view?usp=sharing',
 } as const;
 
 export const ABOUT_DATA = {
@@ -610,6 +610,10 @@ export interface ProjectItem {
   readonly links: {
     readonly demo?: string;
     readonly github?: string;
+    readonly frontend?: string;
+    readonly backend?: string;
+    readonly isMonorepo?: boolean;
+    readonly serverGithub?: string;
   };
   readonly layoutVariant?: 'default' | 'offset-top' | 'offset-bottom' | 'split-reverse';
   readonly exitCode: string;
@@ -634,6 +638,12 @@ export const PROJECTS_DATA = {
   techLabel: 'TECH STACK SPECIFICATIONS',
   demoButtonText: 'LIVE DEMO ↗',
   githubButtonText: 'SOURCE CODE ↗',
+  frontendButtonText: 'FRONTEND ↗',
+  backendButtonText: 'BACKEND ↗',
+  monorepoButtonText: 'MONOREPO ↗',
+  clientGithubButtonText: 'FRONTEND ↗',
+  serverGithubButtonText: 'BACKEND ↗',
+  openPreviewBadge: 'OPEN PREVIEW ↗',
   groupProjectBadge: 'GROUP PROJECT',
   archiveTermination: '// ARCHIVE TERMINATION',
   repositoryArchive: '// REPOSITORY ARCHIVE',
@@ -672,7 +682,8 @@ export const PROJECTS_DATA = {
       title: 'Operix',
       subtitle: 'Pharmaceutical Operations & Governance Platform',
       category: 'Enterprise Web Platform',
-      isGroupProject: false,
+      isGroupProject: true,
+      groupBadge: 'GROUP PROJECT',
       role: 'Role-Based Access Control, Admin & Team Workflows, Better Auth Session Management',
       description:
         'A pharmaceutical operations platform for managing teams, tasks, submissions, and role-based workflows with robust permission structures.',
@@ -681,6 +692,8 @@ export const PROJECTS_DATA = {
       imageAlt: 'Operix Pharmaceutical Operations Platform interface',
       links: {
         demo: 'https://operix-frontend-avi.vercel.app/',
+        frontend: 'https://github.com/Sumyta-Bentey-Habib/Operix-Frontend',
+        backend: 'https://github.com/Sumyta-Bentey-Habib/Operix-Backend',
         github: 'https://github.com/Sumyta-Bentey-Habib/Operix-Frontend',
       },
       layoutVariant: 'default',
@@ -706,6 +719,8 @@ export const PROJECTS_DATA = {
       imageAlt: 'Quadra Social Media Platform interface',
       links: {
         demo: 'https://quadra-blush.vercel.app/',
+        frontend: 'https://github.com/Sumyta-Bentey-Habib/Quadra',
+        backend: 'https://github.com/Sumyta-Bentey-Habib/Quadra-Server',
         github: 'https://github.com/Sumyta-Bentey-Habib/Quadra',
       },
       layoutVariant: 'offset-top',
@@ -730,6 +745,8 @@ export const PROJECTS_DATA = {
       imageAlt: 'Luxury coffee branding and e-commerce interface',
       links: {
         demo: 'https://espresso-emporium-8d4f7.web.app/',
+        frontend: 'https://github.com/Sumyta-Bentey-Habib/Espresso-Emporium',
+        backend: 'https://github.com/Sumyta-Bentey-Habib/Espresso-Emporium-Server',
         github: 'https://github.com/Sumyta-Bentey-Habib/Espresso-Emporium',
       },
       layoutVariant: 'offset-bottom',
@@ -755,6 +772,7 @@ export const PROJECTS_DATA = {
       links: {
         demo: 'https://path-to-peace.vercel.app/',
         github: 'https://github.com/Sumyta-Bentey-Habib/path-to-peace',
+        isMonorepo: true,
       },
       layoutVariant: 'split-reverse',
       exitCode: 'EXIT 04',
@@ -779,6 +797,7 @@ export const PROJECTS_DATA = {
       links: {
         demo: 'https://cholobuddy-web.vercel.app/',
         github: 'https://github.com/Sumyta-Bentey-Habib/cholobuddy',
+        isMonorepo: true,
       },
       layoutVariant: 'default',
       exitCode: 'EXIT 05',
@@ -802,6 +821,8 @@ export const PROJECTS_DATA = {
       imageAlt: 'Modern education platform interface with admin suite',
       links: {
         demo: 'https://studify-749d1.web.app/',
+        frontend: 'https://github.com/Sumyta-Bentey-Habib/Studify',
+        backend: 'https://github.com/Sumyta-Bentey-Habib/Studify-Server',
         github: 'https://github.com/Sumyta-Bentey-Habib/Studify',
       },
       layoutVariant: 'offset-top',
@@ -858,6 +879,14 @@ export const CONTACT_DATA = {
         href: 'https://www.linkedin.com/in/sumytabenteyhabib/',
         isExternal: true,
         ariaLabel: 'Visit Sumyta Bentey Habib on LinkedIn',
+      },
+      {
+        id: 'resume',
+        label: 'RESUME',
+        handle: 'Google Drive',
+        href: 'https://drive.google.com/file/d/1MB4ag-8obYWNby-78QHPxxxGPkNFzkHP/view?usp=sharing',
+        isExternal: true,
+        ariaLabel: 'Open Sumyta Bentey Habib Resume on Google Drive',
       },
     ],
   },

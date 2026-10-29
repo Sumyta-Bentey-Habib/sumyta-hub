@@ -122,15 +122,48 @@ export const DevLabTechnicalReadout: React.FC<DevLabTechnicalReadoutProps> = ({
             </a>
           )}
 
-          {project.links.github && (
+          {/* Frontend Repository */}
+          {(project.links.frontend || (project.links.serverGithub && project.links.github)) && (
+            <a
+              href={project.links.frontend || project.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${PROJECTS_DATA.githubProjectAria}: ${project.title} Frontend`}
+              className="px-2.5 py-1.5 rounded-sm bg-black/60 text-white border border-white/20 text-xs font-bold tracking-wider hover:bg-white/10 hover:border-accent-cyan hover:text-accent-cyan transition-all duration-200 inline-flex items-center gap-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+            >
+              <span>{PROJECTS_DATA.frontendButtonText}</span>
+              <span className="transform transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                ↗
+              </span>
+            </a>
+          )}
+
+          {/* Backend Repository */}
+          {(project.links.backend || project.links.serverGithub) && (
+            <a
+              href={project.links.backend || project.links.serverGithub}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${PROJECTS_DATA.githubProjectAria}: ${project.title} Backend`}
+              className="px-2.5 py-1.5 rounded-sm bg-black/60 text-white border border-white/20 text-xs font-bold tracking-wider hover:bg-white/10 hover:border-primary hover:text-primary transition-all duration-200 inline-flex items-center gap-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+            >
+              <span>{PROJECTS_DATA.backendButtonText}</span>
+              <span className="transform transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                ↗
+              </span>
+            </a>
+          )}
+
+          {/* Monorepo / Single Repo (when not split into frontend & backend) */}
+          {!project.links.frontend && !project.links.backend && !project.links.serverGithub && project.links.github && (
             <a
               href={project.links.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${PROJECTS_DATA.githubProjectAria}: ${project.title}`}
-              className="px-3 py-1.5 rounded-sm bg-black/60 text-white border border-white/20 text-xs font-bold tracking-wider hover:bg-white/10 hover:border-white/40 transition-all duration-200 inline-flex items-center gap-1.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="px-3 py-1.5 rounded-sm bg-black/60 text-white border border-white/20 text-xs font-bold tracking-wider hover:bg-white/10 hover:border-white/40 transition-all duration-200 inline-flex items-center gap-1.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
             >
-              <span>{PROJECTS_DATA.githubButtonText}</span>
+              <span>{project.links.isMonorepo ? PROJECTS_DATA.monorepoButtonText : PROJECTS_DATA.githubButtonText}</span>
               <span className="transform transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 ↗
               </span>
