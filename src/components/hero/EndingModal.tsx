@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { HERO_DATA, COLOR_TOKENS } from '@/utils/constants';
+import { HERO_DATA } from '@/utils/constants';
+import styles from './HeroModals.module.css';
 
 interface EndingModalProps {
   readonly isOpen: boolean;
@@ -17,24 +18,17 @@ export default function EndingModal({ isOpen, onClose, onNavigateWork }: EndingM
       role="dialog"
       aria-modal="true"
       aria-labelledby={HERO_DATA.endingModalId}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md pointer-events-auto"
+      className={styles.backdrop}
       onClick={onClose}
     >
       <div
-        style={{
-          backgroundColor: COLOR_TOKENS.surfaceContainer,
-          borderColor: COLOR_TOKENS.accentYellow,
-        }}
-        className="w-full max-w-lg border-2 border-accent-yellow p-6 md:p-8 font-mono shadow-[0_0_60px_rgba(255,210,0,0.35)] relative"
+        className={`${styles.dialog} ${styles.endingDialog}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-outlineVariant/50 pb-4 mb-5">
           <div className="flex items-center gap-2.5">
-            <span
-              style={{ backgroundColor: COLOR_TOKENS.accentYellow }}
-              className="w-2.5 h-2.5 bg-accent-yellow animate-pulse"
-            />
+            <span className="w-2.5 h-2.5 bg-accent-yellow animate-pulse" />
             <h2 id={HERO_DATA.endingModalId} className="text-sm md:text-base font-black tracking-wider text-white uppercase leading-none">
               {HERO_DATA.endingHeading}
             </h2>
@@ -58,10 +52,7 @@ export default function EndingModal({ isOpen, onClose, onNavigateWork }: EndingM
           <div className="grid grid-cols-2 gap-3 py-3 border-y border-outlineVariant/20 bg-black/40 px-3">
             <div>
               <span className="block text-[10px] text-outline uppercase">{HERO_DATA.endingScoreLabel}</span>
-              <span
-                style={{ color: COLOR_TOKENS.accentYellow }}
-                className="font-bold text-accent-yellow uppercase tracking-wider"
-              >
+              <span className="font-bold text-accent-yellow uppercase tracking-wider">
                 {HERO_DATA.endingScoreValue}
               </span>
             </div>
@@ -83,11 +74,7 @@ export default function EndingModal({ isOpen, onClose, onNavigateWork }: EndingM
             <button
               type="button"
               onClick={onNavigateWork}
-              style={{
-                backgroundColor: COLOR_TOKENS.accentYellow,
-                color: COLOR_TOKENS.black,
-              }}
-              className="w-full sm:w-auto px-5 py-2.5 bg-accent-yellow text-black font-black uppercase text-xs hover:bg-white hover:text-black transition-all shadow-[0_0_20px_rgba(255,210,0,0.4)] cursor-pointer"
+              className={`w-full sm:w-auto px-5 py-2.5 font-black uppercase text-xs cursor-pointer ${styles.endingAction}`}
             >
               {HERO_DATA.endingPrimaryAction}
             </button>
@@ -97,3 +84,4 @@ export default function EndingModal({ isOpen, onClose, onNavigateWork }: EndingM
     </div>
   );
 }
+

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { SKILLS_DATA, LivingSkillGroup, LivingSkillItem } from '@/utils/constants';
+import styles from './LivingSkills.module.css';
 
 interface LivingSkillsRosterProps {
   activeGroupId: 'frontend' | 'backend' | 'database' | 'tools';
@@ -20,7 +21,7 @@ export const LivingSkillsRoster: React.FC<LivingSkillsRosterProps> = ({
 
   return (
     <div className="w-full bg-black/95">
-      {/* ── 4 INTEGRATED STATION TERMINAL DECKS (CONTINUOUS BOULEVARD ARCHITECTURE) ── */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 lg:divide-x divide-white/10">
         {categories.map((group) => {
           const isGroupActive = activeGroupId === group.id;
@@ -55,12 +56,12 @@ export const LivingSkillsRoster: React.FC<LivingSkillsRosterProps> = ({
 
           const accentGlowClass =
             group.id === 'frontend'
-              ? 'shadow-[0_0_16px_rgba(255,45,117,0.35)]'
+              ? styles.cardGlowFrontend
               : group.id === 'backend'
-              ? 'shadow-[0_0_16px_rgba(0,242,254,0.35)]'
+              ? styles.cardGlowBackend
               : group.id === 'database'
-              ? 'shadow-[0_0_16px_rgba(255,184,108,0.35)]'
-              : 'shadow-[0_0_16px_rgba(255,210,0,0.35)]';
+              ? styles.cardGlowDatabase
+              : styles.cardGlowTools;
 
           const activeGradient =
             group.id === 'frontend'
@@ -90,9 +91,9 @@ export const LivingSkillsRoster: React.FC<LivingSkillsRosterProps> = ({
                 />
               </div>
 
-              {/* Station Terminal Header */}
+
               <div className="space-y-4">
-                {/* Station Telemetry Breadcrumb */}
+
                 <div className="flex items-center justify-between font-mono text-[10px] sm:text-[11px] tracking-widest text-secondary-dim/70">
                   <div className="flex items-center gap-2">
                     <span
@@ -104,7 +105,7 @@ export const LivingSkillsRoster: React.FC<LivingSkillsRosterProps> = ({
                     <span className="font-bold uppercase tracking-wider">{group.code}</span>
                   </div>
 
-                  {/* Station Symbol Badge */}
+
                   <span
                     className={`w-6 h-6 flex items-center justify-center font-bold text-xs border transition-all ${
                       isGroupActive
@@ -116,7 +117,7 @@ export const LivingSkillsRoster: React.FC<LivingSkillsRosterProps> = ({
                   </span>
                 </div>
 
-                {/* Group Title & Subtitle */}
+
                 <button
                   type="button"
                   onClick={() => onSelectGroup(group.id)}
@@ -137,7 +138,7 @@ export const LivingSkillsRoster: React.FC<LivingSkillsRosterProps> = ({
                   </p>
                 </button>
 
-                {/* Status Indicator */}
+
                 <div
                   className={`flex items-center gap-2 px-2.5 py-1 text-[10px] font-mono border transition-all ${
                     isGroupActive
@@ -157,7 +158,7 @@ export const LivingSkillsRoster: React.FC<LivingSkillsRosterProps> = ({
                 </div>
               </div>
 
-              {/* Verified Technical Items List */}
+       
               <div className="space-y-3.5 pt-6 pb-6">
                 {group.skills.map((skill: LivingSkillItem, skillIndex: number) => {
                   const isTechActive = activeTechName === skill.name;

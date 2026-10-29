@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { PROJECTS_DATA, ProjectItem } from '@/utils/constants';
+import styles from './DevLab.module.css';
 
 interface DevLabMonitorProps {
-  activeProjectIndex: number;
-  isAutoPlaying: boolean;
-  prefersReducedMotion?: boolean;
+  readonly activeProjectIndex: number;
+  readonly isAutoPlaying: boolean;
+  readonly prefersReducedMotion?: boolean;
 }
 
 export const DevLabMonitor: React.FC<DevLabMonitorProps> = ({
@@ -27,7 +29,7 @@ export const DevLabMonitor: React.FC<DevLabMonitorProps> = ({
   return (
     <div className="w-full flex flex-col items-center relative">
       {/* ── WORKSTATION MONITOR CHASSIS ── */}
-      <div className="w-full rounded-sm border border-white/15 bg-[#090714] shadow-[0_0_40px_rgba(255,45,117,0.08)] p-2 sm:p-3 relative">
+      <div className={styles.monitorChassis}>
         {/* Stepped Pixel Corner Accent Brackets */}
         <div className="absolute -top-0.5 -left-0.5 w-2 h-2 bg-primary pointer-events-none" aria-hidden="true" />
         <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-accent-cyan pointer-events-none" aria-hidden="true" />
@@ -58,7 +60,7 @@ export const DevLabMonitor: React.FC<DevLabMonitorProps> = ({
             </span>
           </div>
 
-          {/* Genuine Project Exit Code */}
+          {/* Genuine Exit Code */}
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded-sm bg-black/50 border border-white/10 text-primary font-bold text-[10px] tracking-wider">
               {activeProject.exitCode}
@@ -93,13 +95,14 @@ export const DevLabMonitor: React.FC<DevLabMonitorProps> = ({
                     aria-label={`${PROJECTS_DATA.launchProjectAria}: ${item.title}`}
                     className="group/preview block w-full h-full cursor-pointer focus-visible:outline-none relative"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.imageAlt}
-                      loading={index === 0 ? 'eager' : 'lazy'}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 65vw"
+                      priority={index === 0}
                       onError={() => handleImageError(item.id)}
-                      className="w-full h-full object-cover object-top filter contrast-[1.03] brightness-95 group-hover/preview:brightness-105 transition-all duration-300"
+                      className="object-cover object-top filter contrast-[1.03] brightness-95 group-hover/preview:brightness-105 transition-all duration-300"
                     />
                     {/* Subtle quick-launch cue on hover */}
                     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover/preview:opacity-100 transition-opacity duration-200 pointer-events-none flex items-center justify-center">
@@ -110,7 +113,7 @@ export const DevLabMonitor: React.FC<DevLabMonitorProps> = ({
                   </a>
                 ) : (
                   /* Graceful Authentic Fallback */
-                  <div className="w-full h-full bg-[#090714] flex flex-col items-center justify-center p-6 text-center border border-white/10">
+                  <div className={`w-full h-full ${styles.chassis} flex flex-col items-center justify-center p-6 text-center border border-white/10`}>
                     <span className="text-primary font-mono text-xs tracking-widest uppercase mb-1">
                       {item.exitCode}
                     </span>
@@ -130,14 +133,8 @@ export const DevLabMonitor: React.FC<DevLabMonitorProps> = ({
           })}
 
           {/* Restrained CRT Scanline & Phosphor Vignette Overlays */}
-          <div
-            className="absolute inset-0 pointer-events-none z-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] opacity-15"
-            aria-hidden="true"
-          />
-          <div
-            className="absolute inset-0 pointer-events-none z-20 bg-[radial-gradient(ellipse_at_center,transparent_70%,rgba(0,0,0,0.5)_100%)]"
-            aria-hidden="true"
-          />
+          <div className={styles.crtScanlines} aria-hidden="true" />
+          <div className={styles.phosphorVignette} aria-hidden="true" />
 
           {/* Genuine Exit Code Badge */}
           <div className="absolute top-2.5 left-2.5 z-30 font-mono text-[9px] sm:text-[10px] text-accent-cyan bg-black/85 px-2 py-0.5 rounded-sm border border-accent-cyan/30 pointer-events-none backdrop-blur-sm">

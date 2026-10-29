@@ -1,0 +1,69 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow: hidden;
+  pointer-events: auto;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+@media (min-width: 768px) {
+  .preloader {
+    padding: 3rem;
+  }
+}
+
+.counterValue {
+  font-family: var(--font-headline, sans-serif);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-size: 12rem;
+}
+
+@media (min-width: 768px) {
+  .counterValue {
+    font-size: 20rem;
+  }
+}
+
+.progressBarTrack {
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .progressBarTrack {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+.progressBarBg {
+  height: 0.25rem;
+  background-color: var(--color-surface-variant, #262626);
+  width: 100%;
+  position: relative;
+}
+
+.progressBarFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--color-primary, #ff8d90);
+  transform-origin: left;
+  transform: scaleX(0);
+  width: 100%;
+}

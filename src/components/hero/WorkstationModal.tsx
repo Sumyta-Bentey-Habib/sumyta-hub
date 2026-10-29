@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { HERO_DATA, COLOR_TOKENS } from '@/utils/constants';
+import { HERO_DATA } from '@/utils/constants';
+import styles from './HeroModals.module.css';
 
 interface WorkstationModalProps {
   readonly isOpen: boolean;
@@ -19,12 +20,11 @@ export default function WorkstationModal({ isOpen, onClose }: WorkstationModalPr
       role="dialog"
       aria-modal="true"
       aria-labelledby={HERO_DATA.modalId}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md pointer-events-auto"
+      className={styles.backdrop}
       onClick={onClose}
     >
       <div
-        style={{ backgroundColor: COLOR_TOKENS.surfaceContainer }}
-        className="w-full max-w-lg border-2 border-primary p-6 md:p-8 font-mono shadow-[0_0_50px_rgba(255,45,117,0.4)] relative"
+        className={`${styles.dialog} ${styles.workstationDialog}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
@@ -86,11 +86,7 @@ export default function WorkstationModal({ isOpen, onClose }: WorkstationModalPr
             <a
               href={HERO_DATA.modalActionHref}
               onClick={onClose}
-              style={{
-                backgroundColor: COLOR_TOKENS.primary,
-                color: COLOR_TOKENS.black,
-              }}
-              className="w-full sm:w-auto text-center px-5 py-2.5 bg-primary text-black font-black uppercase text-xs hover:bg-white hover:text-black transition-all shadow-[0_0_20px_rgba(255,45,117,0.35)]"
+              className={`w-full sm:w-auto text-center px-5 py-2.5 font-black uppercase text-xs cursor-pointer ${styles.workstationAction}`}
             >
               {HERO_DATA.modalActionLabel}
             </a>

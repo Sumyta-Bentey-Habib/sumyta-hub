@@ -6,3 +6,5 @@ export { HeroBottomNav } from './HeroBottomNav';
 export { default as MobileControls } from './MobileControls';
 export { default as WorkstationModal } from './WorkstationModal';
 export { default as EndingModal } from './EndingModal';
+export { useHeroSimulation } from './useHeroSimulation';
+export { useHeroInteractions } from './useHeroInteractions';

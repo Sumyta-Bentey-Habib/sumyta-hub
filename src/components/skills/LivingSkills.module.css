@@ -1,0 +1,41 @@
+.stationSpine {
+  width: 0.125rem;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.glowFrontend {
+  box-shadow: 0 0 8px rgba(255, 45, 117, 0.8);
+}
+
+.glowBackend {
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+}
+
+.glowDatabase {
+  box-shadow: 0 0 8px rgba(255, 184, 108, 0.8);
+}
+
+.glowTools {
+  box-shadow: 0 0 8px rgba(255, 210, 0, 0.8);
+}
+
+.cardGlowFrontend {
+  box-shadow: 0 0 16px rgba(255, 45, 117, 0.35);
+}
+
+.cardGlowBackend {
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.35);
+}
+
+.cardGlowDatabase {
+  box-shadow: 0 0 16px rgba(255, 184, 108, 0.35);
+}
+
+.cardGlowTools {
+  box-shadow: 0 0 16px rgba(255, 210, 0, 0.35);
+}
+
+.activeButtonGlow {
+  box-shadow: 0 0 12px rgba(255, 45, 117, 0.5);
+}

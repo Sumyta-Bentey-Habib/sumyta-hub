@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
 import { PRELOADER_DATA } from '@/utils/constants';
+import styles from './Preloader.module.css';
 
 const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [count, setCount] = useState(0);
@@ -11,13 +12,13 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // If user prefers reduced motion, complete immediately without blocking
+
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       onComplete();
       return;
     }
 
-    // Prevent scrolling while loading
+ 
     document.body.style.overflow = 'hidden';
 
     const ctx = gsap.context(() => {
@@ -70,16 +71,15 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[99999] bg-black flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden pointer-events-auto"
-      style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' }}
+      className={styles.preloader}
       aria-live="polite"
       aria-label={PRELOADER_DATA.initializingTag}
     >
-      <div 
+      <div
         ref={counterRef}
         className="relative"
       >
-        <span className="text-[12rem] md:text-[20rem] font-headline font-black text-white leading-none tracking-tighter">
+        <span className={styles.counterValue}>
           {count.toString().padStart(3, '0')}
         </span>
         <div className="flex justify-between items-center mt-4">
@@ -91,18 +91,19 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
           </span>
         </div>
       </div>
-      
+
       {/* Brutalist Progress Bar */}
-      <div className="absolute bottom-12 left-0 w-full px-6 md:px-12">
-        <div className="h-1 bg-surface-variant w-full relative">
-          <div 
+      <div className={styles.progressBarTrack}>
+        <div className={styles.progressBarBg}>
+          <div
             ref={progressRef}
-            className="absolute top-0 left-0 h-full bg-primary origin-left scale-x-0 w-full"
+            className={styles.progressBarFill}
           />
         </div>
       </div>
     </div>
   );
 };
+
 
 export default Preloader;

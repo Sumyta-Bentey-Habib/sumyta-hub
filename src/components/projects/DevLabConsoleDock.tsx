@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { PROJECTS_DATA, ProjectItem } from '@/utils/constants';
+import styles from './DevLab.module.css';
 
 interface DevLabConsoleDockProps {
   activeProjectIndex: number;
@@ -39,7 +40,7 @@ export const DevLabConsoleDock: React.FC<DevLabConsoleDockProps> = ({
 
   return (
     <div
-      className="w-full rounded-sm border border-white/15 bg-[#090714] p-2.5 sm:p-3 font-mono text-xs relative"
+      className={styles.dockContainer}
       role="region"
       aria-label={PROJECTS_DATA.terminalHeader}
     >

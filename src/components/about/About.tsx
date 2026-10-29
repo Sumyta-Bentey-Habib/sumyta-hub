@@ -6,6 +6,7 @@ import { initAboutScrollAnimations } from '@/utils/about';
 import { AboutHeader } from './AboutHeader';
 import { AboutPortrait } from './AboutPortrait';
 import { AboutContent } from './AboutContent';
+import styles from './About.module.css';
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -34,14 +35,9 @@ export default function About() {
       className="relative py-28 md:py-36 px-6 md:px-12 lg:px-20 bg-black text-white overflow-hidden border-t border-white/10 selection:bg-primary selection:text-black"
     >
       {/* Ambient Cyberpunk Lighting */}
-      <div
-        className="absolute top-0 left-1/4 w-[650px] h-[650px] bg-gradient-to-br from-primary/10 via-[#4b3080]/15 to-transparent blur-[140px] pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-12 right-12 w-[550px] h-[550px] bg-gradient-to-tl from-[#00f2fe]/8 via-[#160d24]/30 to-transparent blur-[160px] pointer-events-none"
-        aria-hidden="true"
-      />
+      <div className={styles.ambientGlowTop} aria-hidden="true" />
+      <div className={styles.ambientGlowBottom} aria-hidden="true" />
+
 
       <AboutHeader ref={headerRef} />
 

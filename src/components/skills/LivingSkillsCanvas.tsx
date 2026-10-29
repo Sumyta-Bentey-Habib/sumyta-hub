@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { SKILLS_DATA, LivingSkillGroup } from '@/utils/constants';
+import { useReducedMotion } from '@/utils/useReducedMotion';
 import {
   initLivingStreetScene,
   updateLivingStreetScene,
@@ -13,6 +14,7 @@ import {
   LIVING_WORLD_HEIGHT,
   LIVING_CHAR_Y,
 } from '@/utils/skills';
+import styles from './LivingSkills.module.css';
 
 interface LivingSkillsCanvasProps {
   activeGroupId: 'frontend' | 'backend' | 'database' | 'tools';
@@ -39,6 +41,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
   activeTechName,
   onSelectGroup,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -98,41 +101,40 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
     }
 
     let animationFrameId: number;
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const prefersReducedMotion = mediaQuery.matches;
 
     const loop = () => {
       const scene = sceneStateRef.current;
       const char = characterRef.current;
+
 
       if (scene && char) {
         if (!prefersReducedMotion) {
           updateLivingStreetScene(scene);
           updateCharacterMovement(char, scene.tick);
 
-          // ── CHARACTER PATROL STATE MACHINE ──
+
           if (!char.isMoving) {
-            // Find which station the character has reached
+
             const reachedStation = STATION_ORDER.find(
               (key) => Math.abs(STATION_X_COORDINATES[key] - char.x) <= 4
             );
 
             if (reachedStation) {
-              // 1. Immediately synchronize active category below upon arrival
+
               if (reachedStation !== activeGroupId) {
                 onSelectGroup(reachedStation);
               }
 
-              // 2. Perform station inspection pause (~160 frames = 2.6 seconds)
+
               pauseTicksRef.current += 1;
               const INSPECTION_PAUSE_DURATION = 160;
 
-              // Check if visitor is currently hovering or recently clicked
+
               const isUserBusy =
                 isHoveredRef.current ||
                 (lastInteractionRef.current > 0 && Date.now() - lastInteractionRef.current < 3500);
 
-              // 3. When inspection finishes and user is not busy, advance to next station in loop
+
               if (!isUserBusy && pauseTicksRef.current >= INSPECTION_PAUSE_DURATION) {
                 pauseTicksRef.current = 0;
                 const currentStationIdx = STATION_ORDER.indexOf(reachedStation);
@@ -145,11 +147,11 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
               }
             }
           } else {
-            // Reset pause timer while character is traveling between stations
+
             pauseTicksRef.current = 0;
           }
         } else {
-          // Reduced motion: snap statically to target
+
           char.x = char.targetX;
           char.isMoving = false;
           scene.markerX = scene.targetMarkerX;
@@ -174,9 +176,9 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [activeGroupId, activeTechName, onSelectGroup]);
+  }, [activeGroupId, activeTechName, onSelectGroup, prefersReducedMotion]);
 
-  // Handle click on canvas: move character or dispatch to station
+
   const handleCanvasClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {
       lastInteractionRef.current = Date.now();
@@ -187,7 +189,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
       const scaleX = LIVING_WORLD_WIDTH / rect.width;
       const clickVirtualX = (e.clientX - rect.left) * scaleX;
 
-      // Find closest station
+
       let closestGroup: 'frontend' | 'backend' | 'database' | 'tools' = 'frontend';
       let minDistance = Infinity;
 
@@ -201,11 +203,11 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
         }
       );
 
-      // If clicked reasonably close to a station (within 140px), dispatch to station
+
       if (minDistance < 140) {
         onSelectGroup(closestGroup);
       } else {
-        // Otherwise just walk freely to the clicked spot
+
         characterRef.current.targetX = Math.max(40, Math.min(LIVING_WORLD_WIDTH - 40, clickVirtualX));
         pauseTicksRef.current = 0;
       }
@@ -213,7 +215,6 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
     [onSelectGroup]
   );
 
-  // Handle pointer hover across canvas to detect stations
   const handleCanvasMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     lastInteractionRef.current = Date.now();
     isHoveredRef.current = true;
@@ -256,7 +257,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
       onMouseLeave={handleCanvasMouseLeave}
       className="relative w-full bg-black/90 overflow-hidden"
     >
-      {/* ── TOP HUD TELEMETRY BAR ── */}
+    
       <div className="flex items-center justify-between px-4 py-2 bg-surface-container/90 border-b border-white/10 text-xs font-mono text-secondary-dim">
         <div className="flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
@@ -312,7 +313,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
                   }}
                   className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider transition-all duration-150 border cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary ${
                     isCurrent
-                      ? 'bg-primary text-black font-bold border-primary shadow-[0_0_12px_rgba(255,45,117,0.5)]'
+                      ? `bg-primary text-black font-bold border-primary ${styles.activeButtonGlow}`
                       : isHovered
                       ? 'bg-white/10 text-white border-white/40'
                       : 'bg-black/60 text-secondary-dim/80 border-white/10 hover:border-white/30 hover:text-white'
@@ -372,12 +373,12 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
 
             const accentGlow =
               cat.id === 'frontend'
-                ? 'shadow-[0_0_8px_rgba(255,45,117,0.8)]'
+                ? styles.glowFrontend
                 : cat.id === 'backend'
-                ? 'shadow-[0_0_8px_rgba(0,242,254,0.8)]'
+                ? styles.glowBackend
                 : cat.id === 'database'
-                ? 'shadow-[0_0_8px_rgba(255,184,108,0.8)]'
-                : 'shadow-[0_0_8px_rgba(255,210,0,0.8)]';
+                ? styles.glowDatabase
+                : styles.glowTools;
 
             return (
               <div key={cat.id} className="relative h-full flex items-center justify-center">
@@ -387,6 +388,7 @@ export const LivingSkillsCanvas: React.FC<LivingSkillsCanvasProps> = ({
                     isCatActive ? `${accentBg} ${accentGlow}` : 'bg-white/10'
                   }`}
                 />
+
                 {/* Downward Pulse Node */}
                 {isCatActive && (
                   <span

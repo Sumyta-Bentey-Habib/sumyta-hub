@@ -1,1 +1,1 @@
-export * from './highwayRenderer';
+export * from '@/components/projects/useProjectWorkstation';

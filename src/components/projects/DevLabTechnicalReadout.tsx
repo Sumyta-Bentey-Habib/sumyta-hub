@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { PROJECTS_DATA, ProjectItem } from '@/utils/constants';
+import styles from './DevLab.module.css';
 
 interface DevLabTechnicalReadoutProps {
   activeProjectIndex: number;
@@ -24,7 +25,7 @@ export const DevLabTechnicalReadout: React.FC<DevLabTechnicalReadoutProps> = ({
       id={`project-panel-${project.id}`}
       role="tabpanel"
       aria-labelledby={`project-tab-${project.id}`}
-      className="w-full min-h-[440px] sm:min-h-[420px] rounded-sm border border-white/15 bg-[#090714] shadow-lg p-3.5 sm:p-5 space-y-4 font-mono text-xs relative overflow-hidden"
+      className={`${styles.readoutContainer} space-y-4`}
     >
       {/* ── TOP DOSSIER BAR: HEADER & STATUS ── */}
       <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-white/10 select-none">
