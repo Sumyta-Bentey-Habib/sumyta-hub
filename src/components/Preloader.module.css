@@ -149,6 +149,13 @@
   backdrop-filter: blur(6px);
 }
 
+@media (max-width: 480px) {
+  .bottomHud {
+    padding: 0.65rem 0.85rem;
+    gap: 0.5rem;
+  }
+}
+
 .bottomHudHeader {
   display: flex;
   justify-content: space-between;
@@ -165,6 +172,13 @@
   color: var(--color-secondary, #e5e2e1);
 }
 
+@media (max-width: 480px) {
+  .sceneTitle {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+  }
+}
+
 .percentText {
   font-family: var(--font-headline, monospace);
   font-size: 0.85rem;
@@ -172,6 +186,12 @@
   letter-spacing: 0.15em;
   color: var(--color-accent-cyan, #00f2fe);
   text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+}
+
+@media (max-width: 480px) {
+  .percentText {
+    font-size: 0.75rem;
+  }
 }
 
 .pixelBarTrack {

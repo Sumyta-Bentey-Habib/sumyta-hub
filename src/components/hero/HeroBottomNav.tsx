@@ -3,7 +3,7 @@ import { HERO_DATA } from '@/utils/constants';
 
 export const HeroBottomNav: React.FC = () => {
   return (
-    <div className="absolute bottom-6 left-4 right-4 sm:left-6 sm:right-6 md:bottom-8 md:left-12 md:right-12 z-20 flex flex-col lg:flex-row items-center justify-between gap-3 pointer-events-none">
+    <div className="hidden md:flex absolute md:bottom-8 md:left-12 md:right-12 z-20 flex-row items-center justify-between gap-3 pointer-events-none">
       {/* Bottom-Left: Name, Role & Explore Prompt */}
       <div className="flex items-center gap-3 pointer-events-auto">
         <span className="font-mono font-black text-xs md:text-sm tracking-tight text-white uppercase">
