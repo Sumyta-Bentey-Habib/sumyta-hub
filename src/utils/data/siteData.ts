@@ -1,6 +1,11 @@
 export const PRELOADER_DATA = {
+  name: 'SUMYTA BENTEY HABIB',
+  title: 'FULL-STACK DEVELOPER',
+  sceneTitle: 'THE NEON CITY AWAKENS',
   initializingTag: 'INITIALIZING SYSTEM',
   completeTag: 'SYSTEM READY',
+  statusAwakening: 'CITY AWAKENING...',
+  statusOnline: 'SYSTEM ONLINE',
 } as const;
 
 export const NAVBAR_DATA = {

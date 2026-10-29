@@ -2,68 +2,239 @@
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background-color: #000000;
+  background-color: #04020a;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
+  justify-content: space-between;
   overflow: hidden;
   pointer-events: auto;
+  user-select: none;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
 
-@media (min-width: 768px) {
-  .preloader {
-    padding: 3rem;
-  }
-}
-
-.counterValue {
-  font-family: var(--font-headline, sans-serif);
-  font-weight: 900;
-  color: #ffffff;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  font-size: 12rem;
-}
-
-@media (min-width: 768px) {
-  .counterValue {
-    font-size: 20rem;
-  }
-}
-
-.progressBarTrack {
+.pixelCanvas {
   position: absolute;
-  bottom: 3rem;
-  left: 0;
+  inset: 0;
   width: 100%;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .progressBarTrack {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-
-.progressBarBg {
-  height: 0.25rem;
-  background-color: var(--color-surface-variant, #262626);
-  width: 100%;
-  position: relative;
-}
-
-.progressBarFill {
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 100%;
-  background-color: var(--color-primary, #ff8d90);
-  transform-origin: left;
-  transform: scaleX(0);
+  object-fit: cover;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  z-index: 1;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.28) 2px,
+    rgba(0, 0, 0, 0.28) 4px
+  );
+  opacity: 0.85;
+}
+
+.crtVignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(4, 2, 10, 0.8) 100%);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.85);
+}
+
+.uiLayer {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+  height: 100%;
+  padding: 1.25rem;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .uiLayer {
+    padding: 2.25rem;
+  }
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1rem;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.name {
+  font-family: var(--font-headline, monospace);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-secondary, #e5e2e1);
+  text-shadow: 0 0 12px rgba(255, 45, 117, 0.45);
+}
+
+@media (min-width: 768px) {
+  .name {
+    font-size: 0.95rem;
+  }
+}
+
+.title {
+  font-family: var(--font-headline, monospace);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-primary, #ff8d90);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background-color: rgba(14, 8, 23, 0.85);
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  backdrop-filter: blur(4px);
+  font-family: var(--font-headline, monospace);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent-cyan, #00f2fe);
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.18);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-accent-cyan, #00f2fe);
+  box-shadow: 0 0 8px var(--color-accent-cyan, #00f2fe);
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+.statusDotOnline {
+  background-color: var(--color-primary-neon, #ff2d75);
+  box-shadow: 0 0 8px var(--color-primary-neon, #ff2d75);
+  animation: none;
+}
+
+.bottomHud {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  background-color: rgba(8, 4, 18, 0.88);
+  border: 1px solid rgba(255, 45, 117, 0.35);
+  padding: 0.85rem 1.15rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), inset 0 0 12px rgba(0, 242, 254, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.bottomHudHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.sceneTitle {
+  font-family: var(--font-headline, monospace);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-secondary, #e5e2e1);
+}
+
+.percentText {
+  font-family: var(--font-headline, monospace);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--color-accent-cyan, #00f2fe);
+  text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+}
+
+.pixelBarTrack {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 2px;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(6, 4, 13, 0.95);
+  padding: 2px;
+  border: 1px solid rgba(255, 45, 117, 0.25);
+}
+
+.pixelBarBlock {
+  height: 100%;
+  background-color: rgba(24, 14, 42, 0.7);
+  transition: background-color 0.08s ease, box-shadow 0.08s ease;
+}
+
+.pixelBarBlockActive {
+  background: linear-gradient(135deg, var(--color-accent-cyan, #00f2fe), var(--color-primary-neon, #ff2d75));
+  box-shadow: 0 0 6px rgba(0, 242, 254, 0.6);
+}
+
+.bottomHudFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-family: var(--font-headline, monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary, #ff8d90);
+}
+
+.hudBlinker {
+  width: 6px;
+  height: 2px;
+  background-color: var(--color-accent-cyan, #00f2fe);
+  box-shadow: 0 0 6px var(--color-accent-cyan, #00f2fe);
+  animation: blink 0.8s infinite steps(2, start);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none !important;
+  }
 }
