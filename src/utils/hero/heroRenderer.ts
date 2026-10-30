@@ -22,7 +22,7 @@ export function drawSkyline(
     const bHeight = 220 + ((bx * 9301 + 49297) % 180);
     const bWidth = 50 + ((bx * 1337) % 30);
     const bY = worldHeight - bHeight;
-    ctx.fillRect(bx, bY, bWidth, bHeight);
+    ctx.fillRect(bx, bY, bWidth, bHeight + 200);
 
     // Antenna tower on top of some buildings
     if (bx % 140 === 0) {
@@ -69,7 +69,7 @@ export function drawMidground(
     const mHeight = 150 + ((mx * 311) % 120);
     const mWidth = 75 + ((mx * 73) % 25);
     const mY = worldHeight - mHeight;
-    ctx.fillRect(mx, mY, mWidth, mHeight);
+    ctx.fillRect(mx, mY, mWidth, mHeight + 200);
 
     // Neon outline roof trim
     ctx.fillStyle = COLOR_TOKENS.skylineNear;
@@ -90,7 +90,7 @@ export function drawRooftopsAndCatwalks(
   for (const roof of rooftops) {
     // Main Rooftop Body
     ctx.fillStyle = COLOR_TOKENS.rooftopBody;
-    ctx.fillRect(roof.x, roof.y, roof.w, roof.h);
+    ctx.fillRect(roof.x, roof.y, roof.w, roof.h + 200);
 
     // Top Surface Edge
     ctx.fillStyle = COLOR_TOKENS.rooftopTop;
@@ -103,7 +103,7 @@ export function drawRooftopsAndCatwalks(
     // Architectural Details: Wall vertical seams
     ctx.fillStyle = COLOR_TOKENS.shadowPurple;
     for (let seamX = roof.x + 40; seamX < roof.x + roof.w - 20; seamX += 60) {
-      ctx.fillRect(seamX, roof.y + 6, 2, roof.h - 10);
+      ctx.fillRect(seamX, roof.y + 6, 2, roof.h + 190);
     }
 
     // HVAC ventilation unit on some roofs

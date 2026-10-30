@@ -18,34 +18,19 @@ export const HeroBottomNav: React.FC = () => {
         </span>
       </div>
 
-      {/* Bottom-Center: GitHub, LinkedIn, Resume & Control Hint */}
-      <div className="flex flex-wrap items-center justify-center gap-2 pointer-events-auto">
-        <nav aria-label={HERO_DATA.bottomNavAria} className="flex items-center gap-2">
-          {HERO_DATA.bottomLinks.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              target={item.isExternal ? '_blank' : undefined}
-              rel={item.isExternal ? 'noopener noreferrer' : undefined}
-              aria-label={item.ariaLabel}
-              className="px-2.5 py-1.5 md:px-3 md:py-1.5 text-[11px] md:text-xs font-mono font-bold tracking-wider uppercase border border-outlineVariant/50 bg-black/70 backdrop-blur-sm text-secondary hover:text-white hover:border-primary hover:bg-primary/10 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary shadow-sm"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden xl:flex items-center px-3 py-1.5 border border-outlineVariant/40 bg-black/50 backdrop-blur-sm text-[10px] font-mono tracking-widest text-outline uppercase">
+      {/* Bottom-Center: Control Hint */}
+      <div className="flex items-center justify-center pointer-events-auto">
+        <div className="flex items-center px-3 py-1.5 border border-outlineVariant/40 bg-black/50 backdrop-blur-sm text-[10px] font-mono tracking-widest text-outline uppercase">
           <span>{HERO_DATA.controlsHintDesktop}</span>
         </div>
       </div>
 
-      {/* Bottom-Right: Persistent VIEW WORK Link */}
+      {/* Bottom-Right: Persistent EXPLORE WORK Link */}
       <div className="pointer-events-auto">
         <a
           href={HERO_DATA.viewWorkAction.href}
           aria-label={HERO_DATA.viewWorkAction.ariaLabel}
-          className="group flex items-center gap-2 px-4 py-2 bg-primary text-black font-mono font-black text-xs md:text-sm tracking-wider uppercase hover:bg-white hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-[0_0_15px_rgba(255,45,117,0.4)]"
+          className="group flex items-center gap-2 px-4 py-2 bg-primary text-black font-mono font-black text-xs md:text-sm tracking-wider uppercase hover:bg-white hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-[0_0_15px_rgba(255,45,117,0.4)] whitespace-nowrap"
         >
           <span>{HERO_DATA.viewWorkAction.label}</span>
         </a>

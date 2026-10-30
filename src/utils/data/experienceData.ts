@@ -49,7 +49,7 @@ export const EXPERIENCE_DATA = {
       districtTitle: 'XIIA CORPORATE COMPLEX',
       districtSub: 'PRODUCTION ENGINEERING DISTRICT',
       beaconColor: 'primary',
-      period: '2026 — PRESENT',
+      period: '2025 — PRESENT',
       role: 'Junior Software Developer',
       company: 'XIIA',
       location: 'Copenhagen, Denmark',

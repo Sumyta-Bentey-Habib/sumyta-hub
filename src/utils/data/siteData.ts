@@ -9,7 +9,7 @@ export const PRELOADER_DATA = {
 } as const;
 
 export const NAVBAR_DATA = {
-  monogram: 'S.B.H.',
+  brandName: 'SUMYTA',
   navLinks: [
     { label: 'Work', href: '#work' },
     { label: 'Experience', href: '#experience' },
@@ -17,7 +17,9 @@ export const NAVBAR_DATA = {
     { label: 'About', href: '#about' },
     { label: 'Contact', href: '#contact' },
   ] as const,
-  connectLabel: 'Connect',
+  resumeLabel: 'RESUME',
+  resumeHref: 'https://drive.google.com/file/d/1MB4ag-8obYWNby-78QHPxxxGPkNFzkHP/view?usp=sharing',
+  resumeAriaLabel: 'Open Sumyta Bentey Habib Resume in a new tab',
 } as const;
 
 export const SOCIAL_LINKS = {

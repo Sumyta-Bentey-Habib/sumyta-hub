@@ -54,7 +54,7 @@ export const CONTACT_DATA = {
     ],
   },
   footer: {
-    monogram: 'S.B.H.',
+    monogram: 'SUMYTA',
     backToTopLabel: 'BACK TO TOP',
     backToTopAria: 'Scroll back to the top of the portfolio',
     tagline: 'NEON CITY EXPLORER // JOURNEY COMPLETE',

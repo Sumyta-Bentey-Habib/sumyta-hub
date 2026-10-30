@@ -8,7 +8,7 @@ export function createRainParticles(count: number, worldWidth: number, worldHeig
   for (let i = 0; i < count; i += 1) {
     particles.push({
       x: Math.random() * worldWidth,
-      y: Math.random() * worldHeight,
+      y: -60 + Math.random() * (worldHeight + 120),
       speed: 3 + Math.random() * 4,
       length: 6 + Math.random() * 8,
     });
@@ -140,8 +140,8 @@ export function updateRainParticles(
   for (const pt of particles) {
     pt.y += pt.speed;
     pt.x -= 0.6;
-    if (pt.y > worldHeight) {
-      pt.y = -10;
+    if (pt.y > worldHeight + 60) {
+      pt.y = -60;
       pt.x = Math.random() * worldWidth;
     }
     if (pt.x < 0) pt.x = worldWidth;
