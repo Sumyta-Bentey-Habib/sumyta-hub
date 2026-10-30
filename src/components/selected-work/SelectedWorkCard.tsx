@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { SELECTED_WORK_DATA, SelectedWorkProject } from '@/utils/constants';
+import { SelectedWorkParticleImage } from './SelectedWorkParticleImage';
+import { ProjectParticleVariant } from '@/utils/selected-work';
 
 interface SelectedWorkCardProps {
   readonly project: SelectedWorkProject;
@@ -94,23 +95,21 @@ export const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project, pri
 
         {/* ── VISUAL PROMINENCE: 16:9 ABSTRACT COMPOSITION ── */}
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm border border-white/10 bg-black/90">
-          <Image
+          <SelectedWorkParticleImage
             src={project.image}
             alt={project.imageAlt}
-            fill
+            variant={project.id as ProjectParticleVariant}
             priority={priority}
-            sizes="(max-width: 1024px) 100vw, 33vw"
-            className="object-cover filter contrast-[1.03] brightness-95 group-hover:scale-105 group-hover:brightness-105 transition-all duration-500 ease-out"
           />
 
           {/* Restrained phosphor vignette overlay */}
           <div
-            className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10 pointer-events-none"
+            className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10 pointer-events-none z-20"
             aria-hidden="true"
           />
 
           {/* Category Pill Tag Overlay */}
-          <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-black/85 border border-white/15 backdrop-blur-sm font-mono text-[10px] uppercase tracking-wider text-white">
+          <div className="absolute top-2.5 left-2.5 z-30 flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-black/85 border border-white/15 backdrop-blur-sm font-mono text-[10px] uppercase tracking-wider text-white">
             <span className={`w-1.5 h-1.5 rounded-full ${accent.bg}`} aria-hidden="true" />
             <span>{project.category}</span>
           </div>
