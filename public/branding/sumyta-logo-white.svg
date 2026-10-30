@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120" fill="none">
+  
+  <g transform="translate(14, 10) scale(1.0)">
+      <!-- Outer Precision Octagonal / Chamfered Plate -->
+      
+      <rect x="10" y="10" width="80" height="80" rx="8" stroke="#FFFFFF" stroke-width="2.5" stroke-opacity="0.3" fill="none" />
+      
+      <!-- Top Architectural L-Block -->
+      <path d="M 18 18 L 82 18 L 82 42 L 54 42 L 54 32 L 36 32 L 36 46 L 70 54 L 70 48 L 82 48 L 82 18 Z" fill="#FFFFFF" />
+      
+      <!-- Bottom Architectural L-Block -->
+      <path d="M 82 82 L 18 82 L 18 58 L 46 58 L 46 68 L 64 68 L 64 54 L 30 46 L 30 52 L 18 52 L 18 82 Z" fill="#FFFFFF" />
+      
+      <!-- Negative Space Conduit: Precision Suspended Cyan Aperture Diamond -->
+      <polygon points="50,42 58,50 50,58 42,50" fill="#FFFFFF" />
+      
+      <!-- Technical Corner Reference Pips -->
+      <circle cx="26" cy="26" r="2.5" fill="#FFFFFF" />
+      <circle cx="74" cy="74" r="2.5" fill="#FFFFFF" />
+    </g>
+  <path d="M 170 48 L 170 36 L 136 36 L 136 60 L 163 60 L 163 67 L 136 67 L 136 84 L 170 84 L 170 60 L 143 60 L 143 43 L 170 43 Z" fill="#FFFFFF" />
+<path d="M 184 36 L 191 36 L 191 77 L 211 77 L 211 36 L 218 36 L 218 84 L 184 84 Z" fill="#FFFFFF" />
+<path d="M 232 36 L 239 36 L 252 64 L 265 36 L 272 36 L 272 84 L 265 84 L 265 50 L 252 76 L 239 50 L 239 84 L 232 84 Z" fill="#FFFFFF" />
+<path d="M 286 36 L 295 36 L 303 58 L 311 36 L 320 36 L 307 62 L 307 84 L 299 84 L 299 62 Z" fill="#FFFFFF" />
+<path d="M 334 36 L 368 36 L 368 43 L 355 43 L 355 84 L 347 84 L 347 43 L 334 43 Z" fill="#FFFFFF" />
+<path d="M 400 36 L 418 84 L 409 84 L 408 70 L 392 70 L 391 84 L 382 84 Z M 400 48 L 405 64 L 395 64 Z" fill="#FFFFFF" fill-rule="evenodd" />
+<polygon points="435,72 440,77 435,82 430,77" fill="#FFFFFF" />
+</svg>

@@ -114,7 +114,7 @@ export const DevLabTechnicalReadout: React.FC<DevLabTechnicalReadoutProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${PROJECTS_DATA.launchProjectAria}: ${project.title}`}
-              className="px-3.5 py-1.5 rounded-sm bg-primary text-black text-xs font-bold tracking-wider hover:bg-primary-neon hover:shadow-[0_0_15px_rgba(255,45,117,0.35)] transition-all duration-200 inline-flex items-center gap-1.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan"
+              className="px-3.5 py-1.5 rounded-sm bg-primary text-black text-xs font-bold tracking-wider hover:bg-white hover:text-black hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-200 inline-flex items-center gap-1.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan cursor-pointer"
             >
               <span>{PROJECTS_DATA.demoButtonText}</span>
               <span className="transform transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">

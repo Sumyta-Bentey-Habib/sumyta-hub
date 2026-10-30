@@ -182,7 +182,7 @@ export const DevLabMonitor: React.FC<DevLabMonitorProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${PROJECTS_DATA.launchProjectAria}: ${activeProject.title}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-primary/10 hover:bg-primary/20 text-primary border border-primary/40 hover:border-primary transition-all duration-200 text-[10px] sm:text-xs font-bold tracking-wider group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-primary/10 hover:bg-white text-primary hover:text-black border border-primary/40 hover:border-white transition-all duration-200 text-[10px] sm:text-xs font-bold tracking-wider group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
             >
               <span>{PROJECTS_DATA.demoButtonText}</span>
               <span className="transform transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">

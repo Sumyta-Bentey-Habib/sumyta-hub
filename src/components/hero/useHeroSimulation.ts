@@ -194,6 +194,7 @@ export function useHeroSimulation({
       ctx.fillRect(0, 0, width, height);
 
       ctx.scale(scale, scale);
+      ctx.translate(0, HERO_DATA.gameWorldOffsetY);
 
       // Layer 1: Distant Skyline
       drawSkyline(ctx, tick, cameraX, HERO_DATA.worldWidth, HERO_DATA.worldHeight, windowsRef.current);
@@ -278,7 +279,7 @@ export function useHeroSimulation({
       const cameraX = cameraXRef.current;
 
       const worldClickX = (e.clientX - rect.left) / scale + cameraX;
-      const worldClickY = (e.clientY - rect.top) / scale;
+      const worldClickY = (e.clientY - rect.top) / scale - HERO_DATA.gameWorldOffsetY;
 
       const hitId = detectLocationAtCoord(worldClickX, worldClickY, HERO_DATA.locations);
       if (hitId) {
@@ -298,7 +299,7 @@ export function useHeroSimulation({
     const cameraX = cameraXRef.current;
 
     const worldX = (e.clientX - rect.left) / scale + cameraX;
-    const worldY = (e.clientY - rect.top) / scale;
+    const worldY = (e.clientY - rect.top) / scale - HERO_DATA.gameWorldOffsetY;
 
     const hoverId = detectLocationAtCoord(worldX, worldY, HERO_DATA.locations);
     setHoveredLocationId(hoverId);

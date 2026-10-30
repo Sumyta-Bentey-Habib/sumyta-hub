@@ -1,18 +1,19 @@
 import React from 'react';
 import { NAVBAR_DATA, SOCIAL_LINKS } from '@/utils/constants';
+import BrandLogo from './BrandLogo';
 
 const Navbar = () => {
   return (
     <nav 
       aria-label="Main Navigation"
-      className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/5 flex justify-between items-center px-6 md:px-12 py-5"
+      className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/5 flex justify-between items-center px-6 md:px-12 py-4"
     >
       <a 
         href="#" 
-        aria-label="Sumyta Bentey Habib Home"
-        className="text-2xl font-black tracking-tighter text-primary font-headline uppercase leading-none hover:text-white transition-colors duration-300"
+        aria-label={`${NAVBAR_DATA.brandName} - Home`}
+        className="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary rounded-xs"
       >
-        {NAVBAR_DATA.monogram}
+        <BrandLogo size={28} />
       </a>
       <div className="hidden md:flex items-center gap-8 font-headline font-bold uppercase text-xs tracking-widest">
         {NAVBAR_DATA.navLinks.map((link) => (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACT_DATA } from '@/utils/constants';
+import BrandLogo from '../BrandLogo';
 
 interface FooterBottomProps {
   readonly currentYear: number;
@@ -10,7 +11,10 @@ export const FooterBottom: React.FC<FooterBottomProps> = ({ currentYear, onBackT
   return (
     <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 font-mono text-xs">
       <div className="flex flex-wrap items-center gap-3 text-secondary/60">
-        <span className="font-bold text-white tracking-widest">{CONTACT_DATA.footer.monogram}</span>
+        <div className="inline-flex items-center gap-2">
+          <BrandLogo size={18} showWordmark={false} />
+          <span className="font-bold text-white tracking-widest">{CONTACT_DATA.footer.monogram}</span>
+        </div>
         <span className="text-white/20 select-none">/</span>
         <span>{`© ${currentYear} SUMYTA BENTEY HABIB. ALL RIGHTS RESERVED.`}</span>
       </div>

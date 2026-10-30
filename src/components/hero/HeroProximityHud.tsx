@@ -16,7 +16,7 @@ export const HeroProximityHud: React.FC<HeroProximityHudProps> = ({
   if (!loc) return null;
 
   return (
-    <div className="absolute top-44 md:top-48 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
+    <div className="absolute top-60 sm:top-64 md:top-72 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
       <button
         type="button"
         onClick={() => onLocationTrigger(loc.id)}

@@ -9,7 +9,7 @@ export const PRELOADER_DATA = {
 } as const;
 
 export const NAVBAR_DATA = {
-  monogram: 'S.B.H.',
+  brandName: 'SUMYTA',
   navLinks: [
     { label: 'Work', href: '#work' },
     { label: 'Experience', href: '#experience' },

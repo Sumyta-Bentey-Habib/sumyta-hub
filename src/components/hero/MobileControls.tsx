@@ -24,22 +24,6 @@ export default function MobileControls({
 }: MobileControlsProps) {
   return (
     <div className="md:hidden absolute bottom-3 left-3 right-3 z-20 flex flex-col items-center gap-2 pointer-events-none">
-      {/* Upper Mini-Row: Compact Social Links */}
-      <nav aria-label={HERO_DATA.bottomNavAria} className="flex items-center gap-1.5 pointer-events-auto">
-        {HERO_DATA.bottomLinks.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            target={item.isExternal ? '_blank' : undefined}
-            rel={item.isExternal ? 'noopener noreferrer' : undefined}
-            aria-label={item.ariaLabel}
-            className="px-2.5 py-1 text-[10px] font-mono font-bold tracking-wider uppercase border border-outlineVariant/50 bg-black/85 backdrop-blur-md text-secondary active:text-white active:border-primary active:bg-primary/20 transition-colors shadow-sm"
-          >
-            {item.label}
-          </a>
-        ))}
-      </nav>
-
       {/* Main Touch Controls Bar */}
       <div className="w-full flex items-center justify-between gap-2 pointer-events-none">
         {/* Directional Pad */}
