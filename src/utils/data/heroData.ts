@@ -49,7 +49,7 @@ export const HERO_DATA = {
   locations: [
     {
       id: 'xiia',
-      title: 'XIIA WORKSTATION',
+      title: 'WORKSTATION',
       sublabel: 'PROD RUNTIME',
       company: 'XIIA',
       role: 'Junior Software Developer',
