@@ -31,8 +31,9 @@ export const PROJECTS_DATA = {
   sectionTag: '04 // THE NEON DEV LAB',
   title: 'PRODUCTION WORKSTATION',
   titleAccent: '.',
-  subtitle: 'A FUTURISTIC DEVELOPER WORKBENCH // EXPLORE VERIFIED SOFTWARE PRODUCTS AND PRODUCTION RUNTIMES',
-  kicker: 'STATION XIIA // SECTOR 04',
+  subtitle:
+    'A FUTURISTIC DEVELOPER WORKBENCH // EXPLORE VERIFIED SOFTWARE PRODUCTS AND PRODUCTION RUNTIMES',
+  kicker: 'PRODUCT LAB // SECTOR 04',
   highwayStatus: 'DEV LAB ONLINE // 6 REPOSITORIES READY',
   cruisingSpeed: 'RUNTIME STREAM 60 FPS',
   interactionHint: 'SELECT REPOSITORY TO SWITCH RUNTIME FEED // [← / →] TO NAVIGATE',
@@ -170,7 +171,14 @@ export const PROJECTS_DATA = {
       role: 'Monorepo Architecture, Better Auth (Firestore Adapter), SSLCommerz & Express API',
       description:
         'A digital sanctuary designed as a meditative editorial, featuring emotional feeling tools, distraction-free Quran explorer, digital course portal, and SSLCommerz payment integration.',
-      technologies: ['Next.js 16', 'Express.js', 'Cloud Firestore', 'Better Auth', 'Tailwind CSS', 'TypeScript'],
+      technologies: [
+        'Next.js 16',
+        'Express.js',
+        'Cloud Firestore',
+        'Better Auth',
+        'Tailwind CSS',
+        'TypeScript',
+      ],
       image: '/projects/Path to Peace Website.png',
       imageAlt: 'Path to Peace Meditative Editorial platform interface',
       links: {
@@ -195,7 +203,14 @@ export const PROJECTS_DATA = {
       role: 'Turborepo Monorepo, Styled-Components, Framer Motion, Better Auth & Firestore',
       description:
         'A full-stack bilingual travel portal for exploring and booking curated tours across Bangladesh, featuring real-time wishlists, user leveling, and mobile banking payment workflows.',
-      technologies: ['Next.js 15', 'Express.js', 'TypeScript', 'Firebase Firestore', 'Better Auth', 'Styled-Components'],
+      technologies: [
+        'Next.js 15',
+        'Express.js',
+        'TypeScript',
+        'Firebase Firestore',
+        'Better Auth',
+        'Styled-Components',
+      ],
       image: '/projects/cholobuddy.png',
       imageAlt: 'CholoBuddy Travel and Tour Booking platform interface',
       links: {

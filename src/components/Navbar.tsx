@@ -1,5 +1,5 @@
 import React from 'react';
-import { NAVBAR_DATA, SOCIAL_LINKS } from '@/utils/constants';
+import { NAVBAR_DATA } from '@/utils/constants';
 import BrandLogo from './BrandLogo';
 
 const Navbar = () => {
@@ -27,10 +27,14 @@ const Navbar = () => {
         ))}
       </div>
       <a 
-        href={SOCIAL_LINKS.email}
-        className="px-5 py-2.5 bg-primary-dim text-white font-headline font-bold text-xs uppercase tracking-widest border border-primary/30 hover:bg-white hover:text-black hover:border-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        href={NAVBAR_DATA.resumeHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={NAVBAR_DATA.resumeAriaLabel}
+        className="px-5 py-2.5 bg-primary text-black font-headline font-bold text-xs uppercase tracking-widest border border-primary hover:bg-white hover:text-black hover:border-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-[0_0_15px_rgba(255,45,117,0.3)] inline-flex items-center gap-1.5"
       >
-        {NAVBAR_DATA.connectLabel}
+        <span>{NAVBAR_DATA.resumeLabel}</span>
+        <span className="text-xs" aria-hidden="true">↗</span>
       </a>
     </nav>
   );

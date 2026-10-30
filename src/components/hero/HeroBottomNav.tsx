@@ -25,12 +25,12 @@ export const HeroBottomNav: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom-Right: Persistent VIEW WORK Link */}
+      {/* Bottom-Right: Persistent EXPLORE WORK Link */}
       <div className="pointer-events-auto">
         <a
           href={HERO_DATA.viewWorkAction.href}
           aria-label={HERO_DATA.viewWorkAction.ariaLabel}
-          className="group flex items-center gap-2 px-4 py-2 bg-primary text-black font-mono font-black text-xs md:text-sm tracking-wider uppercase hover:bg-white hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-[0_0_15px_rgba(255,45,117,0.4)]"
+          className="group flex items-center gap-2 px-4 py-2 bg-primary text-black font-mono font-black text-xs md:text-sm tracking-wider uppercase hover:bg-white hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shadow-[0_0_15px_rgba(255,45,117,0.4)] whitespace-nowrap"
         >
           <span>{HERO_DATA.viewWorkAction.label}</span>
         </a>

@@ -6,9 +6,9 @@ export const HERO_DATA = {
   techStack: ['React', 'Next.js', 'TypeScript', 'React Native', 'Node.js'] as const,
   explorePrompt: 'EXPLORE CITY',
   viewWorkAction: {
-    label: 'VIEW MY WORK ↗',
+    label: 'EXPLORE WORK ↗',
     href: '#selected-work',
-    ariaLabel: 'Navigate to selected work and casework',
+    ariaLabel: 'Navigate to selected casework and projects',
   },
   worldWidth: 1600,
   worldHeight: 520,

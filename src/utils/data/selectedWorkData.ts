@@ -19,7 +19,7 @@ export const SELECTED_WORK_DATA = {
   title: 'SELECTED WORK',
   titleAccent: '.',
   subtitle: 'PRODUCTION SYSTEMS & COMMERCIAL APPLICATION ENGINEERING AT XIIA',
-  cityRegion: 'SECTOR 03 // COMMERCIAL DEPLOYMENTS',
+  cityRegion: 'The XIIA Collection // SECTOR 03 // COMMERCIAL DEPLOYMENTS',
   signalOnline: 'PRODUCTION VERIFIED',
   archivePeriod: '2025 — PRESENT',
   archiveLabel: 'COMMERCIAL WORK',
@@ -59,8 +59,7 @@ export const SELECTED_WORK_DATA = {
       number: '02',
       name: 'Kiibee',
       category: 'Digital Content & Commerce Platform',
-      description:
-        'A platform combining digital publishing, content discovery, and commerce.',
+      description: 'A platform combining digital publishing, content discovery, and commerce.',
       contributionLabel: 'Key Contribution',
       contribution: 'Frontend & Product Interface Development',
       technologies: ['React', 'Next.js', 'TypeScript', 'REST APIs', 'CMS Integration'],
@@ -75,8 +74,7 @@ export const SELECTED_WORK_DATA = {
       number: '03',
       name: 'Foodime',
       category: 'Restaurant POS & Management Platform',
-      description:
-        'A restaurant operations platform supporting POS, admin, and manager workflows.',
+      description: 'A restaurant operations platform supporting POS, admin, and manager workflows.',
       contributionLabel: 'Key Contribution',
       contribution: 'Application Interface & Feature Development',
       technologies: ['React', 'Next.js', 'TypeScript', 'REST APIs'],
