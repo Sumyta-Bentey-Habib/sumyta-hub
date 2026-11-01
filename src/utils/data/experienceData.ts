@@ -1,3 +1,15 @@
+export interface ExperienceFocusItem {
+  readonly lead: string;
+  readonly body: string;
+}
+
+export interface ExperiencePosition {
+  readonly title: string;
+  readonly period: string;
+  readonly roleBadge: string;
+  readonly isPromoted?: boolean;
+}
+
 export interface ExperienceSector {
   readonly id: string;
   readonly number: string;
@@ -9,12 +21,16 @@ export interface ExperienceSector {
   readonly role: string;
   readonly company: string;
   readonly location: string;
+  readonly totalTenure?: string;
   readonly active: boolean;
   readonly statusLabel: string;
   readonly statusSublabel: string;
+  readonly progressionBadge?: string;
+  readonly progressionNote?: string;
+  readonly positions?: readonly ExperiencePosition[];
   readonly description: string;
   readonly focusCategory: string;
-  readonly focusItems: readonly string[];
+  readonly focusItems: readonly (string | ExperienceFocusItem)[];
   readonly techCategory: string;
   readonly technologies: readonly string[];
 }
@@ -49,23 +65,66 @@ export const EXPERIENCE_DATA = {
       districtTitle: 'XIIA CORPORATE COMPLEX',
       districtSub: 'PRODUCTION ENGINEERING DISTRICT',
       beaconColor: 'primary',
-      period: '2025 — PRESENT',
+      period: 'NOV 2025 — NOV 2026',
+      totalTenure: '1 YEAR TOTAL',
       role: 'Junior Software Developer',
       company: 'XIIA',
       location: 'Copenhagen, Denmark',
-      active: true,
-      statusLabel: 'Currently Active',
+      active: false,
+      statusLabel: 'Production Record',
       statusSublabel: 'Production Deployment',
+      progressionBadge: 'CAREER PROGRESSION',
+      progressionNote: 'Promoted to Junior Software Developer following internship',
+      positions: [
+        {
+          title: 'Junior Software Developer',
+          period: 'March 2026 – November 2026',
+          roleBadge: 'PROMOTED ↗',
+          isPromoted: true,
+        },
+        {
+          title: 'Web Developer Intern',
+          period: 'November 2025 – February 2026',
+          roleBadge: 'INTERNSHIP',
+          isPromoted: false,
+        },
+      ],
       description:
-        'Contributing to production web and mobile applications, primarily focused on frontend implementation, feature development, component refactoring, debugging, and UI polish across platforms.',
+        'Contributed to the development and maintenance of production web and mobile applications, focusing primarily on frontend implementation, feature development, API integration, component refactoring, debugging, and UI improvements across platforms.',
       focusCategory: 'Production Responsibilities',
       focusItems: [
-        'Implementing UI from product designs and Figma requirements',
-        'Developing modular frontend features across web and mobile interfaces',
-        'Refactoring existing UI components for clarity and maintainability',
-        'Debugging frontend issues across screens and user flows',
-        'Engineering responsive interfaces across diverse viewports',
-        'Collaborating with developers and designers using Git-based workflows',
+        {
+          lead: 'Implemented responsive user interfaces',
+          body: 'based on Figma designs and product requirements.',
+        },
+        {
+          lead: 'Developed and enhanced frontend features',
+          body: 'across React.js, Next.js, and React Native applications.',
+        },
+        {
+          lead: 'Integrated existing backend APIs',
+          body: 'to support application features and user workflows.',
+        },
+        {
+          lead: 'Contributed to payment-related features,',
+          body: 'including payment method interfaces, DM subscriptions, and Stripe-based payout workflows.',
+        },
+        {
+          lead: 'Co-developed protected content access flows',
+          body: 'using password and email verification.',
+        },
+        {
+          lead: 'Refactored reusable components',
+          body: 'to improve code organization and maintainability.',
+        },
+        {
+          lead: 'Investigated and resolved functional issues,',
+          body: 'UI defects, and inconsistencies across application screens and user flows.',
+        },
+        {
+          lead: 'Collaborated with developers and designers',
+          body: 'through Git-based development workflows.',
+        },
       ],
       techCategory: 'Production Technologies',
       technologies: ['React', 'React Native', 'Next.js', 'JavaScript', 'TypeScript', 'Git'],
@@ -100,14 +159,21 @@ export const EXPERIENCE_DATA = {
       technologies: [
         'React',
         'Next.js',
+        'React Native',
         'Node.js',
         'Express',
+        'PostgreSQL',
+        'Prisma ORM',
+        'Better Auth',
         'MongoDB',
         'Firebase',
+        'Firestore',
         'Socket.io',
         'Tailwind CSS',
         'Vite',
         'REST APIs',
+        'SSLCommerz',
+        'Stripe Payment'
       ],
     },
   ],
