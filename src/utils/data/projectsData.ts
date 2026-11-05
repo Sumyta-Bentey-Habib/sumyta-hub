@@ -349,3 +349,4 @@ export const PROJECTS_DATA = {
     },
   ] as readonly ProjectItem[],
 } as const;
+
