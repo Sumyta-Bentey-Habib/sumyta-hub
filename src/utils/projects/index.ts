@@ -1,1 +1,1 @@
-export * from '@/components/projects/useProjectWorkstation';
+export * from '@/utils/data/projectsData';

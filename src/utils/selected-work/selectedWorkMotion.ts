@@ -7,7 +7,7 @@ export interface SelectedWorkMotionElements {
   readonly section: HTMLElement | null;
   readonly header: HTMLDivElement | null;
   readonly cardsContainer: HTMLDivElement | null;
-  readonly banner: HTMLDivElement | null;
+  readonly banner?: HTMLDivElement | null;
 }
 
 export function initSelectedWorkScrollAnimations(elements: SelectedWorkMotionElements): () => void {

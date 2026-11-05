@@ -21,6 +21,8 @@ const getAccentClasses = (accent: 'primary' | 'windowAmber' | 'accentCyan') => {
         badgeBg: 'bg-accent-cyan/10',
         badgeBorder: 'border-accent-cyan/30',
         glow: 'hover:shadow-[0_0_24px_rgba(0,242,254,0.14)]',
+        button:
+          'text-accent-cyan hover:text-black bg-accent-cyan/10 hover:bg-accent-cyan border-accent-cyan/30 hover:border-accent-cyan shadow-[0_0_12px_rgba(0,242,254,0.15)] hover:shadow-[0_0_20px_rgba(0,242,254,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan',
       };
     case 'windowAmber':
       return {
@@ -31,6 +33,8 @@ const getAccentClasses = (accent: 'primary' | 'windowAmber' | 'accentCyan') => {
         badgeBg: 'bg-window-amber/10',
         badgeBorder: 'border-window-amber/30',
         glow: 'hover:shadow-[0_0_24px_rgba(255,184,108,0.14)]',
+        button:
+          'text-window-amber hover:text-black bg-window-amber/10 hover:bg-window-amber border-window-amber/30 hover:border-window-amber shadow-[0_0_12px_rgba(255,184,108,0.15)] hover:shadow-[0_0_20px_rgba(255,184,108,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-window-amber',
       };
     case 'primary':
     default:
@@ -42,6 +46,8 @@ const getAccentClasses = (accent: 'primary' | 'windowAmber' | 'accentCyan') => {
         badgeBg: 'bg-primary/10',
         badgeBorder: 'border-primary/30',
         glow: 'hover:shadow-[0_0_24px_rgba(255,45,117,0.14)]',
+        button:
+          'text-primary hover:text-black bg-primary/10 hover:bg-primary border-primary/30 hover:border-primary shadow-[0_0_12px_rgba(255,45,117,0.15)] hover:shadow-[0_0_20px_rgba(255,45,117,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
       };
   }
 };
@@ -136,28 +142,43 @@ export const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project, pri
           </div>
 
           <div
-            className={`font-mono text-xs sm:text-sm font-semibold text-white/95 bg-white/[0.03] p-3 border-l-2 ${accent.leftBar} rounded-r-xs`}
+            className={`font-mono text-xs sm:text-sm font-semibold text-white/95 bg-white/[0.03] p-3 border-l-2 ${accent.leftBar} rounded-r-xs min-h-[58px] sm:min-h-[64px] flex items-center`}
           >
             {project.contribution}
           </div>
         </div>
       </div>
 
-      {/* ── VERIFIED TECHNOLOGIES PILL STRIP ── */}
-      <div className="space-y-2 pt-4 mt-4 border-t border-white/10">
-        <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-secondary/60">
-          {`${SELECTED_WORK_DATA.labels.technologiesLabel} //`}
+      {/* ── VERIFIED TECHNOLOGIES & PRODUCT ACTION ── */}
+      <div className="space-y-4 pt-4 mt-4 border-t border-white/10">
+        <div className="space-y-2">
+          <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-secondary/60">
+            {`${SELECTED_WORK_DATA.labels.technologiesLabel} //`}
+          </div>
+
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            {project.technologies.map((tech) => (
+              <span
+                key={tech}
+                className="font-mono text-[11px] px-2.5 py-1 border border-white/10 bg-white/[0.02] text-white/85 rounded-xs hover:border-white/30 transition-colors uppercase tracking-wider"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-          {project.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="font-mono text-[11px] px-2.5 py-1 border border-white/10 bg-white/[0.02] text-white/85 rounded-xs hover:border-white/30 transition-colors uppercase tracking-wider"
-            >
-              {tech}
-            </span>
-          ))}
+        {/* ── OFFICIAL PRODUCT WEBSITE LINK ── */}
+        <div className="pt-2">
+          <a
+            href={project.productUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${SELECTED_WORK_DATA.labels.visitProductAriaPrefix} ${project.name}`}
+            className={`w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xs font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 border cursor-pointer group/link ${accent.button}`}
+          >
+            <span>{SELECTED_WORK_DATA.labels.visitProduct}</span>
+          </a>
         </div>
       </div>
     </article>
@@ -165,4 +186,3 @@ export const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project, pri
 };
 
 SelectedWorkCard.displayName = 'SelectedWorkCard';
-
