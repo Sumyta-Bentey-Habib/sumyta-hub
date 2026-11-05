@@ -18,7 +18,7 @@ export const NAVBAR_DATA = {
     { label: 'Contact', href: '#contact' },
   ] as const,
   resumeLabel: 'RESUME',
-  resumeHref: 'https://drive.google.com/file/d/1MB4ag-8obYWNby-78QHPxxxGPkNFzkHP/view?usp=sharing',
+  resumeHref: 'https://drive.google.com/file/d/1rf0GaKZ3mka4FoaDJb-bCU04_xOQwNd7/view?usp=sharing',
   resumeAriaLabel: 'Open Sumyta Bentey Habib Resume in a new tab',
 } as const;
 
@@ -26,5 +26,5 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/Sumyta-Bentey-Habib',
   linkedin: 'https://www.linkedin.com/in/sumytabenteyhabib/',
   email: 'mailto:sumytabenteyhabib@gmail.com',
-  resume: 'https://drive.google.com/file/d/1MB4ag-8obYWNby-78QHPxxxGPkNFzkHP/view?usp=sharing',
+  resume: 'https://drive.google.com/file/d/1rf0GaKZ3mka4FoaDJb-bCU04_xOQwNd7/view?usp=sharing',
 } as const;

@@ -30,7 +30,7 @@ export const SKILLS_DATA = {
   subtitle:
     'A living full-stack environment where interfaces, servers, databases, and deployment platforms operate continuously across the cyberpunk streetscape.',
   patrolStatus: 'PATROLLING CYBERWAY 03',
-  liveStatus: '60 FPS LIVING SCENE',
+  liveStatus: '',
   interactionHint: 'CLICK OR HOVER ANY TECH / STATION TO DISPATCH SUMYTA',
   playerPointerLabel: 'YOU',
   inspectingLabel: 'INSPECTING // ',

@@ -47,7 +47,7 @@ export const CONTACT_DATA = {
         id: 'resume',
         label: 'RESUME',
         handle: 'Google Drive',
-        href: 'https://drive.google.com/file/d/1MB4ag-8obYWNby-78QHPxxxGPkNFzkHP/view?usp=sharing',
+        href: 'https://drive.google.com/file/d/1rf0GaKZ3mka4FoaDJb-bCU04_xOQwNd7/view?usp=sharing',
         isExternal: true,
         ariaLabel: 'Open Sumyta Bentey Habib Resume on Google Drive',
       },
