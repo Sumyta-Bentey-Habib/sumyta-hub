@@ -1,14 +1,22 @@
+export interface TechGroup {
+  readonly category: string;
+  readonly items: readonly string[];
+}
+
 export interface ProjectItem {
   readonly id: string;
   readonly number: string;
   readonly title: string;
   readonly subtitle: string;
   readonly category: string;
+  readonly ownershipType: 'Personal Project' | 'Team Project' | 'Professional Contribution';
   readonly isGroupProject: boolean;
   readonly groupBadge?: string;
+  readonly isFeatured?: boolean;
   readonly role: string;
   readonly description: string;
   readonly technologies: readonly string[];
+  readonly techGroups: readonly TechGroup[];
   readonly image: string;
   readonly imageAlt: string;
   readonly links: {
@@ -28,47 +36,50 @@ export interface ProjectItem {
 }
 
 export const PROJECTS_DATA = {
-  sectionTag: '04 // THE NEON DEV LAB',
-  title: 'PRODUCTION WORKSTATION',
+  sectionId: 'work',
+  sectionTag: '04 // SELECTED WORKS',
+  title: 'SELECTED WORKS',
   titleAccent: '.',
   subtitle:
-    'A FUTURISTIC DEVELOPER WORKBENCH // EXPLORE VERIFIED SOFTWARE PRODUCTS AND PRODUCTION RUNTIMES',
-  kicker: 'PRODUCT LAB // SECTOR 04',
-  highwayStatus: 'DEV LAB ONLINE // 6 REPOSITORIES READY',
-  cruisingSpeed: 'RUNTIME STREAM 60 FPS',
-  interactionHint: 'SELECT REPOSITORY TO SWITCH RUNTIME FEED // [← / →] TO NAVIGATE',
+    "A collection of applications and digital experiences I've built, explored, and contributed to.",
+  projectCountSuffix: 'PROJECTS',
+  featuredBadge: 'FEATURED PROJECT',
+  featuredKicker: 'SPOTLIGHT // MONOREPO ARCHITECTURE',
+  myContributionLabel: 'MY CONTRIBUTION',
+  techStackLabel: 'TECHNOLOGY STACK',
+  actionsLabel: 'EXPLORE REPOSITORY & DEPLOYMENT',
+  openLiveDemo: 'LIVE DEMO',
+  openSourceCode: 'SOURCE CODE',
+  openClientRepo: 'CLIENT REPO',
+  openServerRepo: 'SERVER REPO',
+  openMonorepo: 'REPOSITORY',
+  viewProjectAria: 'Open live preview for',
+  externalLinkAria: 'opens in a new window',
+  quickPreviewBadge: 'LIVE PREVIEW ↗',
+  allProjectsArchivedNotice: 'End of selected works showcase. All repositories and live deployments are verified.',
+
+  /* Backward compatibility labels */
+  kicker: 'EDITORIAL SHOWCASE // SECTOR 04',
+  highwayStatus: 'SHOWCASE ACTIVE // 6 PRODUCTION REPOSITORIES',
   period: '2024 — 2026',
-  indexPrefix: 'RUNTIME // ',
-  roleLabel: 'ROLE / ARCHITECTURE',
-  techLabel: 'TECH STACK SPECIFICATIONS',
+  scrollProgressLabel: 'EDITORIAL DOSSIER',
   demoButtonText: 'LIVE DEMO ↗',
   githubButtonText: 'SOURCE CODE ↗',
-  frontendButtonText: 'FRONTEND ↗',
-  backendButtonText: 'BACKEND ↗',
-  monorepoButtonText: 'MONOREPO ↗',
-  clientGithubButtonText: 'FRONTEND ↗',
-  serverGithubButtonText: 'BACKEND ↗',
+  frontendButtonText: 'CLIENT REPO ↗',
+  backendButtonText: 'SERVER REPO ↗',
+  monorepoButtonText: 'REPOSITORY ↗',
+  clientGithubButtonText: 'CLIENT REPO ↗',
+  serverGithubButtonText: 'SERVER REPO ↗',
   openPreviewBadge: 'OPEN PREVIEW ↗',
-  groupProjectBadge: 'GROUP PROJECT',
-  archiveTermination: '// ARCHIVE TERMINATION',
-  repositoryArchive: '// REPOSITORY ARCHIVE',
-  viewProjectLabel: 'OPEN RUNTIME ↗',
-  leftWorldTag: 'DEVELOPER SPECIFICATION',
-  rightWorldTag: 'PRIMARY RUNTIME MONITOR',
-  scrollProgressLabel: 'DEV LAB WORKBENCH',
-  assemblySequenceLabel: 'RUNTIME LOADED',
-  statusAssembled: 'FEED ACTIVE',
-  statusAssembling: 'SYNCING RUNTIME...',
-  terminalPath: '~/projects',
-  projectIndexLabel: 'PROJECT_INDEX',
-  terminalHeader: '~/projects',
-  monitorTitle: 'DOMINANT MONITOR // RUNTIME FEED',
-  monitorResolution: '1920×1080 HD // 60 FPS',
-  dominantMonitorTag: 'PRIMARY WORKSTATION MONITOR',
-  monitorSignal: 'LIVE RUNTIME STREAM',
+  groupProjectBadge: 'TEAM PROJECT',
+  roleLabel: 'MY CONTRIBUTION',
+  techLabel: 'TECH STACK SPECIFICATIONS',
   launchProjectAria: 'Launch live demo in new window',
   githubProjectAria: 'View source code on GitHub in new window',
-  infoPanelHeaderTag: 'SPECIFICATION DOSSIER',
+  terminalHeader: '~/projects',
+  terminalPath: '~/projects',
+  repositoryArchive: '// REPOSITORY ARCHIVE',
+  infoPanelHeaderTag: 'PROJECT SPECIFICATION',
   activeRuntimeTag: 'ACTIVE',
   standbyRuntimeTag: 'STANDBY',
   keyboardHint: '[← / →] KEYS TO SWITCH',
@@ -80,42 +91,19 @@ export const PROJECTS_DATA = {
   autoCycleLabel: 'AUTO-CYCLE',
   autoIntervalMs: 6000,
   idleResumeDelayMs: 12000,
+  rightWorldTag: 'PROJECT SHOWCASE',
+
   projects: [
     {
       id: '01',
       number: '01',
-      title: 'Operix',
-      subtitle: 'Pharmaceutical Operations & Governance Platform',
-      category: 'Enterprise Web Platform',
-      isGroupProject: true,
-      groupBadge: 'GROUP PROJECT',
-      role: 'Role-Based Access Control, Admin & Team Workflows, Better Auth Session Management',
-      description:
-        'A pharmaceutical operations platform for managing teams, tasks, submissions, and role-based workflows with robust permission structures.',
-      technologies: ['Next.js', 'React', 'TypeScript', 'CSS Modules', 'Better Auth', 'Vitest'],
-      image: '/projects/Operix Pharmaceutical Operations & Governance Platform.png',
-      imageAlt: 'Operix Pharmaceutical Operations Platform interface',
-      links: {
-        demo: 'https://operix-frontend-avi.vercel.app/',
-        frontend: 'https://github.com/Sumyta-Bentey-Habib/Operix-Frontend',
-        backend: 'https://github.com/Sumyta-Bentey-Habib/Operix-Backend',
-        github: 'https://github.com/Sumyta-Bentey-Habib/Operix-Frontend',
-      },
-      layoutVariant: 'default',
-      exitCode: 'EXIT 01',
-      waypointLabel: 'KM 1.2 // PHARMA OPERATIONS SECTOR',
-      landmarkTitle: 'OPERIX PHARMACEUTICAL PLATFORM',
-      districtType: 'Pharmaceutical Operations & Governance District',
-      themeAccent: 'primary',
-    },
-    {
-      id: '02',
-      number: '02',
       title: 'Path to Peace',
       subtitle: 'Full-Stack Meditative Editorial & Sanctuary',
       category: 'Meditative Platform',
+      ownershipType: 'Personal Project',
       isGroupProject: false,
-      role: 'Monorepo Architecture, Better Auth (Firestore Adapter), SSLCommerz & Express API',
+      isFeatured: true,
+      role: 'Monorepo Architecture, Better Auth ,PostgreSQL, SSLCommerz & Express API',
       description:
         'A digital sanctuary designed as a meditative editorial, featuring emotional feeling tools, distraction-free Quran explorer, digital course portal, and SSLCommerz payment integration.',
       technologies: [
@@ -126,7 +114,20 @@ export const PROJECTS_DATA = {
         'Better Auth',
         'Tailwind CSS',
         'TypeScript',
-        'SSLCommerz',
+      ],
+      techGroups: [
+        {
+          category: 'Frontend',
+          items: ['Next.js 16', 'Tailwind CSS', 'TypeScript'],
+        },
+        {
+          category: 'Backend & Data',
+          items: ['Express.js', 'PostgreSQL','Prisma ORM'],
+        },
+        {
+          category: 'Auth & Payments',
+          items: ['Better Auth', 'SSLCommerz'],
+        },
       ],
       image: '/projects/Path to Peace Website.png',
       imageAlt: 'Path to Peace Meditative Editorial platform interface',
@@ -136,11 +137,53 @@ export const PROJECTS_DATA = {
         isMonorepo: true,
       },
       layoutVariant: 'split-reverse',
-      exitCode: 'EXIT 02',
-      waypointLabel: 'KM 2.8 // MEDITATIVE EDITORIAL',
+      exitCode: 'EXIT 01',
+      waypointLabel: 'KM 1.0 // MEDITATIVE EDITORIAL',
       landmarkTitle: 'PATH TO PEACE SANCTUARY',
       districtType: 'Meditative Sanctuary & E-Learning District',
-      themeAccent: 'finishGold',
+      themeAccent: 'accentCyan',
+    },
+    {
+      id: '02',
+      number: '02',
+      title: 'Operix',
+      subtitle: 'Pharmaceutical Operations & Governance Platform',
+      category: 'Enterprise Web Platform',
+      ownershipType: 'Team Project',
+      isGroupProject: true,
+      groupBadge: 'TEAM PROJECT',
+      role: 'Role-Based Access Control, Admin & Team Workflows, Better Auth Session Management',
+      description:
+        'A pharmaceutical operations platform for managing teams, tasks, submissions, and role-based workflows with robust permission structures.',
+      technologies: ['Next.js', 'React', 'TypeScript', 'CSS Modules', 'Better Auth', 'Vitest'],
+      techGroups: [
+        {
+          category: 'Frontend',
+          items: ['Next.js', 'React', 'TypeScript', 'CSS Modules'],
+        },
+        {
+          category: 'Auth & Testing',
+          items: ['Better Auth', 'Vitest'],
+        },
+        {
+          category: 'Governance',
+          items: ['Role-Based Access Control', 'Workflow Submissions'],
+        },
+      ],
+      image: '/projects/Operix Pharmaceutical Operations & Governance Platform.png',
+      imageAlt: 'Operix Pharmaceutical Operations Platform interface',
+      links: {
+        demo: 'https://operix-frontend-avi.vercel.app/',
+        frontend: 'https://github.com/Sumyta-Bentey-Habib/Operix-Frontend',
+        backend: 'https://github.com/Sumyta-Bentey-Habib/Operix-Backend',
+        github: 'https://github.com/Sumyta-Bentey-Habib/Operix-Frontend',
+      },
+      layoutVariant: 'default',
+      exitCode: 'EXIT 02',
+      waypointLabel: 'KM 2.5 // PHARMA OPERATIONS SECTOR',
+      landmarkTitle: 'OPERIX PHARMACEUTICAL PLATFORM',
+      districtType: 'Pharmaceutical Operations & Governance District',
+      themeAccent: 'primary',
     },
     {
       id: '03',
@@ -148,12 +191,23 @@ export const PROJECTS_DATA = {
       title: 'Quadra',
       subtitle: 'Real-Time Social Media Platform',
       category: 'Full-Stack Web Application',
+      ownershipType: 'Team Project',
       isGroupProject: true,
-      groupBadge: 'GROUP PROJECT',
+      groupBadge: 'TEAM PROJECT',
       role: 'Frontend Architecture, Real-Time Sync & Responsive UI',
       description:
         'A modern, full-stack social media application providing a comprehensive social networking experience with real-time messaging, post interactions, and instant notifications.',
       technologies: ['React', 'Next.js', 'Node.js', 'Express', 'Socket.io', 'Tailwind CSS'],
+      techGroups: [
+        {
+          category: 'Frontend',
+          items: ['React', 'Next.js', 'Tailwind CSS'],
+        },
+        {
+          category: 'Backend & Real-Time',
+          items: ['Node.js', 'Express', 'Socket.io'],
+        },
+      ],
       image: '/projects/Quadra Social Connect.png',
       imageAlt: 'Quadra Social Media Platform interface',
       links: {
@@ -175,6 +229,7 @@ export const PROJECTS_DATA = {
       title: 'Espresso Emporium',
       subtitle: 'Curated Coffee Marketplace & Discovery',
       category: 'E-Commerce Platform',
+      ownershipType: 'Personal Project',
       isGroupProject: false,
       role: 'Full-Stack Development, Firebase Integration & Catalog Flow',
       description:
@@ -185,7 +240,17 @@ export const PROJECTS_DATA = {
         'Tailwind CSS',
         'Socket.io',
         'MongoDB',
-        'Stripe Payment ',
+        'Stripe Payment',
+      ],
+      techGroups: [
+        {
+          category: 'Frontend',
+          items: ['React', 'Tailwind CSS'],
+        },
+        {
+          category: 'Backend & Real-Time',
+          items: ['Firebase', 'Socket.io'],
+        },
       ],
       image: '/projects/Espresso Emporium Website.png',
       imageAlt: 'Luxury coffee branding and e-commerce interface',
@@ -197,10 +262,10 @@ export const PROJECTS_DATA = {
       },
       layoutVariant: 'offset-bottom',
       exitCode: 'EXIT 04',
-      waypointLabel: 'KM 6.1 // SPECIALTY COMMERCE SECTOR',
+      waypointLabel: 'KM 5.8 // SPECIALTY COMMERCE SECTOR',
       landmarkTitle: 'ESPRESSO ROASTERY & MARKET',
       districtType: 'Curated E-Commerce & Specialty Roastery',
-      themeAccent: 'windowAmber',
+      themeAccent: 'accentCyan',
     },
     {
       id: '05',
@@ -208,6 +273,7 @@ export const PROJECTS_DATA = {
       title: 'CholoBuddy',
       subtitle: 'Bilingual Travel & Tour Booking Platform',
       category: 'Travel & Tour Platform',
+      ownershipType: 'Personal Project',
       isGroupProject: false,
       role: 'Turborepo Monorepo, Styled-Components, Framer Motion, Better Auth & Firestore',
       description:
@@ -220,6 +286,16 @@ export const PROJECTS_DATA = {
         'Better Auth',
         'Styled-Components',
       ],
+      techGroups: [
+        {
+          category: 'Frontend',
+          items: ['Next.js 15', 'TypeScript', 'Styled-Components'],
+        },
+        {
+          category: 'Backend & Data',
+          items: ['Express.js', 'Firebase Firestore', 'Better Auth'],
+        },
+      ],
       image: '/projects/cholobuddy.png',
       imageAlt: 'CholoBuddy Travel and Tour Booking platform interface',
       links: {
@@ -229,10 +305,10 @@ export const PROJECTS_DATA = {
       },
       layoutVariant: 'default',
       exitCode: 'EXIT 05',
-      waypointLabel: 'KM 7.8 // TRAVEL EXPEDITION SECTOR',
+      waypointLabel: 'KM 7.5 // TRAVEL EXPEDITION SECTOR',
       landmarkTitle: 'CHOLOBUDDY TRAVEL EXPEDITION',
       districtType: 'Tour Operations & Travel Expedition District',
-      themeAccent: 'accentCyan',
+      themeAccent: 'primary',
     },
     {
       id: '06',
@@ -240,11 +316,22 @@ export const PROJECTS_DATA = {
       title: 'Studify',
       subtitle: 'MERN Learning Management & Admin Platform',
       category: 'Educational Platform',
+      ownershipType: 'Personal Project',
       isGroupProject: false,
       role: 'Full-Stack Architecture, JWT Authentication & Role-Based Access Control',
       description:
         'A robust MERN-stack educational platform with role-based access control and a comprehensive admin suite for user oversight, course lifecycle, and role management.',
       technologies: ['React', 'Firebase', 'JWT', 'Tailwind CSS', 'DaisyUI'],
+      techGroups: [
+        {
+          category: 'Frontend',
+          items: ['React', 'Tailwind CSS', 'DaisyUI'],
+        },
+        {
+          category: 'Backend & Security',
+          items: ['Firebase', 'JWT Authentication'],
+        },
+      ],
       image: '/projects/studify.png',
       imageAlt: 'Modern education platform interface with admin suite',
       links: {
@@ -255,10 +342,11 @@ export const PROJECTS_DATA = {
       },
       layoutVariant: 'offset-top',
       exitCode: 'EXIT 06',
-      waypointLabel: 'KM 9.5 // ACADEMIC CITADEL',
+      waypointLabel: 'KM 9.2 // ACADEMIC CITADEL',
       landmarkTitle: 'STUDIFY LEARNING CITADEL',
       districtType: 'Academic Tech & Role-Based Governance District',
       themeAccent: 'primary',
     },
   ] as readonly ProjectItem[],
 } as const;
+

@@ -10,14 +10,12 @@ export default function SelectedWork() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
-  const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const cleanup = initSelectedWorkScrollAnimations({
       section: sectionRef.current,
       header: headerRef.current,
       cardsContainer: cardsContainerRef.current,
-      banner: bannerRef.current,
     });
 
     return cleanup;
@@ -58,32 +56,8 @@ export default function SelectedWork() {
           />
         ))}
       </div>
-
-      {/* ── 3. ARCHITECTURAL VERIFICATION & NDA NOTATION ── */}
-      <div
-        ref={bannerRef}
-        className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono text-xs relative z-10"
-      >
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-primary font-bold tracking-widest uppercase text-[11px]">
-            <span className="w-1.5 h-1.5 bg-primary rotate-45 inline-block" aria-hidden="true" />
-            <span>{SELECTED_WORK_DATA.labels.ndaNotice}</span>
-          </div>
-          <p className="text-secondary/60 text-xs max-w-2xl leading-relaxed">
-            {SELECTED_WORK_DATA.confidentialityNote}
-          </p>
-        </div>
-
-        <a
-          href={SELECTED_WORK_DATA.labels.caseworkHref}
-          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-white hover:text-primary transition-colors uppercase tracking-wider shrink-0"
-        >
-          <span>{SELECTED_WORK_DATA.labels.caseworkPrompt}</span>
-        </a>
-      </div>
     </section>
   );
 }
 
 SelectedWork.displayName = 'SelectedWork';
-
