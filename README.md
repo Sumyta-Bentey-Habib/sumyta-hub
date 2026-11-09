@@ -180,7 +180,7 @@ A curated selection of full-stack web applications, real-time communication syst
 
 ## ⚡ About This Portfolio
 
-The [live portfolio](https://github.com/Sumyta-Bentey-Habib/sumyta-hub) is built with **Next.js 16**, **React 19**, **Tailwind CSS v4**, and **GSAP 3**:
+🌐 **Live Portfolio:** [sumytadev.vercel.app](https://sumytadev.vercel.app/)  is built with **Next.js 16**, **React 19**, **Tailwind CSS v4**, and **GSAP 3**:
 - **Canvas 2D Physics Engine**: Procedural rooftop skyline simulation with real-time particle dynamics and collision tracking.
 - **Selected Work Particle Engine**: Pixel-sampling Canvas 2D particle assembly animations tailored to each commercial project.
 - **Living Skills Street**: Dynamic Canvas simulation displaying pedestrian AI and daytime/nighttime lighting cycles.
