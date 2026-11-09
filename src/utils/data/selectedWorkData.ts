@@ -4,14 +4,15 @@ export interface SelectedWorkProject {
   readonly name: string;
   readonly category: string;
   readonly description: string;
-  readonly contributionLabel: string;
-  readonly contribution: string;
+  readonly contributionLabel?: string;
+  readonly contribution?: string;
   readonly technologies: readonly string[];
   readonly image: string;
   readonly imageAlt: string;
   readonly accent: 'primary' | 'windowAmber' | 'accentCyan';
   readonly clientLabel: string;
   readonly productUrl: string;
+  readonly period?: string;
 }
 
 export const SELECTED_WORK_DATA = {
@@ -86,6 +87,22 @@ export const SELECTED_WORK_DATA = {
       accent: 'accentCyan',
       clientLabel: 'XIIA // PRODUCTION',
       productUrl: 'https://foodime.dk/',
+    },
+    {
+      id: 'wewaive',
+      number: '04',
+      name: 'Wewaive',
+      category: 'Royalty-Free Music Platform',
+      description:
+        'A mobile music platform for businesses to discover and stream royalty-free music through curated catalogues, playlists, and subscription-based experiences.',
+      technologies: ['React Native', 'Expo', 'TypeScript', 'iOS', 'Android'],
+      image: '/images/selected-work/wewaive-visual.png',
+      imageAlt:
+        'Wewaive abstract royalty-free mobile music platform visualization with holographic audio discs, sound waves, and glassmorphic playlist elements',
+      accent: 'primary',
+      clientLabel: 'XIIA // PRODUCTION',
+      productUrl: 'https://wewaive.com/',
+      period: '2025 – 2026',
     },
   ] as const satisfies readonly SelectedWorkProject[],
 } as const;

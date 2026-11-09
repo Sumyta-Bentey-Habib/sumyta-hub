@@ -78,9 +78,10 @@ export const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project, pri
         aria-hidden="true"
       />
 
-      <div className="space-y-4">
+      {/* ── CARD UPPER SECTION ── */}
+      <div className="flex flex-col flex-1">
         {/* ── CARD TOP BEZEL: INDEX & PRODUCTION NODE ── */}
-        <div className="flex items-center justify-between pb-2 border-b border-white/10 font-mono text-xs">
+        <div className="flex items-center justify-between pb-2 mb-3 border-b border-white/10 font-mono text-xs">
           <div className="flex items-center gap-2">
             <span className={`${accent.text} font-bold tracking-widest text-[11px]`}>
               {`${SELECTED_WORK_DATA.labels.indexPrefix}${project.number}`}
@@ -99,8 +100,8 @@ export const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project, pri
           </div>
         </div>
 
-        {/* ── VISUAL PROMINENCE: 16:9 ABSTRACT COMPOSITION ── */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm border border-white/10 bg-black/90">
+        {/* ── VISUAL PROMINENCE: STANDARDIZED 16:9 ABSTRACT COMPOSITION ── */}
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xs border border-white/10 bg-black/90 mb-3.5">
           <SelectedWorkParticleImage
             src={project.image}
             alt={project.imageAlt}
@@ -122,45 +123,47 @@ export const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project, pri
         </div>
 
         {/* ── PROJECT IDENTITY & DESCRIPTION ── */}
-        <div className="space-y-2 pt-1">
+        <div className="space-y-1.5">
           <h3
             id={`selected-work-${project.id}`}
-            className="text-2xl sm:text-3xl font-headline font-black uppercase text-white tracking-tight"
+            className="text-xl sm:text-2xl font-headline font-black uppercase text-white tracking-tight"
           >
             {project.name}
           </h3>
 
-          <p className="font-sans text-xs sm:text-sm text-secondary/85 leading-relaxed min-h-[44px]">
+          <p className="font-sans text-xs sm:text-[13px] text-secondary/80 leading-relaxed min-h-[3.6rem] sm:min-h-[3.8rem] flex items-start">
             {project.description}
           </p>
         </div>
 
-        {/* ── CONTRIBUTION EDITORIAL BLOCK ── */}
-        <div className="space-y-1.5 pt-2">
-          <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-secondary/60">
-            {`${SELECTED_WORK_DATA.labels.contributionLabel} //`}
-          </div>
+        {/* ── CONTRIBUTION EDITORIAL CALLOUT ── */}
+        {project.contribution && (
+          <div className="mt-3 space-y-1.5">
+            <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-secondary/60">
+              {`${project.contributionLabel || SELECTED_WORK_DATA.labels.contributionLabel} //`}
+            </div>
 
-          <div
-            className={`font-mono text-xs sm:text-sm font-semibold text-white/95 bg-white/[0.03] p-3 border-l-2 ${accent.leftBar} rounded-r-xs min-h-[58px] sm:min-h-[64px] flex items-center`}
-          >
-            {project.contribution}
+            <div
+              className={`font-mono text-xs sm:text-[13px] text-white/95 bg-white/[0.03] px-3 py-2 sm:py-2.5 border-l-2 ${accent.leftBar} rounded-r-xs flex items-center min-h-[44px] sm:min-h-[48px] leading-snug`}
+            >
+              {project.contribution}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* ── VERIFIED TECHNOLOGIES & PRODUCT ACTION ── */}
-      <div className="space-y-4 pt-4 mt-4 border-t border-white/10">
-        <div className="space-y-2">
-          <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-secondary/60">
+      <div className="mt-3.5 pt-3 border-t border-white/10 space-y-3">
+        <div className="space-y-1.5">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-secondary/60">
             {`${SELECTED_WORK_DATA.labels.technologiesLabel} //`}
           </div>
 
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+          <div className="flex flex-wrap gap-1.5 min-h-[48px] sm:min-h-[52px] items-start">
             {project.technologies.map((tech) => (
               <span
                 key={tech}
-                className="font-mono text-[11px] px-2.5 py-1 border border-white/10 bg-white/[0.02] text-white/85 rounded-xs hover:border-white/30 transition-colors uppercase tracking-wider"
+                className="font-mono text-[11px] px-2.5 py-0.5 border border-white/10 bg-white/[0.02] text-white/85 rounded-xs hover:border-white/30 transition-colors uppercase tracking-wider"
               >
                 {tech}
               </span>
@@ -169,7 +172,7 @@ export const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project, pri
         </div>
 
         {/* ── OFFICIAL PRODUCT WEBSITE LINK ── */}
-        <div className="pt-2">
+        <div className="pt-0.5">
           <a
             href={project.productUrl}
             target="_blank"

@@ -28,7 +28,7 @@ export default function SelectedWork() {
       ref={sectionRef}
       id={SELECTED_WORK_DATA.sectionId}
       aria-labelledby="selected-work-heading"
-      className="relative py-24 md:py-32 px-6 md:px-12 lg:px-20 bg-black text-white overflow-hidden border-t border-white/10 selection:bg-primary selection:text-black"
+      className="relative py-16 md:py-24 px-6 md:px-10 lg:px-12 bg-black text-white overflow-hidden border-t border-white/10 selection:bg-primary selection:text-black"
     >
       {/* Background Cyberpunk Ambient Glows */}
       <div
@@ -46,7 +46,7 @@ export default function SelectedWork() {
       {/* ── 2. DEDICATED SELECTED WORK CARDS GRID ── */}
       <div
         ref={cardsContainerRef}
-        className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10"
+        className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 relative z-10"
       >
         {projects.map((project, idx) => (
           <SelectedWorkCard

@@ -6,9 +6,10 @@
  *  - soundmade: flowing audio waveforms and sinusoidal frequency pulses
  *  - kiibee: floating editorial sheets and drifting document planes
  *  - foodime: structured orthogonal convergence and operational grid pulses
+ *  - wewaive: harmonic orbital trajectories and streaming frequency waves
  */
 
-export type ProjectParticleVariant = 'soundmade' | 'kiibee' | 'foodime';
+export type ProjectParticleVariant = 'soundmade' | 'kiibee' | 'foodime' | 'wewaive';
 
 export interface Particle {
   // Normalized destination coordinates [0, 1]
@@ -137,6 +138,25 @@ export function createProjectParticles(
         floatSpeed = 2.8;
         floatAmpY = 1.2;
         floatAmpX = 1.0;
+        break;
+      }
+
+      case 'wewaive': {
+        // B2B commercial music & streaming catalogue:
+        // Harmonic orbital trajectories blending radial vinyl groove dispersion and wave oscillation
+        shape = 'circle';
+        baseSize = 1.9 + brightness * 2.2;
+        const angle = Math.atan2(v - 0.5, u - 0.5);
+        const dist = Math.hypot(u - 0.5, v - 0.5);
+        const spiralAngle = angle + dist * 3.5;
+        const spiralDispersion = 0.3 + Math.random() * 0.25;
+        startU = clamp(0.5 + Math.cos(spiralAngle) * (dist + spiralDispersion), -0.15, 1.15);
+        startV = clamp(0.5 + Math.sin(spiralAngle) * (dist + spiralDispersion) + Math.sin(u * 8) * 0.1, -0.2, 1.2);
+        delay = (dist * 0.35) + Math.random() * 0.15; // Inward/outward groove ripple
+        duration = 1.45 + Math.random() * 0.35;
+        floatSpeed = 2.2 + Math.random() * 1.0;
+        floatAmpY = 2.2 + Math.random() * 1.2;
+        floatAmpX = 1.8 + Math.random() * 0.8;
         break;
       }
     }
@@ -292,6 +312,11 @@ export function renderParticleFrame(
         const stepProgress = easeInOutQuad(localT);
         currentX = lerp(startX, targetX, stepProgress);
         currentY = lerp(startY, targetY, stepProgress);
+      } else if (variant === 'wewaive') {
+        // Sinuous audio wave undulation along orbital vinyl trajectory
+        const wave = Math.sin(localT * Math.PI * 2 + (p.targetU + p.targetV) * 6 + elapsedSec * 2.8) * convergenceResidual * 14;
+        currentY += wave;
+        currentX += Math.cos(localT * Math.PI + p.targetU * 4) * convergenceResidual * 6;
       }
     }
 
@@ -312,6 +337,10 @@ export function renderParticleFrame(
         // Synchronized operational grid pulse
         const gridPulse = Math.sin(elapsedSec * 2.5 + (p.targetU + p.targetV) * 5) * p.floatAmpY * floatInfluence;
         currentY += gridPulse;
+      } else if (variant === 'wewaive') {
+        // Harmonic streaming frequency oscillation
+        currentY += Math.sin(time) * p.floatAmpY * floatInfluence;
+        currentX += Math.cos(time * 0.9) * p.floatAmpX * floatInfluence;
       }
     }
 

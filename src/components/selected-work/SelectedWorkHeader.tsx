@@ -3,7 +3,7 @@ import { SELECTED_WORK_DATA } from '@/utils/constants';
 
 export const SelectedWorkHeader = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <div ref={ref} className="max-w-7xl mx-auto mb-14 md:mb-20 relative z-10">
+    <div ref={ref} className="max-w-5xl mx-auto mb-10 md:mb-14 relative z-10">
       {/* City District Breadcrumb & Signal */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6 font-mono text-[11px] tracking-widest uppercase">
         <div className="flex items-center gap-3 text-primary">
@@ -27,7 +27,7 @@ export const SelectedWorkHeader = forwardRef<HTMLDivElement>((_, ref) => {
         <div>
           <h2
             id="selected-work-heading"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-headline font-black tracking-tighter uppercase text-white leading-none hover:text-primary transition-colors duration-500 cursor-default"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-headline font-black tracking-tighter uppercase text-white leading-none hover:text-primary transition-colors duration-500 cursor-default"
           >
             {SELECTED_WORK_DATA.title}
             <span className="text-primary">{SELECTED_WORK_DATA.titleAccent}</span>
