@@ -1,217 +1,204 @@
-# Sumyta Bentey Habib — Software Engineer Portfolio
+# Sumyta Bentey Habib
 
 <p align="center">
   <img src="public/branding/sumyta-logo.svg" alt="Sumyta Symbol" width="72" height="72" />
 </p>
 
 <p align="center">
-  <strong>High-performance, cyberpunk-engineered digital portfolio showcasing production web applications, commercial systems, and interactive Canvas 2D simulations.</strong>
+  <strong>Software Developer</strong> specializing in frontend interfaces, responsive mobile applications, and full-stack web platforms.<br />
+  Currently contributing to production software at <strong>XIIA</strong> (Copenhagen, Denmark).
 </p>
 
 <p align="center">
-  <a href="https://github.com/Sumyta-Bentey-Habib/sumyta-hub">
-    <img src="https://img.shields.io/badge/Status-Production%20Verified-00f2fe?style=flat-square&logo=visualstudiocode&logoColor=black" alt="Status" />
+  <a href="https://linkedin.com/in/sumytabenteyhabib/">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
-  <a href="https://nextjs.org/">
-    <img src="https://img.shields.io/badge/Next.js-16.4.5%20(Turbopack)-black?style=flat-square&logo=next.js" alt="Next.js" />
+  <a href="https://github.com/Sumyta-Bentey-Habib">
+    <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
   </a>
-  <a href="https://react.dev/">
-    <img src="https://img.shields.io/badge/React-19.2.4-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
+  <a href="mailto:sumytabenteyhabib@gmail.com">
+    <img src="https://img.shields.io/badge/Email-EA4335?style=flat-square&logo=gmail&logoColor=white" alt="Email" />
   </a>
-  <a href="https://www.typescriptlang.org/">
-    <img src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
-  </a>
-  <a href="https://tailwindcss.com/">
-    <img src="https://img.shields.io/badge/Tailwind%20CSS-v4.3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
-  </a>
-  <a href="https://greensock.com/gsap/">
-    <img src="https://img.shields.io/badge/Motion-GSAP%203.15-88CE02?style=flat-square&logo=greensock&logoColor=white" alt="GSAP" />
+  <a href="https://drive.google.com/file/d/1rf0GaKZ3mka4FoaDJb-bCU04_xOQwNd7/view?usp=sharing">
+    <img src="https://img.shields.io/badge/Resume-Google%20Drive-4285F4?style=flat-square&logo=googledrive&logoColor=white" alt="Resume" />
   </a>
 </p>
 
-<p align="center">
-  <a href="https://www.linkedin.com/in/sumytabenteyhabib/">LinkedIn</a> •
-  <a href="https://github.com/Sumyta-Bentey-Habib">GitHub</a> •
-  <a href="mailto:sumytabenteyhabib@gmail.com">Email</a> •
-  <a href="https://drive.google.com/file/d/1rf0GaKZ3mka4FoaDJb-bCU04_xOQwNd7/view?usp=sharing">Resume</a>
-</p>
+---
+
+## 🏢 Professional Work — The XIIA Collection
+
+Production web and mobile applications engineered during professional engagement at **XIIA** (Copenhagen, Denmark).
+
+<table>
+  <thead>
+    <tr>
+      <th width="22%">Project</th>
+      <th width="28%">Overview</th>
+      <th width="30%">Key Contributions & Scope</th>
+      <th width="20%">Tech Stack</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>01 // Soundmade</strong><br />
+        <sub>Mobile Music Platform</sub><br /><br />
+        <a href="https://soundmade.com/"><strong>Visit Product ↗</strong></a>
+      </td>
+      <td>A cross-platform music application connecting artists and fans through music discovery and artist-focused digital experiences.</td>
+      <td>Web playback integration, mobile UI implementation, payment flows, and DM subscriptions.</td>
+      <td><code>React Native</code> <code>Expo</code> <code>TypeScript</code> <code>REST APIs</code> <code>iOS</code> <code>Android</code></td>
+    </tr>
+    <tr>
+      <td>
+        <strong>02 // Kiibee</strong><br />
+        <sub>Digital Content & Commerce</sub><br /><br />
+        <a href="https://www.kiibee.com/"><strong>Visit Product ↗</strong></a>
+      </td>
+      <td>A modern platform combining digital publishing, content discovery, and creator commerce.</td>
+      <td>Protected content access flows with password & email verification, frontend feature development, and CMS integration.</td>
+      <td><code>React</code> <code>Next.js</code> <code>TypeScript</code> <code>REST APIs</code> <code>CMS</code></td>
+    </tr>
+    <tr>
+      <td>
+        <strong>03 // Foodime</strong><br />
+        <sub>Restaurant POS & Operations</sub><br /><br />
+        <a href="https://foodime.dk/"><strong>Visit Product ↗</strong></a>
+      </td>
+      <td>A restaurant operations platform supporting Point-of-Sale (POS), manager dashboards, and operational workflows.</td>
+      <td>Restaurant operational features, add-on management, and Twilio SMS/communication integration.</td>
+      <td><code>React</code> <code>Next.js</code> <code>TypeScript</code> <code>REST APIs</code></td>
+    </tr>
+    <tr>
+      <td>
+        <strong>04 // Wewaive</strong><br />
+        <sub>Royalty-Free Music Platform</sub><br /><br />
+        <a href="https://wewaive.com/"><strong>Visit Product ↗</strong></a>
+      </td>
+      <td>A mobile music platform for businesses to discover and stream royalty-free music through curated catalogues, playlists, and subscription streaming.</td>
+      <td>Cross-platform streaming UI, catalog discovery, and mobile client engineering.</td>
+      <td><code>React Native</code> <code>Expo</code> <code>TypeScript</code> <code>iOS</code> <code>Android</code></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
-## ⚡ Overview
+## 🚀 Featured Full-Stack & Independent Projects
 
-This repository powers the personal engineering portfolio of **Sumyta Bentey Habib**, Junior Software Developer at **XIIA** (Copenhagen, Denmark). 
+A curated selection of full-stack web applications, real-time communication systems, and enterprise tools built independently and in collaborative teams.
 
-Built with **Next.js 16** (Turbopack), **React 19**, **TypeScript**, and **Tailwind CSS v4**, this portfolio combines avant-garde dark sci-fi aesthetics with robust software engineering:
-- **Interactive Canvas Simulations**: Real-time 2D physics engines, particle assembly systems, and procedural cityscapes.
-- **Production Systems Showcase**: The **XIIA Collection**, detailing commercial contributions across high-traffic web and mobile applications.
-- **Disciplined Design Architecture**: Strict design token system, zero hardcoded magic numbers, responsive layouts, and full `prefers-reduced-motion` accessibility compliance.
+### 1. [Path to Peace](https://path-to-peace.vercel.app/) — Meditative Editorial & Sanctuary Platform
+> **Architecture**: Monorepo with Next.js 16, Express API, PostgreSQL & SSLCommerz Payment Gateway
 
----
-
-## 🎮 Key Systems & Interactive Architecture
-
-### 1. Hero Workstation & Skyline Simulator (`/hero`)
-- **Procedural Canvas 2D Engine**: Dynamic cyberpunk skyline rendering with multi-layer parallax, vehicle headlights, weather particles, and reactive rooftop catwalk lighting.
-- **Interactive Physics Character**: Kinematic physics simulation with gravity, ground collision, velocity damping, and keyboard/touch navigation across rooftop sectors.
-- **Proximity HUD & Diagnostics**: Real-time HUD displaying coordinates, velocity telemetry, and workstation trigger zones.
-- **Interactive Modals**: Workstation Terminal Modal (displaying developer dossier and credentials) and Sector Exit Modal.
-
-### 2. The XIIA Collection (`/selected-work`)
-Commercial applications engineered during professional engagement at **XIIA** (Copenhagen, Denmark):
-
-| Project | Sector / Track | Category | Focus Areas |
-| :--- | :--- | :--- | :--- |
-| **Soundmade** | `TRACK // 01` | Mobile Music Platform | Web playback, mobile UI, payment workflows (`React Native`, `Expo`, `TypeScript`, `iOS`, `Android`) |
-| **Kiibee** | `TRACK // 02` | Digital Content & Commerce | Protected content access, CMS integration (`React`, `Next.js`, `TypeScript`, `REST APIs`) |
-| **Foodime** | `TRACK // 03` | Restaurant POS & Operations | POS admin workflows, add-on features, Twilio integration (`React`, `Next.js`, `TypeScript`) |
-| **Wewaive** | `TRACK // 04` | Royalty-Free Music Platform | Curated catalogues, playlists, subscription streaming (`React Native`, `Expo`, `TypeScript`, `iOS`, `Android`) |
-
-#### Particle Assembly Engine (`selectedWorkParticleEngine.ts`)
-Each project card features an interactive Canvas 2D particle simulation that samples high-resolution artwork pixels and animates them using project-specific physics:
-- **Soundmade**: Sinusoidal harmonic waveforms with frequency pulse oscillations.
-- **Kiibee**: Layered editorial document sheets cascading from diagonal planes.
-- **Foodime**: Orthogonal matrix convergence mimicking receipt paper and terminal buses.
-- **Wewaive**: Radial spiral trajectory blending vinyl groove dispersion and wave oscillation.
-
-### 3. Living Skills Street (`/skills`)
-- **Procedural Street Simulation**: Interactive Canvas 2D scene featuring autonomous pedestrian AI, daytime/nighttime lighting cycles, and glowing neon storefront signage.
-- **Technical Competency Roster**: Categorized technical stacks spanning Frontend, Mobile, Backend, and Tooling.
-
-### 4. Full-Stack Editorial Projects Archive (`/projects`)
-- Comprehensive case studies detailing architectural choices, monorepo setups, and key deliverables for full-stack applications (Studify, GoAthlete, Quadra Social Connect, etc.).
-
-### 5. Custom Systems & Accessibility
-- **Custom Cursor Engine**: GSAP-driven trailing cursor with contextual hover states (`CustomCursor.tsx`).
-- **Telemetry Preloader**: Hardware-accelerated clip-path loading sequence (`Preloader.tsx`).
-- **Accessibility Engine**: Full support for `prefers-reduced-motion` with graceful degradation to crisp static illustrations.
+- **Live Demo**: [path-to-peace.vercel.app ↗](https://path-to-peace.vercel.app/)
+- **Repository**: [github.com/Sumyta-Bentey-Habib/path-to-peace ↗](https://github.com/Sumyta-Bentey-Habib/path-to-peace)
+- **Key Features**:
+  - Full-stack digital sanctuary featuring emotional sentiment tools and distraction-free reading interfaces.
+  - Interactive e-learning course portal with authenticated user progress.
+  - Secure payment processing via SSLCommerz payment gateway.
+  - Authentication and session security managed with **Better Auth**.
+- **Tech Stack**: `Next.js 16` `Express.js` `PostgreSQL` `Prisma ORM` `Better Auth` `SSLCommerz` `Tailwind CSS` `TypeScript`
 
 ---
 
-## 🛠 Tech Stack
+### 2. [Operix](https://operix-frontend-avi.vercel.app/) — Pharmaceutical Operations & Governance Platform
+> **Architecture**: Enterprise Frontend & Backend with Role-Based Access Control (Team Project)
 
-| Layer | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Framework** | Next.js 16.4.5 | Server/Client App Router, Turbopack bundler, edge-ready architecture |
-| **UI Library** | React 19.2.4 | Concurrent rendering, modern hooks, and refactored component lifecycles |
-| **Language** | TypeScript 5.9.3 | Strict end-to-end type safety, readonly immutable data contracts |
-| **Styling** | Tailwind CSS v4.3.4 | Utility-first styling with `@tailwindcss/postcss` and CSS design tokens |
-| **Animation & Motion**| GSAP 3.15.1 + ScrollTrigger | High-performance timeline animations, matchMedia responsiveness |
-| **Graphics** | HTML5 Canvas 2D | Custom physics loops, particle rasterization, and skyline rendering |
-| **Package Manager**| pnpm | Fast, disk-efficient dependency management (`pnpm-lock.yaml`) |
-
----
-
-## 📁 Project Structure
-
-```
-sumyta-hub/
-├── public/
-│   ├── branding/                  # SVG logos, monograms, and avatars
-│   ├── images/
-│   │   ├── selected-work/         # XIIA collection 1200x669 3D illustrations
-│   │   │   ├── soundmade-visual.png
-│   │   │   ├── kiibee-visual.png
-│   │   │   ├── foodime-visual.png
-│   │   │   └── wewaive-visual.png
-│   │   └── user_portrait.jpeg
-│   └── projects/                  # Editorial project screenshots
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx             # Root layout with font configuration & metadata
-│   │   ├── page.tsx               # Single-page portfolio orchestration
-│   │   └── globals.css            # Base stylesheet with Tailwind v4 directives
-│   ├── components/
-│   │   ├── hero/                  # City skyline canvas & character physics workstation
-│   │   ├── about/                 # Technical profile & status telemetry
-│   │   ├── experience/            # STATION XIIA timeline & employment milestones
-│   │   ├── selected-work/         # XIIA 2-column cards grid & particle assembly
-│   │   ├── projects/              # Full-stack editorial project showcase
-│   │   ├── skills/                # Living Skills Street canvas & tech roster
-│   │   ├── footer/                # Skyline footer & communication relay channels
-│   │   ├── CustomCursor.tsx       # GSAP-driven laser trailing cursor
-│   │   └── Preloader.tsx          # Initialization sequence
-│   └── utils/
-│       ├── tokens.ts              # Global color token constants (COLOR_TOKENS)
-│       ├── constants.ts           # Re-exported constants and domain configurations
-│       ├── useReducedMotion.ts    # Accessibility hook for motion preferences
-│       ├── data/                  # Immutable readonly project data models
-│       ├── hero/                  # Hero physics, renderer, and simulation loops
-│       ├── selected-work/         # Particle engine and scroll motion triggers
-│       └── skills/                # Living street pedestrian AI and canvas engine
-├── package.json
-├── tsconfig.json
-└── README.md
-```
+- **Live Demo**: [operix-frontend-avi.vercel.app ↗](https://operix-frontend-avi.vercel.app/)
+- **Repositories**: [Frontend Repo ↗](https://github.com/Sumyta-Bentey-Habib/Operix-Frontend) • [Backend Repo ↗](https://github.com/Sumyta-Bentey-Habib/Operix-Backend)
+- **Key Features**:
+  - Multi-tier Role-Based Access Control (RBAC) supporting Admin, Team Lead, and Member roles.
+  - Strict submission approval pipelines, task delegation, and regulatory audit tracking.
+  - Unit testing suite configured with Vitest for mission-critical compliance logic.
+- **Tech Stack**: `Next.js` `React` `TypeScript` `CSS Modules` `Better Auth` `Vitest` `RBAC`
 
 ---
 
-## 🚀 Getting Started
+### 3. [Quadra](https://quadra-blush.vercel.app/) — Real-Time Social Media Platform
+> **Architecture**: Full-Stack Real-Time Application with WebSockets (Team Project)
 
-### Prerequisites
-
-Ensure you have the following installed locally:
-- **Node.js**: `v20.0.0` or higher
-- **pnpm**: `v9.0.0` or higher (`npm install -g pnpm`)
-
-### Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Sumyta-Bentey-Habib/sumyta-hub.git
-   cd sumyta-hub
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pnpm install
-   ```
-
-3. **Launch the development server**:
-   ```bash
-   pnpm dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+- **Live Demo**: [quadra-blush.vercel.app ↗](https://quadra-blush.vercel.app/)
+- **Repositories**: [Client Repo ↗](https://github.com/Sumyta-Bentey-Habib/Quadra) • [Server Repo ↗](https://github.com/Sumyta-Habib/Quadra-Server)
+- **Key Features**:
+  - Instant bi-directional messaging and real-time user status via Socket.io.
+  - Interactive feeds featuring real-time post liking, threaded commenting, and live notifications.
+  - Optimized media loading and responsive UI design.
+- **Tech Stack**: `React` `Next.js` `Node.js` `Express.js` `Socket.io` `Tailwind CSS`
 
 ---
 
-## 🧪 Quality & Verification
+### 4. [CholoBuddy](https://cholobuddy-web.vercel.app/) — Bilingual Travel & Tour Booking Platform
+> **Architecture**: Turborepo Monorepo with Next.js 15, Firestore & Mobile Banking Integration
 
-Run verification scripts to ensure code health:
-
-```bash
-# Typecheck TypeScript codebase
-npx tsc --noEmit
-
-# Run ESLint linter
-pnpm lint
-
-# Production build
-pnpm build
-```
+- **Live Demo**: [cholobuddy-web.vercel.app ↗](https://cholobuddy-web.vercel.app/)
+- **Repository**: [github.com/Sumyta-Bentey-Habib/cholobuddy ↗](https://github.com/Sumyta-Bentey-Habib/cholobuddy)
+- **Key Features**:
+  - Bilingual travel booking portal (English & Bengali) for exploring curated tour packages across Bangladesh.
+  - Real-time travel wishlists, user achievement leveling, and verified review submissions.
+  - Native mobile banking payment integration for domestic booking transactions.
+- **Tech Stack**: `Next.js 15` `Express.js` `TypeScript` `Firebase Firestore` `Better Auth` `Styled-Components`
 
 ---
 
-## 🎨 Design Philosophy & Coding Standards
+### 5. [Espresso Emporium](https://espresso-emporium-8d4f7.web.app/) — Specialty Coffee Marketplace & Discovery
+> **Architecture**: Full-Stack E-Commerce with Real-Time Inventory & Stripe Checkout
 
-- **Zero Hardcoded Magic Values**: All colors and theme attributes reference canonical tokens from [`src/utils/tokens.ts`](file:///Users/sumytabenteyhabib/Developer/sumyta-hub/src/utils/tokens.ts).
-- **Performance Budget**: Canvas loops decouple physics calculations from DOM re-renders using `useRef` and `requestAnimationFrame`. Offscreen canvases sample imagery without UI thread blocking.
-- **Responsive Layout**: Designed mobile-first, supporting seamless viewing across smartphones, tablets, laptops, and ultra-wide displays.
-- **Accessibility First**: Interactive canvas elements feature aria labels, screen-reader descriptions, and reduced-motion fallbacks.
+- **Live Demo**: [espresso-emporium-8d4f7.web.app ↗](https://espresso-emporium-8d4f7.web.app/)
+- **Repositories**: [Client Repo ↗](https://github.com/Sumyta-Bentey-Habib/Espresso-Emporium) • [Server Repo ↗](https://github.com/Sumyta-Bentey-Habib/Espresso-Emporium-Server)
+- **Key Features**:
+  - Specialty roast catalog with real-time stock sync via Socket.io and MongoDB.
+  - Verified merchant dashboard for managing roast profiles, pricing, and orders.
+  - Integrated Stripe checkout for secure credit/debit card transactions.
+- **Tech Stack**: `React` `Firebase` `MongoDB` `Socket.io` `Stripe Payments` `Tailwind CSS`
 
 ---
 
-## 📬 Contact & Connect
+### 6. [Studify](https://studify-749d1.web.app/) — MERN Learning Management & Admin Platform
+> **Architecture**: MERN Stack Platform with JWT Authentication & Governance Suite
 
-- **Engineer**: Sumyta Bentey Habib
-- **Role**: Junior Software Developer @ XIIA
-- **Location**: Copenhagen, Denmark / Remote
+- **Live Demo**: [studify-749d1.web.app ↗](https://studify-749d1.web.app/)
+- **Repositories**: [Client Repo ↗](https://github.com/Sumyta-Bentey-Habib/Studify) • [Server Repo ↗](https://github.com/Sumyta-Bentey-Habib/Studify-Server)
+- **Key Features**:
+  - Comprehensive admin control center for user role escalation (Student, Instructor, Admin).
+  - Course authoring lifecycle, curriculum management, and enrollment tracking.
+  - Token-based JWT authorization protecting private API endpoints.
+- **Tech Stack**: `React` `Firebase` `JWT Authentication` `Tailwind CSS` `DaisyUI` `Express.js`
+
+---
+
+## 🛠 Technical Skills
+
+- **Frontend**: React, Next.js (App Router), TypeScript, JavaScript (ES6+), Tailwind CSS, CSS Modules, HTML5/CSS3
+- **Mobile**: React Native, Expo, iOS & Android UI Implementation
+- **Backend & APIs**: Node.js, Express.js, RESTful APIs, WebSockets (Socket.io), Better Auth, JWT
+- **Databases & Cloud**: PostgreSQL, Prisma ORM, MongoDB, Firebase Firestore, Cloud Hosting (Vercel, Firebase)
+- **Tools & Workflows**: Git, GitHub, Turborepo, pnpm, Vitest, Figma to Code, Stripe Integration
+
+---
+
+## ⚡ About This Portfolio
+
+The [live portfolio](https://github.com/Sumyta-Bentey-Habib/sumyta-hub) is built with **Next.js 16**, **React 19**, **Tailwind CSS v4**, and **GSAP 3**:
+- **Canvas 2D Physics Engine**: Procedural rooftop skyline simulation with real-time particle dynamics and collision tracking.
+- **Selected Work Particle Engine**: Pixel-sampling Canvas 2D particle assembly animations tailored to each commercial project.
+- **Living Skills Street**: Dynamic Canvas simulation displaying pedestrian AI and daytime/nighttime lighting cycles.
+- **Performance & Accessibility**: Optimized for 60fps rendering with complete `prefers-reduced-motion` compliance.
+
+---
+
+## 📬 Let's Connect
+
+I am open to full-time engineering roles, collaborative team projects, and product development opportunities.
+
 - **Email**: [sumytabenteyhabib@gmail.com](mailto:sumytabenteyhabib@gmail.com)
 - **LinkedIn**: [linkedin.com/in/sumytabenteyhabib](https://www.linkedin.com/in/sumytabenteyhabib/)
 - **GitHub**: [github.com/Sumyta-Bentey-Habib](https://github.com/Sumyta-Bentey-Habib)
+- **Resume**: [View on Google Drive ↗](https://drive.google.com/file/d/1rf0GaKZ3mka4FoaDJb-bCU04_xOQwNd7/view?usp=sharing)
 
 ---
 
 <p align="center">
-  <sub>© 2025–2026 Sumyta Bentey Habib. Crafted with Next.js, React, Tailwind CSS, and GSAP.</sub>
+  <sub>© 2025–2026 Sumyta Bentey Habib</sub>
 </p>
